@@ -8,6 +8,7 @@
     "prettier": "^2.8.8"
   },
   "scripts": {
-    "format": "prettier --check \"**/*.{js,jsx,ts,tsx,css,md,json}\""
+    "format": "prettier --check \"**/*.{js,jsx,ts,tsx,css,md,json}\"",
+    "build": "tsc"
   }
 }
