@@ -29,6 +29,6 @@ jobs:
       - run: npm ci
       # - run: npm run build
       #   working-directory: Server
-      - run: cd Server && npm run build
-      - run: cd Server && npm run lint
+      - run: cd server && npm run build
+      - run: cd server && npm run lint
       # - run: npm test --if-present
