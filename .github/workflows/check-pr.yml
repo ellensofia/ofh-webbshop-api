@@ -11,9 +11,6 @@ on:
 
 jobs:
   build:
-    defaults:
-      run:
-        working-directory: Server
     runs-on: ubuntu-latest
 
     strategy:
@@ -28,9 +25,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
+          dependencies-cache: "Server/package-lock.json"
       - run: npm ci
       # - run: npm run build
       #   working-directory: Server
-      - run: npm run build
-      - run: npm run lint
+      - run: cd Server && npm run build
+      - run: cd Server && npm run lint
       # - run: npm test --if-present
