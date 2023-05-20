@@ -1,12 +1,12 @@
 import express from "express";
 import { auth } from "../../middlewares/auth";
-import { addProduct, deleteProduct, getAllProducts, getAllProductsOfCategory, getProduct, updateProduct } from "./product-controller";
+import { deleteProduct, editProduct, getAllProducts, getAllProductsFromCategory, getOneProduct, registerProduct } from "./product-controller";
 
 export const productRouter = express
   .Router()
-  .post("/api/products/add", auth, addProduct)
+  .post("/api/products/add", auth, registerProduct)
   .get("/api/products", getAllProducts)
-  .get("/api/products/category/:id", getAllProductsOfCategory)
-  .get("/api/products/:id", getProduct)
-  .put("/api/products/:id", auth, updateProduct)
+  .get("/api/products/category/:id", getAllProductsFromCategory)
+  .get("/api/products/:id", getOneProduct)
+  .put("/api/products/:id", auth, editProduct)
   .delete("/api/products/:id", auth, deleteProduct)

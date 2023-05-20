@@ -1,11 +1,11 @@
 import express from "express";
-import { getAllUsers, getUser, loginUser, logoutUser, registerUser, updateUser } from "./user-controller";
+import { changeRole, getAllUsers, getOneUser, loginUser, logoutUser, registerUser } from "./user-controller";
 
 export const userRouter = express
   .Router()
   .post("/api/users/register", registerUser)
   .get("/api/users", getAllUsers)
-  .put("/api/users/:id", updateUser)
-  .get("/api/users/:id", getUser)
+  .put("/api/users/:id", changeRole)
+  .get("/api/users/:id", getOneUser)
   .post("/api/users/login", loginUser)
   .post("/api/users/logout", logoutUser)
