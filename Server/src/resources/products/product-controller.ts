@@ -1,3 +1,5 @@
+import { Request, Response } from "express";
+
 export async function addProduct(
     req: Request,
     res: Response
