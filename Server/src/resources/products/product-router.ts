@@ -2,7 +2,7 @@ import express from "express";
 import { auth } from "../../middlewares/auth";
 import { addProduct, deleteProduct, getAllProducts, getAllProductsOfCategory, getProduct, updateProduct } from "./product-controller";
 
-export const userRouter = express
+export const productRouter = express
   .Router()
   .post("/api/products/add", auth, addProduct)
   .get("/api/products", getAllProducts)
