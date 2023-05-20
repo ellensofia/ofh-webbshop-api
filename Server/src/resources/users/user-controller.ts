@@ -14,13 +14,13 @@ export async function getAllUsers(
     return console.log('Get All Users')
 }
 
-export async function updateUser(
+export async function changeRole(
   req: Request,
   res: Response
 ) {
     return console.log('Update User')
 }
-export async function getUser(
+export async function getOneUser(
   req: Request,
   res: Response
 ) {

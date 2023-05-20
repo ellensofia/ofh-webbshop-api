@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-export async function addProduct(
+export async function registerProduct(
     req: Request,
     res: Response
   ) {
@@ -14,19 +14,19 @@ export async function addProduct(
       return console.log('Get All Products')
   }
   
-  export async function getAllProductsOfCategory(
+  export async function getAllProductsFromCategory(
     req: Request,
     res: Response
   ) {
       return console.log('Get All Products From Category')
   }
-  export async function getProduct(
+  export async function getOneProduct(
     req: Request,
     res: Response
   ) {
       return console.log('Get Product')
   }
-  export async function updateProduct(
+  export async function editProduct(
     req: Request,
     res: Response
   ) {
