@@ -15,6 +15,7 @@ import AdminProductFormPage from "./pages/AdminProductFormPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import ConstructionPage from "./pages/ConstructionPage";
 import EmptyBagPage from "./pages/EmptyBagPage";
+import { LoginPage } from "./pages/LoginPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import ProductPage from "./pages/ProductPage";
 import StartPage from "./pages/StartPage";
@@ -39,6 +40,7 @@ const router = createBrowserRouter(
       <Route path="underconstruction" element={<ConstructionPage />} />
       <Route path="checkout" element={<CheckoutPage />} />
       <Route path="emptybag" element={<EmptyBagPage />} />
+      <Route path="login" element={<LoginPage />} />
     </Route>
   )
 );
