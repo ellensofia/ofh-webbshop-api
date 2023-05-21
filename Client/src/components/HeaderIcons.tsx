@@ -2,6 +2,7 @@ import { Badge, Box, IconButton, SxProps, Theme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useShoppingCart } from "../contexts/ShoppingCartContext";
 import { theme } from "../theme/theme";
+import UserButton from "./UserButton";
 
 /**
  * Renders icons to the right, inside the HeaderMain component
@@ -18,7 +19,7 @@ function HeaderIcons() {
         alignItems: "center",
       }}
     >
-      <IconButton
+      {/* <IconButton
         className="material-symbols-outlined"
         sx={iconStyle}
         component={Link}
@@ -26,7 +27,8 @@ function HeaderIcons() {
         data-cy="admin-link"
       >
         admin_panel_settings
-      </IconButton>
+      </IconButton> */}
+      <UserButton />
       <IconButton
         className="material-symbols-outlined"
         sx={iconStyle}
@@ -69,7 +71,7 @@ function HeaderIcons() {
 
 /* Styling */
 
-const iconStyle: SxProps<Theme> = {
+export const iconStyle: SxProps<Theme> = {
   fontSize: { xs: "2rem", sm: "2.5rem" },
   cursor: "pointer",
   padding: { xs: "0rem", md: "0.3rem" },
