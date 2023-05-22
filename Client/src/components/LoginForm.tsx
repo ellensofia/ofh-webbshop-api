@@ -1,4 +1,4 @@
-import { Box, Button, Container, TextField } from "@mui/material";
+import { Box, Button, Container, TextField, Link } from "@mui/material";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -82,7 +82,7 @@ export function LoginForm() {
                 >
                     Log in
                 </Button>
-                <NavLink to="/register">Don't have an account? Sign up</NavLink>
+                <Link component={'button'} variant="body2" fontSize={'large'} color={'secondary'} underline="hover" onClick={() => navigate('/register')}>Don't have an account? <u>Sign up</u></Link>
             </Box>
         </Container>
     )

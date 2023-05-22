@@ -1,7 +1,7 @@
-import { Box, Button, Container, TextField } from "@mui/material";
+import { Box, Button, Container, TextField, Link } from "@mui/material";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 const RegisterSchema = Yup.object({
@@ -82,7 +82,7 @@ export function RegisterFrom() {
                 >
                     Sign up
                 </Button>
-                <NavLink to="/login" style={{ textDecoration: 'none'}}>Already have an account? Log in</NavLink>
+                <Link component={'button'} variant="body2" fontSize={'large'} color={'secondary'} underline="hover" onClick={() => navigate('/login')}>Already have an account? <u>Log in</u></Link>
             </Box>
         </Container>
     )
