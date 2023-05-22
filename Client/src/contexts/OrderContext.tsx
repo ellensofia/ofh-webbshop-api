@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
-import { CartItem } from "../../data";
 import { DeliveryValues } from "../components/DeliveryForm";
+import { CartItem } from "./AdminProductContext";
 import { useShoppingCart } from "./ShoppingCartContext";
 
 interface Props {
@@ -28,7 +28,9 @@ type OrderContextType = {
 
 // Context object with an initial value of null for the order
 const OrderContext = createContext<OrderContextType>({
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setOrder: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   createOrder: () => {},
 });
 
@@ -64,9 +66,5 @@ export const OrderProvider = ({ children }: Props) => {
   };
 
   // Renders the child components wrapped inside the OrderContext.Provider
-  return (
-    <OrderContext.Provider value={orderContext}>
-      {children}
-    </OrderContext.Provider>
-  );
+  return <OrderContext.Provider value={orderContext}>{children}</OrderContext.Provider>;
 };
