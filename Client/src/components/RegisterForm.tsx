@@ -28,10 +28,10 @@ export function RegisterFrom() {
         password: "",
       },
       validationSchema: RegisterSchema,
-      onSubmit: (RegisterValues) => {
-        setUsername(RegisterValues.username);
-        setEmail(RegisterValues.email);
-        setPassword(RegisterValues.password);
+      onSubmit: (registerValues) => {
+        setUsername(registerValues.username);
+        setEmail(registerValues.email);
+        setPassword(registerValues.password);
         navigate("/");
       },
     });
@@ -40,9 +40,9 @@ export function RegisterFrom() {
         e.preventDefault();
     
         const newUser = {
-          username,
-          email,
-          password,
+          username: formik.values.username,
+          email: formik.values.email,
+          password: formik.values.password,
         };
     
         const response = await fetch("/api/users/register", {
@@ -50,12 +50,16 @@ export function RegisterFrom() {
           body: JSON.stringify(newUser),
           headers: { "Content-type": "application/json" },
         });
+
+        const data = await response.json();
     
         if (response.ok) {
-          setUsername("");
-          setPassword("");
-          setEmail("");
-    
+          localStorage.setItem(
+            "loggedInUsername",
+            data.username
+          );
+          localStorage.setItem("loggedInUserID", data._id);
+          localStorage.setItem("loggedInIsAdmin", data.isAdmin);
           navigate("/");
         }
       };

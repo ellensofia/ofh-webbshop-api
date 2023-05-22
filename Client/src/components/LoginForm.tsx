@@ -37,8 +37,8 @@ export function LoginForm() {
         e.preventDefault();
         
         const newUser = {
-          email,
-          password,
+          email: formik.values.email,
+          password: formik.values.password,
         };
         
         const response = await fetch("/api/users/login", {
