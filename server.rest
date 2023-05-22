@@ -1,0 +1,16 @@
+### Add new product 
+
+POST http://localhost:3000/api/products/add
+Content-Type: application/json
+
+{
+"name": "Lamp", 
+"imageId": "628cc7581c4eb1a",
+"imageUrl": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/400",
+"categories": ["628c92bc1c4bc12f50"], 
+"description": "Beskrivning.", 
+"inStockAmount": 100, 
+"price": 100, 
+"brand": "new Model",
+"isArchived": false
+}
