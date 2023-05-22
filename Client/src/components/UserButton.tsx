@@ -62,7 +62,19 @@ export default function UserButton() {
           horizontal: 'left',
         }}
       >
-        {isLoggedIn ? ( <div><MenuItem onClick={() => navigate('/orders')}>My orders</MenuItem> <MenuItem onClick={handleLogout}>Log out</MenuItem> </div>) : (<MenuItem onClick={() => navigate('/login')}>Login</MenuItem>)}
+        {isLoggedIn ? ( 
+          <div>
+          {isAdmin === "true" && (
+            <div>
+            <MenuItem onClick={() => navigate('/orders')}>Orders</MenuItem> 
+            <MenuItem onClick={() => navigate('/products')}>Products</MenuItem> 
+            </div>
+          )}
+          <MenuItem onClick={() => navigate('/myOrders')}>My orders</MenuItem> 
+          <MenuItem onClick={handleLogout}>Log out</MenuItem> </div>
+          ) : (
+          <MenuItem onClick={() => navigate('/login')}>Login</MenuItem>
+          )}
         
       </Menu>
     </div>
