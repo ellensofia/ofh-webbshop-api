@@ -43,6 +43,11 @@ export async function registerUser(
   };
   const newUser = await UserModel.create(user);
 
+  req.session!.username = newUser.username;
+  req.session!.email = newUser.email;
+  req.session!._id = newUser._id;
+  req.session!.isAdmin = newUser.isAdmin;
+
   res.status(201).json({
     _id: newUser._id,
     username: newUser.username,
