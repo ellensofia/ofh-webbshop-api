@@ -5,6 +5,7 @@ export const productSchema = new Schema({
   imageId: { type: String, required: true },
   imageUrl: { type: String, required: true },
   categories: { type: Array, required: true },
+  description: { type: String, required: true},
   inStockAmount: { type: Number, required: true },
   price: { type: Number, required: true },
   brand: { type: String, required: true },
