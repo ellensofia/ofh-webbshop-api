@@ -17,9 +17,11 @@ export async function registerUser(
   });
 
   const result = schema.validate(req.body);
-
+  console.log(req.body)
+  
   if (result.error) {
     res.status(400).json(result.error.message);
+    console.log(result.error.message)
     return;
   }
 
@@ -113,5 +115,6 @@ export async function logoutUser(
   req: Request,
   res: Response
 ) {
-    return console.log('logout User')
+  req.session = null;
+  res.sendStatus(204);
 }
