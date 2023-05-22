@@ -1,0 +1,20 @@
+### POST new image
+
+POST http://localhost:3000/api/images
+Content-Type: multipart/form-data; boundary=FormDataRow
+
+--FormDataRow
+Content-Disposition: form-data; name="image"; filename="earth.jpg"
+Content-Type: image/jpeg
+
+< ./test-img.jpg
+--FormDataRow--
+
+
+### GET image
+
+GET http://localhost:3000/api/images/646b5cc78bb309fa50f5c43f
+
+### DELETE image
+
+DELETE http://localhost:3000/api/images/646b5cc78bb309fa50f5c43f

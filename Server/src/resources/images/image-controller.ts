@@ -1,7 +1,7 @@
 import busboy from "busboy";
 import { Request, Response } from "express";
-import { fileBucket } from "./image-model";
 import mongoose from "mongoose";
+import { fileBucket } from "./image-model";
 
 // export async function uploadImage(
 //     req: Request,
@@ -41,4 +41,30 @@ export async function uploadImage(req: Request, res: Response) {
 
 
     })
+}
+
+export async function getImage(req: Request, res: Response) {
+  const _id = new mongoose.mongo.ObjectId(req.params.id);
+
+  const file = await fileBucket.find({ _id}).next();
+  if (!file?.contentType) {
+    return res.status(404).json({ message: "File not found" });
+  }
+
+  res.setHeader("Content-Type", file.contentType);
+
+  const downloadStream = fileBucket.openDownloadStream(_id);
+  downloadStream.pipe(res);
+}
+
+export async function deleteImage(req: Request, res: Response) {
+  const _id = new mongoose.mongo.ObjectId(req.params.id);
+
+  const file = await fileBucket.find({ _id}).next();
+  if (!file?.contentType) {
+    return res.status(404).json({ message: "File not found" });
+  }
+
+  await fileBucket.delete(_id);
+  res.status(200).json(`File with id '${_id}' deleted.`);
 }
