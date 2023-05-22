@@ -55,7 +55,7 @@ export function RegisterFrom() {
                 >
                     Sign up
                 </Button>
-                <NavLink to="/login">Already have an account? Log in</NavLink>
+                <NavLink to="/login" style={{ textDecoration: 'none'}}>Already have an account? Log in</NavLink>
             </Box>
         </Container>
     )
