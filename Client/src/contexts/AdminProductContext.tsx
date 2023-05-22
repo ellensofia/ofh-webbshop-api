@@ -22,6 +22,7 @@ export interface CartItem extends Product {
 type ProductContextType = {
   products: Product[];
   getAllProducts: () => void;
+  getOneProduct: (_id: string) => Promise<Product | null>;
   addProduct: (product: Product) => void;
   removeProduct: (product: Product) => void;
   editProduct: (editedProduct: Product) => void;
@@ -34,6 +35,7 @@ const AdminProductContext = createContext<ProductContextType>({
   products: [],
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   getAllProducts: () => {},
+  getOneProduct: () => Promise.resolve(null),
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   addProduct: () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -61,6 +63,20 @@ export const ProductProvider = ({ children }: Props) => {
     }
   };
 
+  const getOneProduct = async (_id: string): Promise<Product | null> => {
+    try {
+      const response = await fetch(`/api/products/${_id}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch product.");
+      }
+      const getProduct = await response.json();
+      return getProduct;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
   const addProduct = (product: Product) => {
     setProducts([...products, product]);
   };
@@ -76,6 +92,7 @@ export const ProductProvider = ({ children }: Props) => {
   const productContext: ProductContextType = {
     products,
     getAllProducts,
+    getOneProduct,
     addProduct,
     editProduct,
     removeProduct,
