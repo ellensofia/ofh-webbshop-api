@@ -4,7 +4,7 @@ import express from "express";
 import { deleteImage, getImage, uploadImage } from "./image-controller";
 
 
-// TODO: Reinstate auth and authAdmin
+// TODO: Reinstate auth and authAdmin (or just authAdmin?)
 export const imageRouter = express
   .Router()
   .post("/api/images/", uploadImage)

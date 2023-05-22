@@ -1,3 +1,5 @@
+### TODO: Remove this file and test image
+
 ### POST new image
 
 POST http://localhost:3000/api/images
@@ -13,8 +15,8 @@ Content-Type: image/jpeg
 
 ### GET image
 
-GET http://localhost:3000/api/images/646b5cc78bb309fa50f5c43f
+GET http://localhost:3000/api/images/ ## image id ##
 
 ### DELETE image
 
-DELETE http://localhost:3000/api/images/646b5cc78bb309fa50f5c43f
+DELETE http://localhost:3000/api/images/ ## image id ##
