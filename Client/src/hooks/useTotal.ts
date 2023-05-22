@@ -1,4 +1,4 @@
-import { CartItem } from "../../data";
+import { CartItem } from "../contexts/AdminProductContext";
 
 /**
  * @param items
