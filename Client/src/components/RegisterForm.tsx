@@ -1,6 +1,18 @@
 import { Box, Button, Container, TextField } from "@mui/material";
+import { useFormik } from "formik";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+
+const RegisterSchema = Yup.object({
+  username: Yup.string().required("Please enter a username"),
+  email: Yup.string()
+    .email("Please enter an valid email address")
+    .required("Please enter an email address"),
+  password: Yup.string().required("Please enter a password")
+});
+
+export type RegisterValues = Yup.InferType<typeof RegisterSchema>;
 
 export function RegisterFrom() {
     const navigate = useNavigate();
@@ -8,6 +20,21 @@ export function RegisterFrom() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
+
+    const formik = useFormik<RegisterValues>({
+      initialValues: {
+        username: "",
+        email: "",
+        password: "",
+      },
+      validationSchema: RegisterSchema,
+      onSubmit: (RegisterValues) => {
+        setUsername(RegisterValues.username);
+        setEmail(RegisterValues.email);
+        setPassword(RegisterValues.password);
+        navigate("/");
+      },
+    });
 
     const handleRegisterAccount = async (e: any) => {
         e.preventDefault();
@@ -29,7 +56,7 @@ export function RegisterFrom() {
           setPassword("");
           setEmail("");
     
-          navigate("/login");
+          navigate("/");
         }
       };
 
@@ -44,9 +71,9 @@ export function RegisterFrom() {
                 sx={{ width: "100%", maxWidth: "400px" }}
                 >
                 <span style={{ fontSize: '30px'}}>Create account</span>
-                <TextField fullWidth id="outlined-basic" label="Username" type="text" variant="outlined" value={username} onChange={(e)=> setUsername(e.target.value)} />
-                <TextField fullWidth id="outlined-basic" label="Email" type="email" variant="outlined" value={email} onChange={(e)=> setEmail(e.target.value)}/>
-                <TextField fullWidth id="outlined-basic" label="Password" type="password" variant="outlined" value={password} onChange={(e)=> setPassword(e.target.value)}/>
+                <TextField fullWidth id="username" label="Username" type="text" variant="outlined" value={formik.values.username} onChange={formik.handleChange} onBlur={formik.handleBlur} error={Boolean(formik.touched.username && formik.errors.username)} helperText={formik.touched.username && formik.errors.username} />
+                <TextField fullWidth id="email" label="Email" type="email" variant="outlined" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} error={Boolean(formik.touched.email && formik.errors.email)} helperText={formik.touched.email && formik.errors.email}/>
+                <TextField fullWidth id="password" label="Password" type="password" variant="outlined" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} error={Boolean(formik.touched.password && formik.errors.password)} helperText={formik.touched.password && formik.errors.password}/>
                 <Button
                     type="submit"
                     variant="contained"
