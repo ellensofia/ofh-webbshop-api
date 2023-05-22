@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
-import { CartItem } from "../../data";
 import { useLocalStorageState } from "../hooks/useLocalStorageState";
 import { useTotal } from "../hooks/useTotal";
+import { CartItem } from "./AdminProductContext";
 
 interface Props {
   children: React.ReactNode;
@@ -35,7 +35,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
     if (newQuantity >= 1) {
       setItems((prevItems) =>
         prevItems.map((item) => {
-          if (item.id === id) {
+          if (item._id === id) {
             return { ...item, quantity: newQuantity };
           }
           return item;
@@ -47,11 +47,11 @@ export const ShoppingCartProvider = ({ children }: Props) => {
   };
 
   const addItem = (itemToAdd: CartItem) => {
-    const existingItem = items.find((item) => item.id === itemToAdd.id); // Check if the item to be added already exists in the cart by finding an item with the same id
+    const existingItem = items.find((item) => item._id === itemToAdd._id); // Check if the item to be added already exists in the cart by finding an item with the same id
 
     if (existingItem) {
       const updatedItems = items.map((item) => {
-        if (item.id === existingItem.id) {
+        if (item._id === existingItem._id) {
           // If the id of the current item matches the id of the existing item, update the quantity
           return { ...item, quantity: item.quantity + itemToAdd.quantity };
         } else {
@@ -73,7 +73,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
   };
 
   const removeItem = (id: string) => {
-    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    setItems((prevItems) => prevItems.filter((item) => item._id !== id));
   };
 
   const clearCart = () => {
