@@ -13,12 +13,22 @@ import {
 import { Link } from "react-router-dom";
 import { useProduct } from "../contexts/AdminProductContext";
 import AdminProductRows from "./AdminProductRows";
+import { useCallback, useEffect } from "react";
 
 /**
  * The AdminTable where all the AdminProductRows are
  */
 function AdminTable() {
-  const { products } = useProduct();
+  const { products, getAllProducts } = useProduct();
+
+  const displayAllProducts = useCallback(() => {
+    getAllProducts();
+  }, []);
+
+  useEffect(() => {
+    displayAllProducts();
+  }, [displayAllProducts]);
+  
 
   return (
     <Container maxWidth="md">
@@ -66,7 +76,7 @@ function AdminTable() {
             {products.map((product) => (
               <AdminProductRows
                 data-cy="product"
-                key={product.id}
+                key={product._id}
                 product={product}
               />
             ))}
