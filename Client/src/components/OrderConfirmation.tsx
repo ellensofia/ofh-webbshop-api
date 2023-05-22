@@ -42,7 +42,7 @@ function OrderConfirmation({ order }: Props) {
       ></Divider>
       {order.products.map((CartItem) => (
         <Card
-          key={CartItem.id}
+          key={CartItem._id}
           sx={{
             display: "flex",
             margin: "1rem",
@@ -52,7 +52,7 @@ function OrderConfirmation({ order }: Props) {
         >
           <CardMedia
             component="img"
-            image={CartItem.image}
+            image={CartItem.imageUrl}
             sx={{
               width: isSmallScreen ? "6rem" : "10rem",
             }}
