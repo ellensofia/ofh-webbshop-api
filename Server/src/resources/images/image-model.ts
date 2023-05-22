@@ -1,9 +1,9 @@
-import { InferSchemaType, Schema, model } from "mongoose";
+import mongoose from "mongoose";
 
-export const imageSchema = new Schema({
-    
-});
+export let fileBucket: mongoose.mongo.GridFSBucket;
 
-export type Image = InferSchemaType<typeof imageSchema>;
-
-export const ImageModel = model("image", imageSchema);
+mongoose.connection.on("open", () => {
+    fileBucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+        bucketName: "images"
+    });
+})
