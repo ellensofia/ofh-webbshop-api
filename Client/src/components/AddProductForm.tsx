@@ -20,17 +20,15 @@ const ProductSchema = Yup.object({
     .required("Please enter the price for the product")
     .min(1, "Price must be at least 1")
     .typeError("Price must be a number"),
-  description: Yup.string().required(
-    "Please enter the description for the product"
-  ),
+  description: Yup.string().required("Please enter the description for the product"),
   brand: Yup.string(),
-  image: Yup.string()
-    .required("Please enter the url for the products image")
-    .matches(
-      /((https?):\/\/)?(www.)?[a-z0-9]+(\.[a-z]{2,}){1,3}(#?\/?[a-zA-Z0-9#]+)*\/?(\?[a-zA-Z0-9-_]+=[a-zA-Z0-9-%]+&?)?$/,
-      "Please enter a correct url!"
-    ),
+  image: Yup.string().required("Please add product image"),
   id: Yup.string().required("Please enter the product id"),
+  inStockAmount: Yup.number()
+    .required("Please enter the amount in stock")
+    .min(1, "Amount in stock must be at least 1")
+    .typeError("Amount in stock must be a number"),
+  isArchived: Yup.boolean().required("Please specify whether the product is archived or not"),
 });
 
 export type ProductValues = Yup.InferType<typeof ProductSchema>;
@@ -58,18 +56,35 @@ function AddProductForm() {
       description: isEdit ? product?.description ?? "" : "",
       brand: isEdit ? product?.brand ?? "" : "",
       image: isEdit ? product?.imageUrl ?? "" : "",
-      id: isEdit
-        ? product?._id ?? `b${Math.floor(Math.random() * 10000)}`
-        : `b${Math.floor(Math.random() * 10000)}`,
+      id: isEdit ? product?._id ?? `b${Math.floor(Math.random() * 10000)}` : `b${Math.floor(Math.random() * 10000)}`,
+      inStockAmount: isEdit ? product?.inStockAmount ?? 1 : 1,
+      isArchived: false,
     },
     validationSchema: ProductSchema,
-    onSubmit: (product) => {
-      if (isEdit) {
-        // editProduct(product);
-      } else {
-        // addProduct(product);
+    onSubmit: async (product) => {
+      try {
+        const response = await fetch("/api/products/add", {
+          method: "POST",
+          body: JSON.stringify(product),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const newProduct = await response.json();
+        if (response.ok) {
+          if (isEdit) {
+            editProduct(newProduct);
+          } else {
+            addProduct(newProduct);
+          }
+          navigate("/admin");
+        } else {
+          console.error("Error adding product:", response.status);
+        }
+      } catch (error) {
+        console.error("Error adding product:", error);
       }
-      navigate("/admin");
     },
   });
 
@@ -97,11 +112,7 @@ function AddProductForm() {
           padding: "0px !important",
         }}
       >
-        <form
-          onSubmit={formik.handleSubmit}
-          style={rootStyle}
-          data-cy="product-form"
-        >
+        <form onSubmit={formik.handleSubmit} style={rootStyle} data-cy="product-form">
           <Container
             sx={{
               padding: "0px !important",
@@ -138,9 +149,7 @@ function AddProductForm() {
               inputProps={{ "data-cy": "product-price", min: 1, step: 1 }}
               FormHelperTextProps={{ "data-cy": "product-price-error" } as any}
               InputProps={{
-                endAdornment: (
-                  <InputAdornment position="start">SEK</InputAdornment>
-                ),
+                endAdornment: <InputAdornment position="start">SEK</InputAdornment>,
               }}
               sx={{ flex: 1 }}
             />
@@ -168,15 +177,19 @@ function AddProductForm() {
             />
             <TextField
               id="image"
-              type="text"
+              type="file"
               name="image"
-              label="Image URL"
               value={formik.values.image}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={Boolean(formik.touched.image && formik.errors.image)}
               helperText={formik.touched.image && formik.errors.image}
-              inputProps={{ "data-cy": "product-image" }}
+              inputProps={{
+                "data-cy": "product-image",
+                accept: "image/*",
+                capture: "environment",
+                lang: "en",
+              }}
               FormHelperTextProps={{ "data-cy": "product-image-error" } as any}
               sx={{ flex: 1 }}
             />
@@ -189,14 +202,24 @@ function AddProductForm() {
             value={formik.values.description}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={Boolean(
-              formik.touched.description && formik.errors.description
-            )}
+            error={Boolean(formik.touched.description && formik.errors.description)}
             helperText={formik.touched.description && formik.errors.description}
             inputProps={{ "data-cy": "product-description" }}
-            FormHelperTextProps={
-              { "data-cy": "product-description-error" } as any
-            }
+            FormHelperTextProps={{ "data-cy": "product-description-error" } as any}
+          />
+          <TextField
+            id="inStockAmount"
+            type="number"
+            name="inStockAmount"
+            label="Products in stock"
+            value={formik.values.inStockAmount}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={Boolean(formik.touched.inStockAmount && formik.errors.inStockAmount)}
+            helperText={formik.touched.inStockAmount && formik.errors.inStockAmount}
+            inputProps={{ "data-cy": "product-inStockAmount", min: 1, step: 1 }}
+            FormHelperTextProps={{ "data-cy": "product-inStockAmount-error" } as any}
+            sx={{ flex: 1 }}
           />
           <Button type="submit" variant="contained">
             {isEdit ? "Edit Product" : "Add Product"}

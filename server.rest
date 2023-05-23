@@ -1,0 +1,14 @@
+### Add new product 
+
+POST http://localhost:3000/api/products/add
+Content-Type: application/json
+
+{
+"title": "Another Lamp", 
+"categories": ["628c92bc1c4bc12f50"], 
+"description": "Beskrivning.", 
+"inStockAmount": 100, 
+"price": 100, 
+"brand": "new Model",
+"isArchived": false
+}

@@ -3,7 +3,14 @@ import { ProductModel } from "./product-model";
 import mongoose from "mongoose";
 
 export async function registerProduct(req: Request, res: Response) {
-  return console.log("Add Product");
+  try {
+    const newProduct = new ProductModel(req.body);
+    await newProduct.save();
+    res.status(201).json(newProduct);
+  } catch (error) {
+    console.error("Error registering product:", error);
+    res.status(500).json({ message: "Could not add product" });
+  }
 }
 
 export async function getAllProducts(req: Request, res: Response) {

@@ -13,6 +13,7 @@ export interface Product {
   description: string;
   price: number;
   timestamp: string;
+  inStockAmount: number;
 }
 
 export interface CartItem extends Product {
