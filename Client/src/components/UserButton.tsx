@@ -55,7 +55,7 @@ export default function UserButton() {
               <div>
                 <MenuItem onClick={() => navigate("/users")}>Users</MenuItem>
                 <MenuItem onClick={() => navigate("/orders")}>Orders</MenuItem>
-                <MenuItem onClick={() => navigate("/products")}>Products</MenuItem>
+                <MenuItem onClick={() => navigate("/admin")}>Products</MenuItem>
               </div>
             )}
             <MenuItem onClick={() => navigate("/myOrders")}>My orders</MenuItem>
