@@ -25,9 +25,9 @@ export type DeliveryValues = Yup.InferType<typeof DeliverySchema>;
 
 function DeliveryForm() {
   const theme = useTheme();
-  const navigate = useNavigate();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { createOrder } = useOrder();
+  const navigate = useNavigate();
 
   const formik = useFormik<DeliveryValues>({
     initialValues: {
@@ -40,8 +40,9 @@ function DeliveryForm() {
       phoneNumber: "",
     },
     validationSchema: DeliverySchema,
-    onSubmit: (address) => {
-      createOrder(address);
+    onSubmit: async (address) => {
+      const orderId = await createOrder(address);
+      navigate(`/confirmation/${orderId}`);
     },
   });
 

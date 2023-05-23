@@ -9,6 +9,8 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Product } from "../contexts/AdminProductContext";
 import { Order } from "../contexts/OrderContext";
 
 interface Props {
@@ -21,6 +23,15 @@ interface Props {
 function OrderConfirmation({ order }: Props) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    for (const orderItem of order.orderItems) {
+      fetch(`/api/products/${orderItem.productId}`)
+        .then((res) => res.json())
+        .then((data) => setProducts([...products, data]));
+    }
+  });
 
   return (
     <Container maxWidth={isSmallScreen ? "sm" : "md"}>
@@ -32,7 +43,7 @@ function OrderConfirmation({ order }: Props) {
         }}
       >
         <Typography variant="h6">Your order</Typography>
-        <Typography variant="h6">{order?.orderNumber}</Typography>
+        <Typography variant="h6">{order?._id}</Typography>
       </Box>
       <Divider
         sx={{
@@ -40,7 +51,7 @@ function OrderConfirmation({ order }: Props) {
           marginBottom: "1rem",
         }}
       ></Divider>
-      {order.products.map((CartItem) => (
+      {order.orderItems.map((orderItem) => (
         <Card
           key={CartItem._id}
           sx={{
@@ -80,9 +91,7 @@ function OrderConfirmation({ order }: Props) {
                   marginTop: isSmallScreen ? "0.2rem" : "2rem",
                 }}
               >
-                <Typography variant={isSmallScreen ? "body1" : "h6"}>
-                  {CartItem.title}
-                </Typography>
+                <Typography variant={isSmallScreen ? "body1" : "h6"}>{CartItem.title}</Typography>
                 <Typography variant={isSmallScreen ? "body2" : "body1"}>
                   {CartItem.price * CartItem.quantity} SEK
                 </Typography>
@@ -94,9 +103,7 @@ function OrderConfirmation({ order }: Props) {
                 marginLeft: "1rem",
               }}
             >
-              <Typography fontSize={"0.8rem"}>
-                Quantity: {CartItem.quantity}
-              </Typography>
+              <Typography fontSize={"0.8rem"}>Quantity: {CartItem.quantity}</Typography>
             </CardContent>
           </Container>
         </Card>

@@ -1,7 +1,7 @@
-import { InferSchemaType, Schema, model } from "mongoose";
+import mongoose, { InferSchemaType, Schema, model } from "mongoose";
 
 export const orderItemSchema = new Schema({
-  productId: { type: String, required: true },
+  product: { type: mongoose.Types.ObjectId, ref: "product", required: true },
   quantity: { type: Number, required: true },
 });
 export type OrderItem = InferSchemaType<typeof orderItemSchema>;
