@@ -48,10 +48,10 @@ export function UsersList() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="left" sx={{ fontSize: "1.2rem", flex: '1' }}>
+              <TableCell align="left" sx={{ fontSize: "1.5rem" }}>
                 Username
               </TableCell>
-              <TableCell align="right" sx={{ fontSize: "1.2rem" }}>
+              <TableCell align="right" sx={{ fontSize: "1.5rem" }}>
                 Admin status
               </TableCell>
             </TableRow>
