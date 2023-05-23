@@ -18,6 +18,7 @@ import EmptyBagPage from "./pages/EmptyBagPage";
 import { LoginPage } from "./pages/LoginPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import ProductPage from "./pages/ProductPage";
+import { RegisterPage } from "./pages/RegisterPage";
 import StartPage from "./pages/StartPage";
 import { theme } from "./theme/theme";
 
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
       <Route path="checkout" element={<CheckoutPage />} />
       <Route path="emptybag" element={<EmptyBagPage />} />
       <Route path="login" element={<LoginPage />} />
+      <Route path="register" element={<RegisterPage />} />
     </Route>
   )
 );
