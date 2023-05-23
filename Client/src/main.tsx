@@ -16,6 +16,7 @@ import CheckoutPage from "./pages/CheckoutPage";
 import ConstructionPage from "./pages/ConstructionPage";
 import EmptyBagPage from "./pages/EmptyBagPage";
 import { LoginPage } from "./pages/LoginPage";
+import { UsersPage } from "./pages/UsersPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import ProductPage from "./pages/ProductPage";
 import { RegisterPage } from "./pages/RegisterPage";
@@ -44,6 +45,7 @@ const router = createBrowserRouter(
       <Route path="emptybag" element={<EmptyBagPage />} />
       <Route path="login" element={<LoginPage />} />
       <Route path="register" element={<RegisterPage />} />
+      <Route path="users" element={<UsersPage />} />
     </Route>,
   ),
 );
