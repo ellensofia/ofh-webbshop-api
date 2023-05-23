@@ -1,3 +1,4 @@
+import argon2 from "argon2";
 import { Request, Response } from "express";
 import Joi from 'joi';
 import { UserModel } from "./user-model";
@@ -16,7 +17,7 @@ export async function registerUser(
   });
 
   const result = schema.validate(req.body);
-
+  
   if (result.error) {
     res.status(400).json(result.error.message);
     return;
@@ -41,6 +42,11 @@ export async function registerUser(
     email,
   };
   const newUser = await UserModel.create(user);
+
+  req.session!.username = newUser.username;
+  req.session!.email = newUser.email;
+  req.session!._id = newUser._id;
+  req.session!.isAdmin = newUser.isAdmin;
 
   res.status(201).json({
     _id: newUser._id,
@@ -73,11 +79,40 @@ export async function loginUser(
   req: Request,
   res: Response
 ) {
-    return console.log('Login User')
+  const { email, password } = req.body;
+  const user = await UserModel.findOne({
+    email,
+  });
+
+  if (!user) {
+    res.status(401).json("Incorrect email or password");
+    return;
+  }
+  const isAuth = await argon2.verify(
+    user.password,
+    password
+  );
+  if (!isAuth) {
+    res.status(401).json("Incorrect email or password");
+    return;
+  }
+
+  req.session!.username = user.username;
+  req.session!.email = user.email;
+  req.session!._id = user._id;
+  req.session!.isAdmin = user.isAdmin;
+
+  res.status(200).json({
+    _id: user!._id,
+    username: user!.username,
+    email: user!.email,
+    isAdmin: user!.isAdmin,
+  });
 }
 export async function logoutUser(
   req: Request,
   res: Response
 ) {
-    return console.log('logout User')
+  req.session = null;
+  res.sendStatus(204);
 }

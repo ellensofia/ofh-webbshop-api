@@ -1,6 +1,18 @@
-import { Box, Button, Container, TextField } from "@mui/material";
+import { Box, Button, Container, TextField, Link } from "@mui/material";
+import { useFormik } from "formik";
 import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import * as Yup from "yup";
+
+const RegisterSchema = Yup.object({
+  username: Yup.string().required("Please enter a username"),
+  email: Yup.string()
+    .email("Please enter an valid email address")
+    .required("Please enter an email address"),
+  password: Yup.string().required("Please enter a password")
+});
+
+export type RegisterValues = Yup.InferType<typeof RegisterSchema>;
 
 export function RegisterFrom() {
     const navigate = useNavigate();
@@ -9,13 +21,28 @@ export function RegisterFrom() {
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
 
+    const formik = useFormik<RegisterValues>({
+      initialValues: {
+        username: "",
+        email: "",
+        password: "",
+      },
+      validationSchema: RegisterSchema,
+      onSubmit: (registerValues) => {
+        setUsername(registerValues.username);
+        setEmail(registerValues.email);
+        setPassword(registerValues.password);
+        navigate("/");
+      },
+    });
+
     const handleRegisterAccount = async (e: any) => {
         e.preventDefault();
     
         const newUser = {
-          username,
-          email,
-          password,
+          username: formik.values.username,
+          email: formik.values.email,
+          password: formik.values.password,
         };
     
         const response = await fetch("/api/users/register", {
@@ -23,13 +50,17 @@ export function RegisterFrom() {
           body: JSON.stringify(newUser),
           headers: { "Content-type": "application/json" },
         });
+
+        const data = await response.json();
     
         if (response.ok) {
-          setUsername("");
-          setPassword("");
-          setEmail("");
-    
-          navigate("/login");
+          localStorage.setItem(
+            "loggedInUsername",
+            data.username
+          );
+          localStorage.setItem("loggedInUserID", data._id);
+          localStorage.setItem("loggedInIsAdmin", data.isAdmin);
+          navigate("/");
         }
       };
 
@@ -44,9 +75,9 @@ export function RegisterFrom() {
                 sx={{ width: "100%", maxWidth: "400px" }}
                 >
                 <span style={{ fontSize: '30px'}}>Create account</span>
-                <TextField fullWidth id="outlined-basic" label="Username" type="text" variant="outlined" value={username} onChange={(e)=> setUsername(e.target.value)} />
-                <TextField fullWidth id="outlined-basic" label="Email" type="email" variant="outlined" value={email} onChange={(e)=> setEmail(e.target.value)}/>
-                <TextField fullWidth id="outlined-basic" label="Password" type="password" variant="outlined" value={password} onChange={(e)=> setPassword(e.target.value)}/>
+                <TextField fullWidth id="username" label="Username" type="text" variant="outlined" value={formik.values.username} onChange={formik.handleChange} onBlur={formik.handleBlur} error={Boolean(formik.touched.username && formik.errors.username)} helperText={formik.touched.username && formik.errors.username} />
+                <TextField fullWidth id="email" label="Email" type="email" variant="outlined" value={formik.values.email} onChange={formik.handleChange} onBlur={formik.handleBlur} error={Boolean(formik.touched.email && formik.errors.email)} helperText={formik.touched.email && formik.errors.email}/>
+                <TextField fullWidth id="password" label="Password" type="password" variant="outlined" value={formik.values.password} onChange={formik.handleChange} onBlur={formik.handleBlur} error={Boolean(formik.touched.password && formik.errors.password)} helperText={formik.touched.password && formik.errors.password}/>
                 <Button
                     type="submit"
                     variant="contained"
@@ -55,7 +86,7 @@ export function RegisterFrom() {
                 >
                     Sign up
                 </Button>
-                <NavLink to="/login" style={{ textDecoration: 'none'}}>Already have an account? Log in</NavLink>
+                <Link component={'button'} variant="body2" fontSize={'large'} color={'secondary'} underline="hover" onClick={() => navigate('/login')}>Already have an account? <u>Log in</u></Link>
             </Box>
         </Container>
     )
