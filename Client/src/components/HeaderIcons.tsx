@@ -19,15 +19,6 @@ function HeaderIcons() {
         alignItems: "center",
       }}
     >
-      {/* <IconButton
-        className="material-symbols-outlined"
-        sx={iconStyle}
-        component={Link}
-        to="/admin"
-        data-cy="admin-link"
-      >
-        admin_panel_settings
-      </IconButton> */}
       <UserButton />
       <IconButton
         className="material-symbols-outlined"

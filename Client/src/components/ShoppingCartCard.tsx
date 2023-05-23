@@ -59,7 +59,7 @@ function ShoppingCartCard() {
       ></Divider>
       {items.map((CartItem) => (
         <Card
-          key={CartItem.id}
+          key={CartItem._id}
           sx={{
             display: "flex",
             margin: "1rem",
@@ -70,7 +70,7 @@ function ShoppingCartCard() {
         >
           <CardMedia
             component="img"
-            image={CartItem.image}
+            image={CartItem.imageUrl}
             sx={{
               width: isSmallScreen ? "6rem" : "10rem",
             }}
@@ -131,9 +131,7 @@ function ShoppingCartCard() {
                 >
                   <Button
                     variant="text"
-                    onClick={() =>
-                      updateItemQuantity(CartItem.id, CartItem.quantity - 1)
-                    }
+                    onClick={() => updateItemQuantity(CartItem._id, CartItem.quantity - 1)}
                     sx={{
                       fontSize: "1.3rem",
                       color: (theme) => theme.palette.text.primary,
@@ -154,9 +152,7 @@ function ShoppingCartCard() {
                   </TextField>
                   <Button
                     variant="text"
-                    onClick={() =>
-                      updateItemQuantity(CartItem.id, CartItem.quantity + 1)
-                    }
+                    onClick={() => updateItemQuantity(CartItem._id, CartItem.quantity + 1)}
                     sx={{
                       fontSize: "1.3rem",
                       color: (theme) => theme.palette.text.primary,
@@ -174,10 +170,7 @@ function ShoppingCartCard() {
                   textAlign: "right",
                 }}
               >
-                <Typography
-                  sx={{ fontSize: isSmallScreen ? "0.8rem" : "1rem" }}
-                  data-cy="product-price"
-                >
+                <Typography sx={{ fontSize: isSmallScreen ? "0.8rem" : "1rem" }} data-cy="product-price">
                   {CartItem.price * CartItem.quantity} SEK
                 </Typography>
               </CardContent>
@@ -194,7 +187,7 @@ function ShoppingCartCard() {
               }}
             >
               <Button
-                onClick={() => removeItem(CartItem.id)}
+                onClick={() => removeItem(CartItem._id)}
                 sx={{
                   minWidth: "auto",
                   color: (theme) => theme.palette.text.primary,

@@ -6,7 +6,6 @@ import { orderRouter } from "./resources/orders/order-router";
 import { productRouter } from "./resources/products/product-router";
 import { userRouter } from "./resources/users/user-router";
 
-
 export const app = express();
 
 app.use(express.json());
@@ -22,7 +21,6 @@ app.use(productRouter)
 app.use(orderRouter)
 app.use(categoryRouter)
 app.use(imageRouter)
-
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     res.sendStatus(500);
