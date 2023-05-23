@@ -1,16 +1,16 @@
-import { IconButton } from '@mui/material';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { checkIsLoggedIn } from '../hooks/checkedLoggedin';
-import { iconStyle } from './HeaderIcons';
+import { IconButton } from "@mui/material";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import * as React from "react";
+import { useNavigate } from "react-router-dom";
+import { useCheckIsLoggedIn } from "../hooks/checkedLoggedin";
+import { iconStyle } from "./HeaderIcons";
+import { useUserContext } from "../contexts/UserContext";
 
 export default function UserButton() {
   const navigate = useNavigate();
-
-  const isLoggedIn = checkIsLoggedIn();
-  const isAdmin = localStorage.getItem("loggedInIsAdmin");
+  const isLoggedIn = useCheckIsLoggedIn();
+  const { user } = useUserContext();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -40,9 +40,9 @@ export default function UserButton() {
         className="material-symbols-outlined"
         sx={iconStyle}
         id="demo-positioned-button"
-        aria-controls={open ? 'demo-positioned-menu' : undefined}
+        aria-controls={open ? "demo-positioned-menu" : undefined}
         aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
+        aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
         person
@@ -54,28 +54,28 @@ export default function UserButton() {
         open={open}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
+          vertical: "top",
+          horizontal: "left",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
+          vertical: "top",
+          horizontal: "left",
         }}
       >
-        {isLoggedIn ? ( 
+        {isLoggedIn ? (
           <div>
-          {isAdmin === "true" && (
-            <div>
-            <MenuItem onClick={() => navigate('/orders')}>Orders</MenuItem> 
-            <MenuItem onClick={() => navigate('/products')}>Products</MenuItem> 
-            </div>
-          )}
-          <MenuItem onClick={() => navigate('/myOrders')}>My orders</MenuItem> 
-          <MenuItem onClick={handleLogout}>Log out</MenuItem> </div>
-          ) : (
-          <MenuItem onClick={() => navigate('/login')}>Login</MenuItem>
-          )}
-        
+            {user?.isAdmin === true && (
+              <div>
+                <MenuItem onClick={() => navigate("/orders")}>Orders</MenuItem>
+                <MenuItem onClick={() => navigate("/products")}>Products</MenuItem>
+              </div>
+            )}
+            <MenuItem onClick={() => navigate("/myOrders")}>My orders</MenuItem>
+            <MenuItem onClick={handleLogout}>Log out</MenuItem>{" "}
+          </div>
+        ) : (
+          <MenuItem onClick={() => navigate("/login")}>Login</MenuItem>
+        )}
       </Menu>
     </div>
   );
