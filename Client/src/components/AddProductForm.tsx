@@ -9,7 +9,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { CSSProperties } from "react";
+import { CSSProperties, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useProduct } from "../contexts/AdminProductContext";
@@ -46,6 +46,13 @@ function AddProductForm() {
   const { addProduct, editProduct, products } = useProduct();
   const { id } = useParams<{ id: string }>();
   const product = products.find((p) => p._id === id);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setSelectedImage(event.target.files[0]);
+    }
+  };
 
   const isEdit = Boolean(product);
 
@@ -76,6 +83,7 @@ function AddProductForm() {
           if (isEdit) {
             editProduct(newProduct);
           } else {
+            console.log("response.ok");
             addProduct(newProduct);
           }
           navigate("/admin");
@@ -84,6 +92,28 @@ function AddProductForm() {
         }
       } catch (error) {
         console.error("Error adding product:", error);
+      }
+      if (selectedImage) {
+        const formData = new FormData();
+        formData.append("image", selectedImage);
+
+        try {
+          const imageResponse = await fetch("/api/images", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (imageResponse.ok) {
+            const imageResult = await imageResponse.json();
+            console.log("imageResponse " + imageResponse);
+            console.log("imageResult " + imageResult);
+            // Handle image upload success
+          } else {
+            console.error("Error uploading image:", imageResponse.status);
+          }
+        } catch (error) {
+          console.error("Error uploading image:", error);
+        }
       }
     },
   });
