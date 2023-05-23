@@ -10,7 +10,7 @@ import { useUserContext } from "../contexts/UserContext";
 export default function UserButton() {
   const navigate = useNavigate();
   const isLoggedIn = useCheckIsLoggedIn();
-  const { user } = useUserContext();
+  const { user, logout } = useUserContext();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -19,19 +19,6 @@ export default function UserButton() {
   };
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleLogout = async (e: any) => {
-    e.preventDefault();
-
-    const response = await fetch("/api/users/logout", {
-      method: "POST",
-    });
-
-    if (response.ok) {
-      localStorage.clear();
-      navigate("/");
-    }
   };
 
   return (
@@ -71,7 +58,14 @@ export default function UserButton() {
               </div>
             )}
             <MenuItem onClick={() => navigate("/myOrders")}>My orders</MenuItem>
-            <MenuItem onClick={handleLogout}>Log out</MenuItem>{" "}
+            <MenuItem
+              onClick={() => {
+                logout();
+                navigate("/");
+              }}
+            >
+              Log out
+            </MenuItem>
           </div>
         ) : (
           <MenuItem onClick={() => navigate("/login")}>Login</MenuItem>
