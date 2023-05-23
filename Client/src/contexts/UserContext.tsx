@@ -37,22 +37,19 @@ export const useUserContext = () => useContext(UserContext);
 export const UserProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | null>(null);
 
-  //   useEffect(() => {
-  //     const fetchUser = async () => {
-  //       try {
-  //         const response = await fetch(`/api/users/auth`);
-  //         if (!response.ok) {
-  //           throw new Error("Failed to fetch user information");
-  //         }
-  //         const userResponse = await response.json();
-  //         setUser(userResponse);
-  //       } catch (error) {
-  //         console.error(error);
-  //       }
-  //     };
+    useEffect(() => {
+      const fetchUser = async () => {
+          const response = await fetch(`/api/users/checkUserInfo`);
 
-  //     fetchUser();
-  //   }, []);
+          if (!response.ok) {
+            throw new Error("Failed to fetch user information");
+          }
+          const userResponse = await response.json();
+          setUser(userResponse);
+      };
+
+      fetchUser();
+    }, []);
 
   //   const CheckUsername = async (username: string) => {
   //     try {
