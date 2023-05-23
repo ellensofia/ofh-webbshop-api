@@ -1,12 +1,9 @@
 import argon2 from "argon2";
 import { Request, Response } from "express";
-import Joi from 'joi';
+import Joi from "joi";
 import { UserModel } from "./user-model";
 
-export async function registerUser(
-  req: Request,
-  res: Response
-) {
+export async function registerUser(req: Request, res: Response) {
   const { username, password, email } = req.body;
 
   // CHECK FOR MISSING OR INCORRECT VALUES
@@ -17,7 +14,7 @@ export async function registerUser(
   });
 
   const result = schema.validate(req.body);
-  
+
   if (result.error) {
     res.status(400).json(result.error.message);
     return;
@@ -28,11 +25,7 @@ export async function registerUser(
     username,
   });
   if (existsingUser) {
-    res
-      .status(409)
-      .json(
-        "This username is taken. Please chose another one"
-      );
+    res.status(409).json("This username is taken. Please chose another one");
     return;
   }
 
@@ -56,29 +49,17 @@ export async function registerUser(
   });
 }
 
-export async function getAllUsers(
-  req: Request,
-  res: Response
-) {
-    return console.log('Get All Users')
+export async function getAllUsers(req: Request, res: Response) {
+  return console.log("Get All Users");
 }
 
-export async function changeRole(
-  req: Request,
-  res: Response
-) {
-    return console.log('Update User')
+export async function changeRole(req: Request, res: Response) {
+  return console.log("Update User");
 }
-export async function getOneUser(
-  req: Request,
-  res: Response
-) {
-    return console.log('Get User')
+export async function getOneUser(req: Request, res: Response) {
+  return console.log("Get User");
 }
-export async function loginUser(
-  req: Request,
-  res: Response
-) {
+export async function loginUser(req: Request, res: Response) {
   const { email, password } = req.body;
   const user = await UserModel.findOne({
     email,
@@ -88,10 +69,7 @@ export async function loginUser(
     res.status(401).json("Incorrect email or password");
     return;
   }
-  const isAuth = await argon2.verify(
-    user.password,
-    password
-  );
+  const isAuth = await argon2.verify(user.password, password);
   if (!isAuth) {
     res.status(401).json("Incorrect email or password");
     return;
@@ -109,10 +87,18 @@ export async function loginUser(
     isAdmin: user!.isAdmin,
   });
 }
-export async function logoutUser(
-  req: Request,
-  res: Response
-) {
+export async function logoutUser(req: Request, res: Response) {
   req.session = null;
   res.sendStatus(204);
+}
+
+export async function checkUserInfo(req: Request, res: Response) {
+  const userData = {
+    username: req.session?.username,
+    email: req.session?.email,
+    password: req.session?.password,
+    _id: req.session?._id,
+  };
+
+  res.status(200).json(userData);
 }
