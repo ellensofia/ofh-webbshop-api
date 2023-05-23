@@ -2,8 +2,8 @@ import { InferSchemaType, Schema, model } from "mongoose";
 
 export const productSchema = new Schema({
   title: { type: String, required: true, minlength: 3 },
-  imageId: { type: String, required: true },
-  imageUrl: { type: String, required: true },
+  imageId: { type: String },
+  imageUrl: { type: String },
   categories: { type: Array, required: true },
   description: { type: String, required: true },
   inStockAmount: { type: Number, required: true },
