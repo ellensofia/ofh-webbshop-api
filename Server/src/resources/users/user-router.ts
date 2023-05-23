@@ -1,7 +1,15 @@
 import express from "express";
 import { auth } from "../../middlewares/auth";
 import { authAdmin } from "../../middlewares/authAdmin";
-import { changeRole, checkUserInfo, getAllUsers, getOneUser, loginUser, logoutUser, registerUser } from "./user-controller";
+import {
+  changeRole,
+  checkUserInfo,
+  getAllUsers,
+  getOneUser,
+  loginUser,
+  logoutUser,
+  registerUser,
+} from "./user-controller";
 
 export const userRouter = express
   .Router()
