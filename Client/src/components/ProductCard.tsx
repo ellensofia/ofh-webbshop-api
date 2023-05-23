@@ -21,7 +21,7 @@ import PageNotFound from "./PageNotFound";
 function ProductCard() {
   const { id } = useParams<{ id: string }>();
   const { products } = useProduct();
-  const product = products.find((p) => p.id === id);
+  const product = products.find((p) => p._id === id);
   const { addItem } = useShoppingCart();
   const [quantity, setQuantity] = useState(1);
 
@@ -47,7 +47,7 @@ function ProductCard() {
     <Container maxWidth="lg" sx={rootStyle}>
       <Box>
         <Grid container rowSpacing={2} columnSpacing={2}>
-          <Grid key={product.id} xs={12} sm={12} md={12} data-cy="product">
+          <Grid key={product._id} xs={12} sm={12} md={12} data-cy="product">
             <Item
               sx={{
                 display: "flex",
@@ -55,7 +55,7 @@ function ProductCard() {
               }}
             >
               <CardMedia>
-                <img src={product.image} alt={product.title} />
+                <img src={product.imageUrl} alt={product.title} />
               </CardMedia>
               <CardContent sx={cardContentStyle}>
                 <Typography variant="overline" sx={{ marginBottom: "1rem" }}>

@@ -11,10 +11,11 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
+import { useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useProduct } from "../contexts/AdminProductContext";
 import { useShoppingCart } from "../contexts/ShoppingCartContext";
-import { createSlug } from "../slug/utils";
+// import { createSlug } from "../slug/utils";
 
 /**
  * Returns a product gallery consisting of cards for all the products
@@ -22,7 +23,15 @@ import { createSlug } from "../slug/utils";
  */
 function ProductGallery() {
   const { addItem } = useShoppingCart();
-  const { products } = useProduct();
+  const { products, getAllProducts } = useProduct();
+
+  const displayAllProducts = useCallback(() => {
+    getAllProducts();
+  }, []);
+
+  useEffect(() => {
+    displayAllProducts();
+  }, [displayAllProducts]);
 
   return (
     // Maps over the products and returns TSX for each product item
@@ -30,31 +39,26 @@ function ProductGallery() {
       <Box sx={{ width: "100%" }}>
         <Grid container rowSpacing={2} columnSpacing={2}>
           {products.map((product) => {
-            const slug = createSlug(product.title);
+            // const slug = createSlug(product.title);
             // Renders the overall structure of the ProductGallery component
             return (
-              <Grid key={product.id} xs={12} sm={6} md={4} data-cy="product">
+              <Grid key={product._id} xs={12} sm={6} md={4} data-cy="product">
                 <StyledLink
-                  to={`/product/${product.id}/${slug}`}
+                  // to={`/product/${product._id}/${slug}`}
+                  to={`/product/${product._id}`}
                   onClick={() => {
                     window.scroll(0, 0);
                   }}
                 >
-                  <Item>
-                    <img src={product.image} alt={product.title} />
+                  <Item key={`${product._id}-${product.timestamp}`}>
+                    <img src={product.imageUrl} alt={product.title} />
                     <CardContent sx={cardContentStyle}>
                       <Box>
-                        <Typography variant="overline">
-                          {product.brand}
-                        </Typography>
+                        <Typography variant="overline">{product.brand}</Typography>
                         <Typography variant="subtitle2" data-cy="product-title">
                           {product.title}
                         </Typography>
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ marginTop: "1rem" }}
-                          data-cy="product-price"
-                        >
+                        <Typography variant="subtitle2" sx={{ marginTop: "1rem" }} data-cy="product-price">
                           {product.price} SEK
                         </Typography>
                       </Box>

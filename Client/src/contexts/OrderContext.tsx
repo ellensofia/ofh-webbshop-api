@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { CartItem } from "../../data";
+import { CartItem } from "./AdminProductContext";
 import { useShoppingCart } from "./ShoppingCartContext";
 
 interface Props {

@@ -6,13 +6,10 @@ import Snackbar from "@mui/material/Snackbar";
 import Stack from "@mui/material/Stack";
 import React from "react";
 import { Link } from "react-router-dom";
-import { CartItem } from "../../data/index";
 import { theme } from "../theme/theme";
+import { CartItem } from "../contexts/AdminProductContext";
 
-const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  props,
-  ref
-) {
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
@@ -40,12 +37,7 @@ function Toast({
         onClose={onClose}
         sx={{ display: "flex", justifyContent: "center" }}
       >
-        <Alert
-          icon={false}
-          sx={toastStyling}
-          onClose={onClose}
-          severity="success"
-        >
+        <Alert icon={false} sx={toastStyling} onClose={onClose} severity="success">
           {"Product has been added"}
           <Box
             sx={{
@@ -57,7 +49,7 @@ function Toast({
             }}
           >
             <img
-              src={lastAddedItem?.image}
+              src={lastAddedItem?.imageUrl}
               alt={lastAddedItem?.title}
               style={{
                 width: "5rem",
@@ -67,9 +59,7 @@ function Toast({
             <Box>
               <h4>{lastAddedItem?.title}</h4>
               <h4>
-                {lastAddedItem?.price && lastAddedItem?.quantity
-                  ? lastAddedItem.price * lastAddedItem.quantity
-                  : ""}{" "}
+                {lastAddedItem?.price && lastAddedItem?.quantity ? lastAddedItem.price * lastAddedItem.quantity : ""}{" "}
                 SEK
               </h4>
             </Box>
