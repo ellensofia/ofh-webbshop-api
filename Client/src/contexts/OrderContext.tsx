@@ -19,27 +19,19 @@ export interface Order {
   totalPrice: number;
 }
 
-type OrderContextType = {
-  order?: Order;
-  setOrder: (order: Order) => void;
-  createOrder: (addres: TestAddress) => void;
-};
-
-//  ---- Test data for backend project ---- //
-
-interface TestNewOrder {
+interface NewOrder {
   userId: string;
-  orderItems: TestNewOrderItem[];
-  address: TestAddress;
+  orderItems: OrderItem[];
+  address: Address;
   price: number;
 }
 
-interface TestNewOrderItem {
+interface OrderItem {
   productId: string;
   quantity: number;
 }
 
-export interface TestAddress {
+export interface Address {
   firstName: string;
   lastName: string;
   street: string;
@@ -48,23 +40,10 @@ export interface TestAddress {
   phoneNumber: string;
 }
 
-const testOrderItems: TestNewOrderItem[] = [
-  { productId: "1", quantity: 2 },
-  { productId: "2", quantity: 1 },
-];
-
-const testNewOrder: TestNewOrder = {
-  userId: "Bob",
-  orderItems: testOrderItems,
-  address: {
-    firstName: "Bob",
-    lastName: "Bobson",
-    street: "Bobstreet 1",
-    city: "Bobcity",
-    postCode: "12345",
-    phoneNumber: "1234567890",
-  },
-  price: 100,
+type OrderContextType = {
+  order?: Order;
+  setOrder: (order: Order) => void;
+  createOrder: (addres: Address) => void;
 };
 
 // Context object with an initial value of null for the order
@@ -83,27 +62,15 @@ export const useOrder = () => useContext(OrderContext);
 // Component that provides the order context to its child components
 export const OrderProvider = ({ children }: Props) => {
   const [order, setOrder] = useState<Order>();
-  const { items, totalItems, totalPrice, clearCart } = useShoppingCart();
+  const { items, totalPrice, clearCart } = useShoppingCart();
 
   // Creates the order object based on the current shopping cart state and delivery address
-  const createOrder = async (address: TestAddress) => {
-    const products = items; // Gets the list of products from the shopping cart
-
-    // TODO: Reactivate following code when frontend adjusted to data structure
-
-    // const newOrder: Order = {
-    //   orderNumber,
-    //   products,
-    //   totalItems,
-    //   totalPrice,
-    //   ...deliveryValues,
-    // };
-
-    const newOrder: TestNewOrder = {
+  const createOrder = async (address: Address) => {
+    const newOrder: NewOrder = {
       userId: "placeholderId", // TODO: Replace with actual user id
-      orderItems: testOrderItems,
+      orderItems: items.map((item) => ({ productId: item._id, quantity: item.quantity })),
       address,
-      price: 100, // TODO: Replace with actual price
+      price: totalPrice,
     };
 
     // setOrder(newOrder); // Updates the order state with the new order
