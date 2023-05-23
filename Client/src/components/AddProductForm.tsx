@@ -47,7 +47,7 @@ function AddProductForm() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { addProduct, editProduct, products } = useProduct();
   const { id } = useParams<{ id: string }>();
-  const product = products.find((p) => p.id === id);
+  const product = products.find((p) => p._id === id);
 
   const isEdit = Boolean(product);
 
@@ -57,17 +57,17 @@ function AddProductForm() {
       price: isEdit ? product?.price ?? 0 : 0,
       description: isEdit ? product?.description ?? "" : "",
       brand: isEdit ? product?.brand ?? "" : "",
-      image: isEdit ? product?.image ?? "" : "",
+      image: isEdit ? product?.imageUrl ?? "" : "",
       id: isEdit
-        ? product?.id ?? `b${Math.floor(Math.random() * 10000)}`
+        ? product?._id ?? `b${Math.floor(Math.random() * 10000)}`
         : `b${Math.floor(Math.random() * 10000)}`,
     },
     validationSchema: ProductSchema,
     onSubmit: (product) => {
       if (isEdit) {
-        editProduct(product);
+        // editProduct(product);
       } else {
-        addProduct(product);
+        // addProduct(product);
       }
       navigate("/admin");
     },

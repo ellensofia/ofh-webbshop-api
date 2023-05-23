@@ -6,8 +6,8 @@ import Snackbar from "@mui/material/Snackbar";
 import Stack from "@mui/material/Stack";
 import React from "react";
 import { Link } from "react-router-dom";
-import { CartItem } from "../../data/index";
 import { theme } from "../theme/theme";
+import { CartItem } from "../contexts/AdminProductContext";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -57,7 +57,7 @@ function Toast({
             }}
           >
             <img
-              src={lastAddedItem?.image}
+              src={lastAddedItem?.imageUrl}
               alt={lastAddedItem?.title}
               style={{
                 width: "5rem",

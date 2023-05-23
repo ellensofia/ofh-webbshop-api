@@ -4,8 +4,7 @@ import TableRow from "@mui/material/TableRow";
 import { Box } from "@mui/system";
 import * as React from "react";
 import { Link } from "react-router-dom";
-import type { Product } from "../../data";
-import { useProduct } from "../contexts/AdminProductContext";
+import { Product, useProduct } from "../contexts/AdminProductContext";
 import { theme } from "../theme/theme";
 import DeleteProductDialog from "./DeleteProductDialog";
 
@@ -15,8 +14,9 @@ type Props = {
 
 /**
  * All the rows inside AdminTable
- */
+*/
 function AdminProductRows(props: Props) {
+  
   const { removeProduct } = useProduct();
   const [deleteProductDialogOpen, setDeleteProductDialogOpen] =
     React.useState(false);
@@ -28,13 +28,13 @@ function AdminProductRows(props: Props) {
         <TableCell component="th" scope="row" align="center">
           <Box
             component="img"
-            src={props.product.image}
+            src={props.product.imageUrl}
             alt={props.product.title}
             sx={{ width: { xs: "4rem", sm: "10rem" } }}
           ></Box>
         </TableCell>
         <TableCell align="center" data-cy="product-id">
-          {props.product.id}
+          {props.product._id}
         </TableCell>
 
         <TableCell align="center" data-cy="product-title">
@@ -54,7 +54,7 @@ function AdminProductRows(props: Props) {
               margin: "0.5rem",
             }}
             component={Link}
-            to={`/admin/product/${props.product.id}`}
+            to={`/admin/product/${props.product._id}`}
           >
             edit
           </IconButton>
