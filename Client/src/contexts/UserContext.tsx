@@ -16,7 +16,7 @@ interface UserContextProps {
   user: User | null;
   login: (username: string, password: string) => Promise<User>;
   //   logout: () => Promise<void>; // Update the return type to Promise<void>
-  register: (username: string, password: string) => Promise<string>;
+  register: (email: string, username: string, password: string) => Promise<string>;
   //   checkUsername: (username: string) => void;
 }
 
@@ -71,24 +71,20 @@ export const UserProvider = ({ children }: Props) => {
   //     }
   //   };
 
-  const RegisterUser = async (username: string, password: string) => {
-    try {
+  const RegisterUser = async (email: string, username: string, password: string) => {
       const response = await fetch("/api/users/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, username, password }),
       });
+      
       if (!response.ok) {
         const errorMessage = await response.json();
         return errorMessage;
       }
       const user = await response.json();
       setUser(user);
-
       return "";
-    } catch (error: any) {
-      throw new Error(error.message || "Failed to register user");
-    }
   };
 
   const LogInUser = async (email: string, password: string) => {

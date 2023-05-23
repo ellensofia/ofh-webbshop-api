@@ -23,6 +23,7 @@ export function LoginForm() {
     validationSchema: LoginSchema,
     onSubmit: async (loginValues) => {
       const loggedinUser = await login(loginValues.email, loginValues.password);
+      console.log(loggedinUser);
       navigate("/");
     },
   });
