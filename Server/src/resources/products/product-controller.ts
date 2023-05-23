@@ -18,7 +18,6 @@ export async function getAllProductsFromCategory(req: Request, res: Response) {
 
 export async function getOneProduct(req: Request, res: Response) {
   const productId = req.params._id;
-  // Check if the provided postId is a valid ObjectId
   if (!mongoose.Types.ObjectId.isValid(productId)) {
     return res.status(400).json({ error: `Invalid post ID.` });
   }
