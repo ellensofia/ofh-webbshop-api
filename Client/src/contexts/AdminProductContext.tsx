@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState } from "react";
-// import { Product } from "../../data";
 
 interface Props {
   children: React.ReactNode;
@@ -7,7 +6,7 @@ interface Props {
 
 export interface Product {
   _id: string;
-  imageUrl: string;
+  imageId: string;
   title: string;
   brand?: string;
   description: string;
