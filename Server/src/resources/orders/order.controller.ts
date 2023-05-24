@@ -2,9 +2,7 @@ import { Request, Response } from "express";
 import { OrderModel } from "./order-model";
 
 export async function registerOrder(req: Request, res: Response) {
-  const newOrder = await OrderModel.create(req.body).catch((err) => {
-    return res.status(500).json(err.message);
-  });
+  const newOrder = await OrderModel.create(req.body);
   res.status(201).json(newOrder);
 }
 
