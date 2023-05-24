@@ -96,6 +96,7 @@ export default function CategorySection() {
               <Checkbox
                 checked={selectedCategories.some((selected) => selected._id === category._id)}
                 onChange={() => handleCategoryToggle(category._id)}
+                color="secondary"
               />
             </MenuItem>
           ))}
