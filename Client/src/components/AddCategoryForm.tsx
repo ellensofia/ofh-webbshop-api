@@ -11,11 +11,15 @@ const CategorySchema = Yup.object({
   name: Yup.string().required("Please enter the name for the category"),
 });
 
+type Category = {
+  _id: string;
+  name: string;
+};
 export type CategoryValues = Yup.InferType<typeof CategorySchema>;
 
 export default function AddCategoryForm() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<Category[]>([]);
 
   const fetchCategories = async () => {
     try {
@@ -81,11 +85,12 @@ export default function AddCategoryForm() {
       </Typography>
 
       <Box sx={{ display: "flex", gap: "1rem", marginBottom: "1rem", marginTop: "1rem" }}>
-        {categories.map((category) => (
-          <Typography variant="body1" key={category} sx={{ textDecoration: "underlined" }}>
-            {category}
-          </Typography>
-        ))}
+        {categories &&
+          categories.map((category) => (
+            <Typography variant="body1" key={category._id} sx={{ textDecoration: "underlined" }}>
+              {category.name}
+            </Typography>
+          ))}
       </Box>
       <Container
         sx={{
