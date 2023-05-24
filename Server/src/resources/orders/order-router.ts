@@ -5,8 +5,8 @@ import { getAllOrders, getOneOrder, getUserOrders, markAsShipped, registerOrder 
 
 export const orderRouter = express
   .Router()
-  .post("/api/orders/add", auth, registerOrder)
+  .post("/api/orders", auth, registerOrder)
   .get("/api/orders", auth, getAllOrders)
-  .put("/api/orders/:id", auth, authAdmin, markAsShipped)
   .get("/api/orders/:id", auth, getOneOrder)
-  .get("/api/orders/user/:id", auth, getUserOrders)
+  .put("/api/orders/:id", auth, authAdmin, markAsShipped)
+  .get("/api/orders/user/:id", auth, getUserOrders);

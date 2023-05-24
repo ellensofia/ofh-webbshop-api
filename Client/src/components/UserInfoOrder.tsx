@@ -2,6 +2,7 @@ import { Button, Typography, useMediaQuery } from "@mui/material";
 import { Container, useTheme } from "@mui/system";
 import { Link } from "react-router-dom";
 import { Order } from "../contexts/OrderContext";
+import { useUserContext } from "../contexts/UserContext";
 
 interface Props {
   order: Order;
@@ -11,6 +12,7 @@ interface Props {
  * Renders the information that the user puts into the DeliveryForm
  */
 function UserInfoOrder({ order }: Props) {
+  const { user } = useUserContext();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -23,9 +25,7 @@ function UserInfoOrder({ order }: Props) {
         flexDirection: "column",
       }}
     >
-      <Typography variant={isSmallScreen ? "h6" : "h5"}>
-        Thank you for your order!
-      </Typography>
+      <Typography variant={isSmallScreen ? "h6" : "h5"}>Thank you for your order!</Typography>
       <Container
         sx={{
           display: "flex",
@@ -34,10 +34,7 @@ function UserInfoOrder({ order }: Props) {
           marginTop: "1rem",
         }}
       >
-        <Typography textAlign={"center"}>
-          An order confirmation has been sent to:
-        </Typography>
-        <Typography>{order?.email}</Typography>
+        <Typography textAlign={"center"}>An order confirmation has been sent to {user?.email}</Typography>
       </Container>
       <Typography variant={isSmallScreen ? "h6" : "h5"} marginTop={"2rem"}>
         Your order details:
@@ -51,12 +48,12 @@ function UserInfoOrder({ order }: Props) {
           marginBottom: isSmallScreen ? "1rem" : "3rem",
         }}
       >
-        <Typography>{order?.name}</Typography>
-        <Typography>{order?.address}</Typography>
+        <Typography>{`${order?.address.firstName} ${order?.address.lastName}`}</Typography>
         <Typography>
-          {order?.postalcode} {order?.city}
+          {order?.address.postCode} {order?.address.city}
         </Typography>
-        <Typography>{order?.phonenumber}</Typography>
+        <Typography>{user?.email}</Typography>
+        <Typography>{order?.address.phoneNumber}</Typography>
       </Container>
       <Button component={Link} to={"/"} variant="contained">
         Continue to shop
