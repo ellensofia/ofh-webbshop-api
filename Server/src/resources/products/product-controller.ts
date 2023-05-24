@@ -39,6 +39,11 @@ export async function getOneProduct(req: Request, res: Response) {
 export async function editProduct(req: Request, res: Response) {
   return console.log("Update Product");
 }
+
 export async function deleteProduct(req: Request, res: Response) {
   return console.log("Delete Product");
+}
+
+export async function updateStockOnOrder(productId: string, quantity: number) {
+  await ProductModel.findByIdAndUpdate(productId, { $inc: { inStockAmount: -quantity } });
 }
