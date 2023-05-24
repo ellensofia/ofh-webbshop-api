@@ -1,16 +1,4 @@
-// import CloseIcon from "@mui/icons-material/Close";
-import {
-  Box,
-  Button,
-  Checkbox,
-  Container,
-  //   IconButton,
-  Menu,
-  MenuItem,
-  SxProps,
-  Theme,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Checkbox, Container, Menu, MenuItem, SxProps, Theme, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { theme } from "../theme/theme";
 import SelectedCategories from "./SelectedCategories";
@@ -22,7 +10,7 @@ export type Category = {
 export default function CategoryDropDown() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
 
   const fetchCategories = async () => {
     try {
@@ -44,10 +32,17 @@ export default function CategoryDropDown() {
 
   const handleCategoryToggle = (categoryId: string) => {
     setSelectedCategories((prevSelectedCategories) => {
-      if (prevSelectedCategories.includes(categoryId)) {
-        return prevSelectedCategories.filter((id) => id !== categoryId);
+      // Find the category object with the matching categoryId
+      const category = categories.find((category) => category._id === categoryId);
+      // If the category is not found, return the previous selectedCategories
+      if (!category) return prevSelectedCategories;
+      // Check if the category is already in the selectedCategories
+      if (prevSelectedCategories.some((selected) => selected._id === categoryId)) {
+        // If the category is already selected, remove it from the selectedCategories
+        return prevSelectedCategories.filter((selected) => selected._id !== categoryId);
       } else {
-        return [...prevSelectedCategories, categoryId];
+        // If the category is not selected, add it to the selectedCategories
+        return [...prevSelectedCategories, category];
       }
     });
   };
@@ -86,9 +81,6 @@ export default function CategoryDropDown() {
           },
         }}
       >
-        {/* <IconButton onClick={handleMenuClose} sx={{ position: "absolute", top: "-2rem", right: "0.2rem" }}>
-          <CloseIcon sx={{ justifySelf: "flex-end" }} />
-        </IconButton> */}
         <Box>
           {categories.map((category) => (
             <MenuItem
@@ -102,9 +94,9 @@ export default function CategoryDropDown() {
             >
               <Typography variant="body2">{category.name}</Typography>
               <Checkbox
-                checked={selectedCategories.includes(category._id)}
+                checked={selectedCategories.some((selected) => selected._id === category._id)}
                 onChange={() => handleCategoryToggle(category._id)}
-              />{" "}
+              />
             </MenuItem>
           ))}
         </Box>
