@@ -1,4 +1,4 @@
-import { Box, Button, Container, TextField, Link } from "@mui/material";
+import { Box, Button, Container, Link, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -23,7 +23,6 @@ export function LoginForm() {
     validationSchema: LoginSchema,
     onSubmit: async (loginValues) => {
       const loggedinUser = await login(loginValues.email, loginValues.password);
-      console.log(loggedinUser);
       navigate("/");
     },
   });

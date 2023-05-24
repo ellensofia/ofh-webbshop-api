@@ -62,8 +62,27 @@ export async function getAllUsers(req: Request, res: Response) {
 }
 
 export async function changeRole(req: Request, res: Response) {
-  return console.log("Update User");
+  const { username, email, isAdmin } = req.body;
+
+  const foundUser = await UserModel.findByIdAndUpdate(
+    req.params.id,
+    { username, email, isAdmin },
+    { new: true, select: "-password" },
+  );
+
+  if (!foundUser) {
+    res.status(404).json(`User ${req.params.id} was not found.`);
+    return;
+  }
+
+  return res.status(200).json({
+    username: foundUser.username,
+    email: foundUser.email,
+    isAdmin: foundUser.isAdmin,
+    _id: foundUser._id.toString(),
+  });
 }
+
 export async function getOneUser(req: Request, res: Response) {
   return console.log("Get User");
 }
@@ -101,12 +120,10 @@ export async function logoutUser(req: Request, res: Response) {
 }
 
 export async function checkUserInfo(req: Request, res: Response) {
-  const userData = {
-    username: req.session?.username,
-    email: req.session?.email,
-    password: req.session?.password,
-    _id: req.session?._id,
-  };
-
-  res.status(200).json(userData);
+  res.status(200).json({
+    _id: req.session!._id,
+    username: req.session!.username,
+    email: req.session!.email,
+    isAdmin: req.session!.isAdmin,
+  });
 }

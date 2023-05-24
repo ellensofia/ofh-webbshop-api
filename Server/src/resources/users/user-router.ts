@@ -15,8 +15,8 @@ export const userRouter = express
   .Router()
   .post("/api/users/register", registerUser)
   .get("/api/users", auth, authAdmin, getAllUsers)
-  .put("/api/users/:id", auth, authAdmin, changeRole)
-  .get("/api/users/:id", getOneUser)
   .post("/api/users/login", loginUser)
   .post("/api/users/logout", auth, logoutUser)
-  .get("/api/users/checkUserInfo", checkUserInfo);
+  .get("/api/users/checkUserInfo", auth, checkUserInfo)
+  .put("/api/users/:id", auth, authAdmin, changeRole)
+  .get("/api/users/:id", getOneUser);

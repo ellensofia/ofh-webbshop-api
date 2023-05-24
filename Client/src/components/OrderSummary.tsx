@@ -1,11 +1,4 @@
-import {
-  Box,
-  Container,
-  Divider,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Box, Container, Divider, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Order } from "../contexts/OrderContext";
 
 interface Props {
@@ -29,7 +22,7 @@ function OrderSummary({ order }: Props) {
         }}
       >
         <Typography sx={{ marginBottom: "0.5rem" }}>Total items: </Typography>
-        <Typography>{order.totalItems}</Typography>
+        <Typography>{order.orderItems.length}</Typography>
       </Box>
       <Box
         sx={{
@@ -39,7 +32,7 @@ function OrderSummary({ order }: Props) {
         }}
       >
         <Typography>Total price: </Typography>
-        <Typography data-cy="total-price">{order.totalPrice} SEK</Typography>
+        <Typography data-cy="total-price">{order.price} SEK</Typography>
       </Box>
       <Divider
         sx={{
