@@ -1,9 +1,21 @@
-import CloseIcon from "@mui/icons-material/Close";
-import { Button, Checkbox, Container, IconButton, Menu, MenuItem, SxProps, Theme, Typography } from "@mui/material";
+// import CloseIcon from "@mui/icons-material/Close";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Container,
+  //   IconButton,
+  Menu,
+  MenuItem,
+  SxProps,
+  Theme,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { theme } from "../theme/theme";
+import SelectedCategories from "./SelectedCategories";
 
-type Category = {
+export type Category = {
   _id: string;
   name: string;
 };
@@ -61,26 +73,50 @@ export default function CategoryDropDown() {
       >
         Categories
       </Button>
-      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose} sx={{}}>
-        <IconButton onClick={handleMenuClose}>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+        sx={{
+          "& .MuiPaper-root": {
+            top: "174px !important",
+          },
+          "& .MuiList-padding": {
+            padding: "0px !important",
+          },
+        }}
+      >
+        {/* <IconButton onClick={handleMenuClose} sx={{ position: "absolute", top: "-2rem", right: "0.2rem" }}>
           <CloseIcon sx={{ justifySelf: "flex-end" }} />
-        </IconButton>
-        {categories.map((category) => (
-          <MenuItem key={category._id} sx={{ minWidth: "8.4rem", display: "flex", justifyContent: "space-between" }}>
-            <Typography variant="body2">{category.name}</Typography>
-            <Checkbox
-              checked={selectedCategories.includes(category._id)}
-              onChange={() => handleCategoryToggle(category._id)}
-            />{" "}
-          </MenuItem>
-        ))}
+        </IconButton> */}
+        <Box>
+          {categories.map((category) => (
+            <MenuItem
+              key={category._id}
+              sx={{
+                minWidth: "8.4rem",
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "0 0.2rem 0 0.8rem",
+              }}
+            >
+              <Typography variant="body2">{category.name}</Typography>
+              <Checkbox
+                checked={selectedCategories.includes(category._id)}
+                onChange={() => handleCategoryToggle(category._id)}
+              />{" "}
+            </MenuItem>
+          ))}
+        </Box>
       </Menu>
+      <SelectedCategories categories={selectedCategories} />
     </Container>
   );
 }
 
 const rootStyle: SxProps<Theme> = {
   display: "flex",
-  justifyContent: "left",
+  alignItems: "flex-start",
+  justifyContent: "space-between",
   marginTop: "1.5rem",
 };
