@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material";
 import AddCategoryForm from "../components/AddCategoryForm";
 import HeaderMain from "../components/HeaderMain";
 import Footer from "../components/Footer";

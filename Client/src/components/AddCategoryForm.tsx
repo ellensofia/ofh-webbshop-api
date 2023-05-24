@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { theme } from "../theme/theme";
 import { CSSProperties } from "react";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 const CategorySchema = Yup.object({
   name: Yup.string().required("Please enter the name for the category"),
@@ -12,8 +13,27 @@ const CategorySchema = Yup.object({
 
 export type CategoryValues = Yup.InferType<typeof CategorySchema>;
 
-export default function AddCategory() {
+export default function AddCategoryForm() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const [categories, setCategories] = useState([]);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch("/api/categories");
+      const data = await response.json();
+      if (response.ok) {
+        setCategories(data);
+      } else {
+        console.error("Error fetching categories:", response.status);
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   const formik = useFormik<CategoryValues>({
     initialValues: {
@@ -22,7 +42,7 @@ export default function AddCategory() {
     validationSchema: CategorySchema,
     onSubmit: async (category) => {
       try {
-        const response = await fetch("/api/category/add", {
+        const response = await fetch("/api/categories/add", {
           method: "POST",
           body: JSON.stringify(category),
           headers: {
@@ -32,7 +52,8 @@ export default function AddCategory() {
         const newCategory = await response.json();
         if (response.ok) {
           console.log("Category added:", newCategory);
-          // Uppdatera listan över kategorier eller utför någon annan åtgärd
+          await fetchCategories();
+          formik.resetForm();
         } else {
           console.error("Error adding category:", response.status);
         }
@@ -41,8 +62,6 @@ export default function AddCategory() {
       }
     },
   });
-
-  const categories = ["decoration", "furniture", "paintings"];
 
   return (
     <Container maxWidth={isSmallScreen ? "sm" : "md"}>
