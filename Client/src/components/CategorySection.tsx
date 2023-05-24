@@ -1,7 +1,8 @@
 import { Box, Button, Checkbox, Container, Menu, MenuItem, SxProps, Theme, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import { useSelectedCategories } from "../contexts/SelectedCategoryContext";
 import { theme } from "../theme/theme";
-import SelectedCategories from "./SelectedCategories";
+import SelectedCategoriesList from "./SelectedCategoriesList";
 
 export type Category = {
   _id: string;
@@ -10,7 +11,7 @@ export type Category = {
 export default function CategorySection() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
+  const { selectedCategories, setSelectedCategories } = useSelectedCategories();
 
   const fetchCategories = async () => {
     try {
@@ -102,7 +103,7 @@ export default function CategorySection() {
           ))}
         </Box>
       </Menu>
-      <SelectedCategories categories={selectedCategories} />
+      <SelectedCategoriesList categories={selectedCategories} />
     </Container>
   );
 }
