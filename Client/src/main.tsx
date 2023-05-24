@@ -16,11 +16,13 @@ import CheckoutPage from "./pages/CheckoutPage";
 import ConstructionPage from "./pages/ConstructionPage";
 import EmptyBagPage from "./pages/EmptyBagPage";
 import { LoginPage } from "./pages/LoginPage";
+import { UsersPage } from "./pages/UsersPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import ProductPage from "./pages/ProductPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import StartPage from "./pages/StartPage";
 import { theme } from "./theme/theme";
+import { UserProvider } from "./contexts/UserContext";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -43,22 +45,25 @@ const router = createBrowserRouter(
       <Route path="emptybag" element={<EmptyBagPage />} />
       <Route path="login" element={<LoginPage />} />
       <Route path="register" element={<RegisterPage />} />
-    </Route>
-  )
+      <Route path="users" element={<UsersPage />} />
+    </Route>,
+  ),
 );
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ErrorBoundary>
       <ThemeProvider theme={theme}>
-        <ProductProvider>
-          <ShoppingCartProvider>
-            <OrderProvider>
-              <RouterProvider router={router} />
-            </OrderProvider>
-          </ShoppingCartProvider>
-        </ProductProvider>
+        <UserProvider>
+          <ProductProvider>
+            <ShoppingCartProvider>
+              <OrderProvider>
+                <RouterProvider router={router} />
+              </OrderProvider>
+            </ShoppingCartProvider>
+          </ProductProvider>
+        </UserProvider>
       </ThemeProvider>
     </ErrorBoundary>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
