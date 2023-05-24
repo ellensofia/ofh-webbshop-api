@@ -9,7 +9,6 @@ import PurchaseConfirmation from "./PurchaseConfirmation";
 const phoneRegExp = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
 
 const DeliverySchema = Yup.object({
-  email: Yup.string().email("Please enter an valid email address").required("Please enter an email address"),
   firstName: Yup.string().required("Please enter a name"),
   lastName: Yup.string().required("Please enter a name"),
   street: Yup.string().required("Please enter your address"),
@@ -31,7 +30,6 @@ function DeliveryForm() {
 
   const formik = useFormik<DeliveryValues>({
     initialValues: {
-      email: "",
       firstName: "",
       lastName: "",
       street: "",
@@ -82,19 +80,6 @@ function DeliveryForm() {
         }}
       >
         <form onSubmit={formik.handleSubmit} style={rootStyle} data-cy="customer-form">
-          <TextField
-            id="email"
-            name="email"
-            label="Email"
-            autoComplete="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={Boolean(formik.touched.email && formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-            inputProps={{ "data-cy": "customer-email" }}
-            FormHelperTextProps={{ "data-cy": "customer-email-error" } as any}
-          />
           <TextField
             id="first-name"
             name="firstName"

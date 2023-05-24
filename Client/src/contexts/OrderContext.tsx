@@ -34,7 +34,6 @@ interface NewOrderItem {
 }
 
 export interface Address {
-  email: string;
   firstName: string;
   lastName: string;
   street: string;

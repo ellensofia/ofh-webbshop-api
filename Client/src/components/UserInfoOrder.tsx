@@ -2,6 +2,7 @@ import { Button, Typography, useMediaQuery } from "@mui/material";
 import { Container, useTheme } from "@mui/system";
 import { Link } from "react-router-dom";
 import { Order } from "../contexts/OrderContext";
+import { useUserContext } from "../contexts/UserContext";
 
 interface Props {
   order: Order;
@@ -11,6 +12,7 @@ interface Props {
  * Renders the information that the user puts into the DeliveryForm
  */
 function UserInfoOrder({ order }: Props) {
+  const { user } = useUserContext();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -32,8 +34,7 @@ function UserInfoOrder({ order }: Props) {
           marginTop: "1rem",
         }}
       >
-        <Typography textAlign={"center"}>An order confirmation has been sent to:</Typography>
-        <Typography>{order?.address.email}</Typography>
+        <Typography textAlign={"center"}>An order confirmation has been sent to {user?.email}</Typography>
       </Container>
       <Typography variant={isSmallScreen ? "h6" : "h5"} marginTop={"2rem"}>
         Your order details:
@@ -48,10 +49,10 @@ function UserInfoOrder({ order }: Props) {
         }}
       >
         <Typography>{`${order?.address.firstName} ${order?.address.lastName}`}</Typography>
-        <Typography>{order?.address.email}</Typography>
         <Typography>
           {order?.address.postCode} {order?.address.city}
         </Typography>
+        <Typography>{user?.email}</Typography>
         <Typography>{order?.address.phoneNumber}</Typography>
       </Container>
       <Button component={Link} to={"/"} variant="contained">
