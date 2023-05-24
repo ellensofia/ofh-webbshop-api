@@ -50,7 +50,15 @@ export async function registerUser(req: Request, res: Response) {
 }
 
 export async function getAllUsers(req: Request, res: Response) {
-  return console.log("Get All Users");
+  const loggedInUser = req.session;
+  const user = await UserModel.findOne({ _id: loggedInUser?._id });
+
+  if (!user?.isAdmin) {
+    return;
+  }
+
+  const listOfUsers = await UserModel.find({}, { password: 0 });
+  res.status(200).json(listOfUsers);
 }
 
 export async function changeRole(req: Request, res: Response) {
