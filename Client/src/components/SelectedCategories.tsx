@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import { Category } from "./CategoryDropDown";
+import { Category } from "./CategorySection";
 
 type SelectedCategoriesProps = {
   categories: Category[];

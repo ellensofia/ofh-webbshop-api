@@ -7,7 +7,7 @@ export type Category = {
   _id: string;
   name: string;
 };
-export default function CategoryDropDown() {
+export default function CategorySection() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);

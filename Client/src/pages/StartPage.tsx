@@ -1,4 +1,4 @@
-import CategoryDropDown from "../components/CategoryDropDown";
+import CategorySection from "../components/CategorySection";
 import Footer from "../components/Footer";
 import HeaderMain from "../components/HeaderMain";
 import ProductGallery from "../components/ProductGallery";
@@ -10,7 +10,7 @@ function StartPage() {
         <HeaderMain />
       </header>
       <main>
-        <CategoryDropDown />
+        <CategorySection />
         <ProductGallery />
       </main>
       <footer>
