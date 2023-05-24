@@ -5,19 +5,17 @@ import HeaderMain from "../components/HeaderMain";
 import OrderConfirmation from "../components/OrderConfirmation";
 import OrderSummary from "../components/OrderSummary";
 import UserInfoOrder from "../components/UserInfoOrder";
-import { Order } from "../contexts/OrderContext";
+import { Order, useOrder } from "../contexts/OrderContext";
 
 function OrderConfirmationPage() {
   const [order, setOrder] = useState<Order | null>(null);
+  const { getOneOrder } = useOrder();
   const orderId = useParams<{ id: string }>().id;
 
   useEffect(() => {
-    fetch(`/api/orders/${orderId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setOrder(data);
-      });
-  }, [orderId]);
+    if (!orderId) return;
+    getOneOrder(orderId).then((order) => setOrder(order));
+  }, [orderId, getOneOrder]);
 
   if (!order) {
     return <p>Ingen order finns</p>;

@@ -1,7 +1,7 @@
-import { Check, RadioButtonUnchecked } from "@mui/icons-material";
-import { IconButton, TableCell, TableRow, Typography } from "@mui/material";
+import { RadioButtonUnchecked, TaskAlt } from "@mui/icons-material";
+import { IconButton, Link, SxProps, TableCell, TableRow, Typography } from "@mui/material";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Order } from "../../contexts/OrderContext";
 import { theme } from "../../theme/theme";
 
@@ -11,6 +11,7 @@ interface Props {
 
 function AdminOrderRow({ order }: Props) {
   const [isShipped, setIsShipped] = useState<boolean>(order.isShipped);
+  const navigate = useNavigate();
 
   const handleMarkShipped = async () => {
     setIsShipped(!isShipped);
@@ -22,33 +23,38 @@ function AdminOrderRow({ order }: Props) {
         <Typography variant="body2">{order._id}</Typography>
       </TableCell>
       <TableCell>
-        <Typography variant="body2">{order.createdAt}</Typography>
+        <Typography variant="body2">
+          {order.createdAt.replace("T", " ").slice(0, order.createdAt.length - 2)}
+        </Typography>
       </TableCell>
       <TableCell>
         <Typography variant="body2">
-          <IconButton
-            sx={{
-              bgcolor: theme.palette.primary.main,
-              color: "black",
-              fontSize: "1.8rem",
-              "&.Mui-disabled": {
-                color: "black",
-              },
-            }}
-            onClick={handleMarkShipped}
-            disabled={isShipped}
-          >
-            {isShipped ? <Check /> : <RadioButtonUnchecked />}
+          <IconButton sx={styledIconButton} onClick={handleMarkShipped} disabled={isShipped}>
+            {isShipped ? <TaskAlt /> : <RadioButtonUnchecked />}
           </IconButton>
         </Typography>
       </TableCell>
       <TableCell>
-        <Typography variant="body2">
-          <Link to={`/order/:${order._id}`}>Details</Link>
-        </Typography>
+        <Link
+          component={"button"}
+          color={"secondary"}
+          underline="hover"
+          onClick={() => navigate(`/order/${order._id}`)}
+        >
+          See details
+        </Link>
       </TableCell>
     </TableRow>
   );
 }
+
+const styledIconButton: SxProps = {
+  bgcolor: theme.palette.primary.main,
+  color: "black",
+  fontSize: "1.8rem",
+  "&.Mui-disabled": {
+    color: "black",
+  },
+};
 
 export default AdminOrderRow;

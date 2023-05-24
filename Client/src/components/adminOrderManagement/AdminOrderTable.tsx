@@ -1,4 +1,15 @@
-import { Box, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import {
+  Box,
+  Container,
+  Paper,
+  SxProps,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import { Order } from "../../contexts/OrderContext";
 import AdminOrderRow from "./AdminOrderRow";
 
@@ -24,10 +35,10 @@ function AdminOrderTable({ orders }: Props) {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell sx={{ fontSize: "1.5rem" }}>Order Id</TableCell>
-              <TableCell sx={{ fontSize: "1.5rem" }}>Date</TableCell>
-              <TableCell sx={{ fontSize: "1.5rem" }}>Order Shipped</TableCell>
-              <TableCell sx={{ fontSize: "1.5rem" }}>Details</TableCell>
+              <TableCell sx={styledTableCell}>Order Id</TableCell>
+              <TableCell sx={styledTableCell}>Registered</TableCell>
+              <TableCell sx={styledTableCell}>Order Shipped</TableCell>
+              <TableCell sx={styledTableCell}>Details</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -40,5 +51,9 @@ function AdminOrderTable({ orders }: Props) {
     </Container>
   );
 }
+
+const styledTableCell: SxProps = {
+  fontSize: "1.5rem",
+};
 
 export default AdminOrderTable;
