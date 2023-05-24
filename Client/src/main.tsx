@@ -8,22 +8,23 @@ import PageNotFound from "./components/PageNotFound";
 import ToastOutlet from "./components/ToastOutlet";
 import { ProductProvider } from "./contexts/AdminProductContext";
 import { OrderProvider } from "./contexts/OrderContext";
+import { SelectedCategoriesProvider } from "./contexts/SelectedCategoryContext";
 import { ShoppingCartProvider } from "./contexts/ShoppingCartContext";
+import { UserProvider } from "./contexts/UserContext";
 import "./index.css";
+import AdminCategoryPage from "./pages/AdminCategoryPage";
 import AdminPage from "./pages/AdminPage";
 import AdminProductFormPage from "./pages/AdminProductFormPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import ConstructionPage from "./pages/ConstructionPage";
 import EmptyBagPage from "./pages/EmptyBagPage";
 import { LoginPage } from "./pages/LoginPage";
-import { UsersPage } from "./pages/UsersPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import ProductPage from "./pages/ProductPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import StartPage from "./pages/StartPage";
+import { UsersPage } from "./pages/UsersPage";
 import { theme } from "./theme/theme";
-import { UserProvider } from "./contexts/UserContext";
-import AdminCategoryPage from "./pages/AdminCategoryPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -56,15 +57,17 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ErrorBoundary>
       <ThemeProvider theme={theme}>
-        <UserProvider>
-          <ProductProvider>
-            <ShoppingCartProvider>
-              <OrderProvider>
-                <RouterProvider router={router} />
-              </OrderProvider>
-            </ShoppingCartProvider>
-          </ProductProvider>
-        </UserProvider>
+        <SelectedCategoriesProvider>
+          <UserProvider>
+            <ProductProvider>
+              <ShoppingCartProvider>
+                <OrderProvider>
+                  <RouterProvider router={router} />
+                </OrderProvider>
+              </ShoppingCartProvider>
+            </ProductProvider>
+          </UserProvider>
+        </SelectedCategoriesProvider>
       </ThemeProvider>
     </ErrorBoundary>
   </React.StrictMode>,
