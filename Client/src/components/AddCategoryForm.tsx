@@ -1,11 +1,10 @@
 import { Button, Container, IconButton, TextField, Typography, useMediaQuery } from "@mui/material";
-import { useFormik } from "formik";
 import { Box } from "@mui/system";
+import { useFormik } from "formik";
+import { CSSProperties, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { theme } from "../theme/theme";
-import { CSSProperties } from "react";
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 
 const CategorySchema = Yup.object({
   name: Yup.string().required("Please enter the name for the category"),
@@ -111,7 +110,6 @@ export default function AddCategoryForm() {
             onBlur={formik.handleBlur}
             error={Boolean(formik.touched.name && formik.errors.name)}
             helperText={formik.touched.name && formik.errors.name}
-            inputProps={{ "data-cy": "category-name" }}
           />
           <Button type="submit" variant="contained">
             Add Category
