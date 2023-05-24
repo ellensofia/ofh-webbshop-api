@@ -62,8 +62,27 @@ export async function getAllUsers(req: Request, res: Response) {
 }
 
 export async function changeRole(req: Request, res: Response) {
-  return console.log("Update User");
+  const { username, email, isAdmin } = req.body;
+
+  const foundUser = await UserModel.findByIdAndUpdate(
+    req.params.id,
+    { username, email, isAdmin },
+    { new: true, select: "-password" },
+  );
+
+  if (!foundUser) {
+    res.status(404).json(`User ${req.params.id} was not found.`);
+    return;
+  }
+
+  return res.status(200).json({
+    username: foundUser.username,
+    email: foundUser.email,
+    isAdmin: foundUser.isAdmin,
+    _id: foundUser._id.toString(),
+  });
 }
+
 export async function getOneUser(req: Request, res: Response) {
   return console.log("Get User");
 }
