@@ -9,6 +9,7 @@ import ToastOutlet from "./components/ToastOutlet";
 import { ProductProvider } from "./contexts/AdminProductContext";
 import { OrderProvider } from "./contexts/OrderContext";
 import { ShoppingCartProvider } from "./contexts/ShoppingCartContext";
+import { UserProvider } from "./contexts/UserContext";
 import "./index.css";
 import AdminPage from "./pages/AdminPage";
 import AdminProductFormPage from "./pages/AdminProductFormPage";
@@ -16,13 +17,13 @@ import CheckoutPage from "./pages/CheckoutPage";
 import ConstructionPage from "./pages/ConstructionPage";
 import EmptyBagPage from "./pages/EmptyBagPage";
 import { LoginPage } from "./pages/LoginPage";
-import { UsersPage } from "./pages/UsersPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import ProductPage from "./pages/ProductPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import StartPage from "./pages/StartPage";
+import { UsersPage } from "./pages/UsersPage";
+import { MyOrdersPage } from "./pages/MyOrdersPage";
 import { theme } from "./theme/theme";
-import { UserProvider } from "./contexts/UserContext";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,6 +47,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<LoginPage />} />
       <Route path="register" element={<RegisterPage />} />
       <Route path="users" element={<UsersPage />} />
+      <Route path="myOrders" element={<MyOrdersPage />} />
     </Route>,
   ),
 );
