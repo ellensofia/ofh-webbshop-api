@@ -62,14 +62,6 @@ export async function getAllUsers(req: Request, res: Response) {
 }
 
 export async function changeRole(req: Request, res: Response) {
-  const loggedInUser = req.session;
-  const user = await UserModel.findOne({ _id: loggedInUser?._id });
-
-  if (!user?.isAdmin) {
-    res.status(403).json("Not authorized to change users role!");
-    return;
-  }
-
   const { username, email, isAdmin } = req.body;
 
   const foundUser = await UserModel.findByIdAndUpdate(
