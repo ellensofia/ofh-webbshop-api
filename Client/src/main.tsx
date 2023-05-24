@@ -21,6 +21,7 @@ import ProductPage from "./pages/ProductPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import StartPage from "./pages/StartPage";
 import { theme } from "./theme/theme";
+import { UserProvider } from "./contexts/UserContext";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -51,13 +52,15 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ErrorBoundary>
       <ThemeProvider theme={theme}>
-        <ProductProvider>
-          <ShoppingCartProvider>
-            <OrderProvider>
-              <RouterProvider router={router} />
-            </OrderProvider>
-          </ShoppingCartProvider>
-        </ProductProvider>
+        <UserProvider>
+          <ProductProvider>
+            <ShoppingCartProvider>
+              <OrderProvider>
+                <RouterProvider router={router} />
+              </OrderProvider>
+            </ShoppingCartProvider>
+          </ProductProvider>
+        </UserProvider>
       </ThemeProvider>
     </ErrorBoundary>
   </React.StrictMode>,

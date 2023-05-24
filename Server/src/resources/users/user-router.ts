@@ -1,7 +1,7 @@
 import express from "express";
 import { auth } from "../../middlewares/auth";
 import { authAdmin } from "../../middlewares/authAdmin";
-import { changeRole, getAllUsers, getOneUser, loginUser, logoutUser, registerUser } from "./user-controller";
+import { changeRole, checkUserInfo, getAllUsers, getOneUser, loginUser, logoutUser, registerUser } from "./user-controller";
 
 export const userRouter = express
   .Router()
@@ -11,3 +11,4 @@ export const userRouter = express
   .get("/api/users/:id", getOneUser)
   .post("/api/users/login", loginUser)
   .post("/api/users/logout", auth, logoutUser)
+  .get("/api/users/checkUserInfo", checkUserInfo);
