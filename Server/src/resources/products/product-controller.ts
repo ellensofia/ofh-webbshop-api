@@ -14,7 +14,7 @@ export async function registerProduct(req: Request, res: Response) {
 }
 
 export async function getAllProducts(req: Request, res: Response) {
-  const products = await ProductModel.find({ inStockAmount: { $gt: 0 } });
+  const products = await ProductModel.find({});
   res.status(200).json(products);
 }
 
