@@ -9,21 +9,22 @@ import ToastOutlet from "./components/ToastOutlet";
 import { ProductProvider } from "./contexts/AdminProductContext";
 import { OrderProvider } from "./contexts/OrderContext";
 import { ShoppingCartProvider } from "./contexts/ShoppingCartContext";
+import { UserProvider } from "./contexts/UserContext";
 import "./index.css";
+import AdminCategoryPage from "./pages/AdminCategoryPage";
+import AdminOrderPage from "./pages/AdminOrderPage";
 import AdminPage from "./pages/AdminPage";
 import AdminProductFormPage from "./pages/AdminProductFormPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import ConstructionPage from "./pages/ConstructionPage";
 import EmptyBagPage from "./pages/EmptyBagPage";
 import { LoginPage } from "./pages/LoginPage";
-import { UsersPage } from "./pages/UsersPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import ProductPage from "./pages/ProductPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import StartPage from "./pages/StartPage";
+import { UsersPage } from "./pages/UsersPage";
 import { theme } from "./theme/theme";
-import { UserProvider } from "./contexts/UserContext";
-import AdminCategoryPage from "./pages/AdminCategoryPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,6 +42,7 @@ const router = createBrowserRouter(
       <Route path="admin" element={<AdminPage />} />
       <Route path="admin/product/:id/" element={<AdminProductFormPage />} />
       <Route path="admin/category/new" element={<AdminCategoryPage />} />
+      <Route path="admin/orders" element={<AdminOrderPage />} />
       <Route path="*" element={<h3>404 Not Found</h3>} />
       <Route path="underconstruction" element={<ConstructionPage />} />
       <Route path="checkout" element={<CheckoutPage />} />

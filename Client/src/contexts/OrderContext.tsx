@@ -1,6 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { Product } from "./AdminProductContext";
 import { useShoppingCart } from "./ShoppingCartContext";
+import { useUserContext } from "./UserContext";
 
 interface Props {
   children: React.ReactNode;
@@ -8,11 +9,13 @@ interface Props {
 
 export interface Order {
   _id: string;
+  userId: string;
   orderItems: OrderItem[];
   address: Address;
   price: number;
-  createdAt: Date;
-  updatedAt: Date;
+  isShipped: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface OrderItem {
@@ -59,11 +62,13 @@ export const useOrder = () => useContext(OrderContext);
 // Component that provides the order context to its child components
 export const OrderProvider = ({ children }: Props) => {
   const { items, totalPrice, clearCart } = useShoppingCart();
+  const { user } = useUserContext();
 
   // Creates the order object based on the current shopping cart state and delivery address
   const createOrder = async (address: Address) => {
+    if (!user) throw new Error("User is not logged in");
     const newOrder: NewOrder = {
-      userId: "placeholderId", // TODO: Replace with actual user id
+      userId: user._id, // TODO: Replace with actual user id
       orderItems: items.map((item) => ({ product: item._id, quantity: item.quantity })),
       address,
       price: totalPrice,
