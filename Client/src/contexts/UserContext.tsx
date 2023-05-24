@@ -45,7 +45,6 @@ export const UserProvider = ({ children }: Props) => {
       const userResponse = await response.json();
       setUser(userResponse);
     };
-
     fetchUser();
   }, []);
 
