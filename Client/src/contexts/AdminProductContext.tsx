@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import { Category } from "../components/CategorySection";
 // import { Product } from "../../data";
 
 interface Props {
@@ -6,6 +7,7 @@ interface Props {
 }
 
 export interface Product {
+  categories: Category[];
   _id: string;
   imageUrl: string;
   title: string;
