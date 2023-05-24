@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { ProductModel } from "./product-model";
 import mongoose from "mongoose";
+import { ProductModel } from "./product-model";
 
 export async function registerProduct(req: Request, res: Response) {
   try {
@@ -16,7 +16,6 @@ export async function registerProduct(req: Request, res: Response) {
 export async function getAllProducts(req: Request, res: Response) {
   const products = await ProductModel.find({});
   res.status(200).json(products);
-  return console.log("Get All Products");
 }
 
 export async function getAllProductsFromCategory(req: Request, res: Response) {
