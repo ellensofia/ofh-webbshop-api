@@ -3,7 +3,6 @@ import { OrderModel } from "./order-model";
 
 export async function registerOrder(req: Request, res: Response) {
   const newOrder = await OrderModel.create(req.body).catch((err) => {
-    console.log(err);
     return res.status(500).json(err.message);
   });
   res.status(201).json(newOrder);
@@ -18,6 +17,7 @@ export async function markAsShipped(req: Request, res: Response) {
 }
 
 export async function getOneOrder(req: Request, res: Response) {
+  console.log("Get one order id: ", req.params.id);
   const order = await OrderModel.findById(req.params.id).populate("orderItems.product");
   order ? res.status(200).json(order) : res.status(404).json("Order not found");
 }

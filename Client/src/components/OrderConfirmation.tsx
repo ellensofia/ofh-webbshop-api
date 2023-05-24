@@ -9,8 +9,6 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { Product } from "../contexts/AdminProductContext";
 import { Order } from "../contexts/OrderContext";
 
 interface Props {
@@ -23,15 +21,6 @@ interface Props {
 function OrderConfirmation({ order }: Props) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const [products, setProducts] = useState<Product[]>([]);
-
-  useEffect(() => {
-    for (const orderItem of order.orderItems) {
-      fetch(`/api/products/${orderItem.productId}`)
-        .then((res) => res.json())
-        .then((data) => setProducts([...products, data]));
-    }
-  });
 
   return (
     <Container maxWidth={isSmallScreen ? "sm" : "md"}>
@@ -53,7 +42,7 @@ function OrderConfirmation({ order }: Props) {
       ></Divider>
       {order.orderItems.map((orderItem) => (
         <Card
-          key={CartItem._id}
+          key={orderItem._id}
           sx={{
             display: "flex",
             margin: "1rem",
@@ -63,7 +52,7 @@ function OrderConfirmation({ order }: Props) {
         >
           <CardMedia
             component="img"
-            image={CartItem.imageUrl}
+            image={orderItem.product.imageUrl}
             sx={{
               width: isSmallScreen ? "6rem" : "10rem",
             }}
@@ -91,9 +80,9 @@ function OrderConfirmation({ order }: Props) {
                   marginTop: isSmallScreen ? "0.2rem" : "2rem",
                 }}
               >
-                <Typography variant={isSmallScreen ? "body1" : "h6"}>{CartItem.title}</Typography>
+                <Typography variant={isSmallScreen ? "body1" : "h6"}>{orderItem.product.title}</Typography>
                 <Typography variant={isSmallScreen ? "body2" : "body1"}>
-                  {CartItem.price * CartItem.quantity} SEK
+                  {orderItem.product.price * orderItem.quantity} SEK
                 </Typography>
               </CardContent>
             </Container>
@@ -103,7 +92,7 @@ function OrderConfirmation({ order }: Props) {
                 marginLeft: "1rem",
               }}
             >
-              <Typography fontSize={"0.8rem"}>Quantity: {CartItem.quantity}</Typography>
+              <Typography fontSize={"0.8rem"}>Quantity: {orderItem.quantity}</Typography>
             </CardContent>
           </Container>
         </Card>

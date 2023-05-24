@@ -7,6 +7,7 @@ export const orderItemSchema = new Schema({
 export type OrderItem = InferSchemaType<typeof orderItemSchema>;
 
 export const AddressSchema = new Schema({
+  email: { type: String, required: true },
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   street: { type: String, required: true },

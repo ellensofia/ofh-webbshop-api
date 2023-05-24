@@ -1,4 +1,5 @@
 import React, { createContext, useContext } from "react";
+import { Product } from "./AdminProductContext";
 import { useShoppingCart } from "./ShoppingCartContext";
 
 interface Props {
@@ -16,7 +17,7 @@ export interface Order {
 
 interface OrderItem {
   _id: string;
-  productId: string;
+  product: Product;
   quantity: number;
 }
 
@@ -33,6 +34,7 @@ interface NewOrderItem {
 }
 
 export interface Address {
+  email: string;
   firstName: string;
   lastName: string;
   street: string;

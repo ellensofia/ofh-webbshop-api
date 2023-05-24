@@ -2,24 +2,24 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Footer from "../components/Footer";
 import HeaderMain from "../components/HeaderMain";
+import OrderConfirmation from "../components/OrderConfirmation";
+import OrderSummary from "../components/OrderSummary";
+import UserInfoOrder from "../components/UserInfoOrder";
 import { Order } from "../contexts/OrderContext";
 
 function OrderConfirmationPage() {
   const [order, setOrder] = useState<Order | null>(null);
-  const orderId = useParams<{ orderId: string }>().orderId;
+  const orderId = useParams<{ id: string }>().id;
 
   useEffect(() => {
     fetch(`/api/orders/${orderId}`)
       .then((res) => res.json())
       .then((data) => {
         setOrder(data);
-        console.log(data);
       });
-  });
+  }, [orderId]);
 
   if (!order) {
-    // visa alt ui eller gå till startsida
-    // return <Navigate to="/" />;
     return <p>Ingen order finns</p>;
   }
 
@@ -29,9 +29,9 @@ function OrderConfirmationPage() {
         <HeaderMain />
       </header>
       <main>
-        {/* <OrderConfirmation order={order} />
+        <OrderConfirmation order={order} />
         <OrderSummary order={order} />
-        <UserInfoOrder order={order} /> */}
+        <UserInfoOrder order={order} />
       </main>
       <footer>
         <Footer />

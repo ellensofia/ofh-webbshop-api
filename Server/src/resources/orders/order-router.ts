@@ -5,7 +5,7 @@ import { getAllOrders, getOneOrder, getUserOrders, markAsShipped, registerOrder 
 
 export const orderRouter = express
   .Router()
-  .post("/api/orders", registerOrder) // TODO: Add auth middleware
+  .post("/api/orders", auth, registerOrder)
   .get("/api/orders", auth, getAllOrders)
   .get("/api/orders/:id", auth, getOneOrder)
   .put("/api/orders/:id", auth, authAdmin, markAsShipped)
