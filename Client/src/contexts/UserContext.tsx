@@ -36,10 +36,6 @@ export const UserProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    console.log("User: ", user);
-  }, [user]);
-
-  useEffect(() => {
     const fetchUser = async () => {
       const response = await fetch(`/api/users/checkUserInfo`);
 
