@@ -102,7 +102,10 @@ export async function loginUser(req: Request, res: Response) {
     return;
   }
 
+  req.session!.username = user.username;
+  req.session!.email = user.email;
   req.session!._id = user._id;
+  req.session!.isAdmin = user.isAdmin;
 
   res.status(200).json({
     _id: user!._id,
@@ -117,13 +120,10 @@ export async function logoutUser(req: Request, res: Response) {
 }
 
 export async function checkUserInfo(req: Request, res: Response) {
-  const user = await UserModel.findOne({ _id: req.session?._id });
-  user
-    ? res.status(200).json({
-        username: user.username,
-        email: user.email,
-        isAdmin: user.isAdmin,
-        _id: req.session?._id,
-      })
-    : res.status(404).json("User not found");
+  res.status(200).json({
+    _id: req.session!._id,
+    username: req.session!.username,
+    email: req.session!.email,
+    isAdmin: req.session!.isAdmin,
+  });
 }
