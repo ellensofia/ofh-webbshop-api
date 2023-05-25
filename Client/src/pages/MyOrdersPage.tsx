@@ -1,17 +1,15 @@
-import CategorySection from "../components/CategorySection";
 import Footer from "../components/Footer";
 import HeaderMain from "../components/HeaderMain";
-import ProductGallery from "../components/ProductGallery";
+import { MyOrdersList } from "../components/MyOrdersList";
 
-function StartPage() {
+export function MyOrdersPage() {
   return (
     <div>
       <header>
         <HeaderMain />
       </header>
       <main>
-        <CategorySection />
-        <ProductGallery />
+        <MyOrdersList />
       </main>
       <footer>
         <Footer />
@@ -19,5 +17,3 @@ function StartPage() {
     </div>
   );
 }
-
-export default StartPage;

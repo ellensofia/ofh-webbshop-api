@@ -55,7 +55,7 @@ function ProductCard() {
               }}
             >
               <CardMedia>
-                <img src={product.imageUrl} alt={product.title} />
+                <img src={`/api/images/${product.imageId}`} alt={product.title} />
               </CardMedia>
               <CardContent sx={cardContentStyle}>
                 <Typography variant="overline" sx={{ marginBottom: "1rem" }}>
