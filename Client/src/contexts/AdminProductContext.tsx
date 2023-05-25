@@ -78,8 +78,10 @@ export const ProductProvider = ({ children }: Props) => {
   };
 
   const addProduct = (product: Product) => {
-    setProducts([...products, product]);
+    const productWithImage = { ...product, image: product.imageId };
+    setProducts([...products, productWithImage]);
   };
+  
 
   const editProduct = (editedProduct: Product) => {
     setProducts(products.map((product) => (product._id === editedProduct._id ? editedProduct : product)));
