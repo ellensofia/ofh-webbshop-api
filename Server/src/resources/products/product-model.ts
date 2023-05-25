@@ -9,7 +9,7 @@ export const productSchema = new Schema({
   inStockAmount: { type: Number, required: true },
   price: { type: Number, required: true },
   brand: { type: String, required: true },
-  isArchived: { type: Boolean, required: true },
+  isArchived: { type: Boolean },
 });
 
 export type Product = InferSchemaType<typeof productSchema>;

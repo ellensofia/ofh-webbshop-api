@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { Category } from "../components/CategorySection";
+import { Category } from "../contexts/CategoryContext";
 // import { Product } from "../../data";
 
 interface Props {

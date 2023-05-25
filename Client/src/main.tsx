@@ -7,8 +7,8 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import PageNotFound from "./components/PageNotFound";
 import ToastOutlet from "./components/ToastOutlet";
 import { ProductProvider } from "./contexts/AdminProductContext";
+import { CategoryProvider } from "./contexts/CategoryContext";
 import { OrderProvider } from "./contexts/OrderContext";
-import { SelectedCategoriesProvider } from "./contexts/SelectedCategoryContext";
 import { ShoppingCartProvider } from "./contexts/ShoppingCartContext";
 import { UserProvider } from "./contexts/UserContext";
 import "./index.css";
@@ -57,7 +57,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ErrorBoundary>
       <ThemeProvider theme={theme}>
-        <SelectedCategoriesProvider>
+        <CategoryProvider>
           <UserProvider>
             <ProductProvider>
               <ShoppingCartProvider>
@@ -67,7 +67,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
               </ShoppingCartProvider>
             </ProductProvider>
           </UserProvider>
-        </SelectedCategoriesProvider>
+        </CategoryProvider>
       </ThemeProvider>
     </ErrorBoundary>
   </React.StrictMode>,

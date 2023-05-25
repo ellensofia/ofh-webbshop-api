@@ -1,13 +1,12 @@
 import { Box, Typography } from "@mui/material";
-import { useSelectedCategories } from "../contexts/SelectedCategoryContext";
-import { Category } from "./CategorySection";
+import { Category, useCategoryContext } from "../contexts/CategoryContext";
 
 type SelectedCategoriesProps = {
   categories: Category[];
 };
 
 export default function SelectedCategoriesList({ categories }: SelectedCategoriesProps) {
-  const { setSelectedCategories } = useSelectedCategories();
+  const { setSelectedCategories } = useCategoryContext();
 
   const handleClearCategories = () => {
     setSelectedCategories([]);
