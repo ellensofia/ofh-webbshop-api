@@ -51,7 +51,7 @@ function ProductGallery() {
                   }}
                 >
                   <Item key={`${product._id}-${product.timestamp}`}>
-                    <img src={product.imageUrl} alt={product.title} />
+                    <img src={`/api/images/${product.imageId}`} alt={product.title} />
                     <CardContent sx={cardContentStyle}>
                       <Box>
                         <Typography variant="overline">{product.brand}</Typography>
