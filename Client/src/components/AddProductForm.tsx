@@ -14,6 +14,19 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useProduct } from "../contexts/AdminProductContext";
 
+const validateImage = (value: File | undefined) => {
+  if (!value) {
+    return "Please add product image";
+  }
+
+  const supportedTypes = ["image/jpeg", "image/png", "image/gif"];
+  if (!supportedTypes.includes(value.type)) {
+    return "Invalid file format";
+  }
+
+  return undefined; // Return undefined if the file is valid
+};
+
 const ProductSchema = Yup.object({
   title: Yup.string().required("Please enter the title for the product"),
   price: Yup.number()
@@ -22,7 +35,7 @@ const ProductSchema = Yup.object({
     .typeError("Price must be a number"),
   description: Yup.string().required("Please enter the description for the product"),
   brand: Yup.string(),
-  image: Yup.string().required("Please add product image"),
+  image: Yup.mixed().required(validateImage),
   id: Yup.string().required("Please enter the product id"),
   inStockAmount: Yup.number()
     .required("Please enter the amount in stock")
@@ -50,13 +63,20 @@ function AddProductForm() {
 
   const isEdit = Boolean(product);
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    console.log("Selected image file:", file);
+    formik.setFieldValue("image", file); // Set formik.values.image with the selected file
+    setSelectedImage(file || null);
+  };
+
   const formik = useFormik<ProductValues>({
     initialValues: {
       title: isEdit ? product?.title ?? "" : "",
       price: isEdit ? product?.price ?? 0 : 0,
       description: isEdit ? product?.description ?? "" : "",
       brand: isEdit ? product?.brand ?? "" : "",
-      image: isEdit ? product?.imageUrl ?? "" : "",
+      image: isEdit ? product?.imageId ?? "" : "",
       id: isEdit ? product?._id ?? `b${Math.floor(Math.random() * 10000)}` : `b${Math.floor(Math.random() * 10000)}`,
       inStockAmount: isEdit ? product?.inStockAmount ?? 1 : 1,
       isArchived: false,
@@ -64,6 +84,31 @@ function AddProductForm() {
     validationSchema: ProductSchema,
     onSubmit: async (product) => {
       try {
+        if (selectedImage) {
+          console.log("Selected Image:", selectedImage);
+    
+          const formData = new FormData();
+          formData.append("image", selectedImage);
+    
+          console.log("FormData:", formData);
+    
+          const imageResponse = await fetch("/api/images", {
+            method: "POST",
+            body: formData,
+          });
+    
+          console.log("Image Upload Response:", imageResponse);
+    
+          if (!imageResponse.ok) {
+            console.error("Error uploading image:", imageResponse.status);
+            return; // Stop the function execution if image upload fails
+          }
+    
+          const imageResult = await imageResponse.json();
+          console.log("Image uploaded:", imageResult);
+          // Handle image upload success
+        }
+    
         const response = await fetch("/api/products/add", {
           method: "POST",
           body: JSON.stringify(product),
@@ -71,13 +116,15 @@ function AddProductForm() {
             "Content-Type": "application/json",
           },
         });
-
+    
+        console.log("Product Add Response:", response);
+    
         const newProduct = await response.json();
         if (response.ok) {
           if (isEdit) {
             editProduct(newProduct);
           } else {
-            console.log("response.ok");
+            console.log("Adding new product");
             addProduct(newProduct);
           }
           navigate("/admin");
@@ -87,29 +134,8 @@ function AddProductForm() {
       } catch (error) {
         console.error("Error adding product:", error);
       }
-      if (selectedImage) {
-        const formData = new FormData();
-        formData.append("image", selectedImage);
-
-        try {
-          const imageResponse = await fetch("/api/images", {
-            method: "POST",
-            body: formData,
-          });
-
-          if (imageResponse.ok) {
-            const imageResult = await imageResponse.json();
-            console.log("imageResponse " + imageResponse);
-            console.log("imageResult " + imageResult);
-            // Handle image upload success
-          } else {
-            console.error("Error uploading image:", imageResponse.status);
-          }
-        } catch (error) {
-          console.error("Error uploading image:", error);
-        }
-      }
     },
+    
   });
 
   return (
@@ -203,15 +229,14 @@ function AddProductForm() {
               id="image"
               type="file"
               name="image"
-              value={formik.values.image}
-              onChange={formik.handleChange}
+              // value={formik.values.image}
+              onChange={handleImageChange}
               onBlur={formik.handleBlur}
               error={Boolean(formik.touched.image && formik.errors.image)}
-              helperText={formik.touched.image && formik.errors.image}
+              helperText={formik.touched.image && formik.errors.image ? formik.errors.image.toString() : ""}
               inputProps={{
                 "data-cy": "product-image",
                 accept: "image/*",
-                capture: "environment",
                 lang: "en",
               }}
               FormHelperTextProps={{ "data-cy": "product-image-error" } as any}
