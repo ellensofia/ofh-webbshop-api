@@ -8,7 +8,6 @@ type CategoryContextValue = {
   setSelectedCategories: React.Dispatch<React.SetStateAction<Category[]>>;
   setSelectedCategoriesAdd: React.Dispatch<React.SetStateAction<Category[]>>;
   addCategoryToDb: (category: Category) => Promise<void>;
-  fetchCategoriesFromDb: () => Promise<void>;
 };
 
 type CategoryProviderProps = {
@@ -20,16 +19,9 @@ export type Category = {
   name: string;
 };
 
-const CategoryContext = createContext<CategoryContextValue | undefined>(undefined);
+const CategoryContext = createContext<CategoryContextValue>({} as CategoryContextValue);
 
-export const useCategoryContext: () => CategoryContextValue = () => {
-  const context = useContext(CategoryContext);
-
-  if (!context) {
-    throw new Error("useCategoryContext must be used within CategoryProvider");
-  }
-  return context;
-};
+export const useCategoryContext = (): CategoryContextValue => useContext(CategoryContext);
 
 export const CategoryProvider: React.FC<CategoryProviderProps> = ({ children }) => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -85,7 +77,6 @@ export const CategoryProvider: React.FC<CategoryProviderProps> = ({ children }) 
         setSelectedCategoriesAdd,
         selectedCategoriesAdd,
         addCategoryToDb,
-        fetchCategoriesFromDb,
       }}
     >
       {children}

@@ -27,7 +27,7 @@ export default function AddCategoryDropDown() {
         multiple
         label="Categories"
         sx={{ flex: 1 }}
-        value={selectedCategoriesAdd.map((category) => category._id)} // Update the value prop to an array of selected category IDs
+        value={selectedCategoriesAdd.map((category) => category._id)}
         input={<OutlinedInput label="Tag" />}
         renderValue={(selected) => {
           if (selected.length === 0) {
