@@ -14,7 +14,7 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useProduct } from "../contexts/AdminProductContext";
-import { useSelectedCategories } from "../contexts/SelectedCategoryContext";
+import { useCategoryContext } from "../contexts/CategoryContext";
 import { useShoppingCart } from "../contexts/ShoppingCartContext";
 
 // import { createSlug } from "../slug/utils";
@@ -26,7 +26,7 @@ import { useShoppingCart } from "../contexts/ShoppingCartContext";
 function ProductGallery() {
   const { addItem } = useShoppingCart();
   const { products, getAllProducts } = useProduct();
-  const { selectedCategories } = useSelectedCategories();
+  const { selectedCategories } = useCategoryContext();
 
   const displayAllProducts = useCallback(() => {
     getAllProducts();
@@ -38,7 +38,9 @@ function ProductGallery() {
 
   const filteredProducts =
     selectedCategories.length > 0
-      ? products.filter((product) => selectedCategories.some((category) => product.categories.includes(category._id)))
+      ? products.filter((product) =>
+          selectedCategories.some((category) => product.categories.includes(category._id as any)),
+        )
       : products;
 
   return (

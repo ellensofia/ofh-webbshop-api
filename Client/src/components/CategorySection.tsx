@@ -1,31 +1,12 @@
 import { Box, Button, Checkbox, Container, Menu, MenuItem, SxProps, Theme, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useSelectedCategories } from "../contexts/SelectedCategoryContext";
+import { useState } from "react";
+import { useCategoryContext } from "../contexts/CategoryContext";
 import { theme } from "../theme/theme";
 import SelectedCategoriesList from "./SelectedCategoriesList";
 
-export type Category = {
-  _id: string;
-  name: string;
-};
 export default function CategorySection() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [categories, setCategories] = useState<Category[]>([]);
-  const { selectedCategories, setSelectedCategories } = useSelectedCategories();
-
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch("/api/categories");
-      const data = await response.json();
-      if (response.ok) {
-        setCategories(data);
-      } else {
-        console.error("Error fetching categories:", response.status);
-      }
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
-  };
+  const { categories, selectedCategories, setSelectedCategories } = useCategoryContext();
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -47,10 +28,6 @@ export default function CategorySection() {
       }
     });
   };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
 
   const handleMenuClose = () => {
     setAnchorEl(null);
