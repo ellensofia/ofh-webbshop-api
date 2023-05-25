@@ -25,23 +25,7 @@ export async function getOneOrder(req: Request, res: Response) {
 }
 
 export async function getUserOrders(req: Request, res: Response) {
-  const user = await UserModel.findOne({ _id: req.session?._id})
-  const orders = await OrderModel.findById({ userId: user?._id})
+  const userOrders = await OrderModel.find({ userId: req.params._id})
 
-  res.status(200).json({
-    _id: orders?._id,
-    orderItems: orders?.orderItems,
-    adress: {
-      firstName: orders?.address.firstName,
-      lastName: orders?.address.lastName,
-      street: orders?.address.street,
-      city: orders?.address.city,
-      postCode: orders?.address.postCode,
-      phoneNumber: orders?.address.phoneNumber,
-    },
-    price: orders?.price,
-    isShipped: orders?.isShipped,
-    createdAt: orders?.createdAt,
-    updatedAt: orders?.updatedAt
-  })
+  userOrders ? res.status(200).json(userOrders) : res.status(404).json("Order not found");
 }

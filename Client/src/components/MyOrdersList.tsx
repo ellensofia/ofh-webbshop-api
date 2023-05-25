@@ -1,16 +1,17 @@
 import { Box, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useState, useEffect } from "react";
+import { useUserContext } from "../contexts/UserContext";
 
 export function MyOrdersList() {
   const [orders, setOrders] = useState([]);
+  const { user } = useUserContext();
 
   const getUserOrders = async () => {
-    const response = await fetch(`/api/orders/user/:id`);
+    const response = await fetch(`/api/orders/user/${user?._id}`);
     const data = await response.json();
 
     if (response.ok) {
       setOrders(data);
-      console.log(data);
     }
   };
 
