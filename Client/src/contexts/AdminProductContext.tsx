@@ -15,6 +15,7 @@ export type Product = {
   _id: string,
   inStockAmount: number,
   isArchived: boolean,
+  timestamp: string;
 }
 
 export type NewProduct = {
