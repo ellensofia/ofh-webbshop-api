@@ -3,8 +3,10 @@ import { createContext, useContext, useEffect, useState } from "react";
 type CategoryContextValue = {
   categories: Category[];
   selectedCategories: Category[];
+  selectedCategoriesAdd: Category[];
   setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
   setSelectedCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+  setSelectedCategoriesAdd: React.Dispatch<React.SetStateAction<Category[]>>;
   addCategoryToDb: (category: Category) => Promise<void>;
   fetchCategoriesFromDb: () => Promise<void>;
 };
@@ -32,6 +34,7 @@ export const useCategoryContext: () => CategoryContextValue = () => {
 export const CategoryProvider: React.FC<CategoryProviderProps> = ({ children }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
+  const [selectedCategoriesAdd, setSelectedCategoriesAdd] = useState<Category[]>([]);
 
   const addCategoryToDb = async (category: Category) => {
     try {
@@ -79,6 +82,8 @@ export const CategoryProvider: React.FC<CategoryProviderProps> = ({ children }) 
         selectedCategories,
         setCategories,
         setSelectedCategories,
+        setSelectedCategoriesAdd,
+        selectedCategoriesAdd,
         addCategoryToDb,
         fetchCategoriesFromDb,
       }}
