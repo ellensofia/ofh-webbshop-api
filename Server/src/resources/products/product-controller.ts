@@ -68,7 +68,7 @@ export async function deleteProduct(req: Request, res: Response) {
     return res.status(404).json(`/${productId} not found.`);
   }
 
-  // Delete the post
+  // Delete the product
   await ProductModel.findByIdAndDelete(productId);
   res.status(204).json({ message: "Product deleted successfully" });
 }
