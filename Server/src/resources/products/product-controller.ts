@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import { ProductModel } from "./product-model";
+import productUpdateValidationSchema from "./product-update-validation";
 
 export async function registerProduct(req: Request, res: Response) {
   try {
@@ -37,7 +38,24 @@ export async function getOneProduct(req: Request, res: Response) {
 }
 
 export async function editProduct(req: Request, res: Response) {
-  return console.log("Update Product");
+  const productId = req.params.id;
+
+  const product = await ProductModel.findById(productId);
+
+  if (!product) {
+    return res.status(404).json(`Product with ID ${productId} not found`);
+  }
+
+  // Validate request body with Yup
+   await productUpdateValidationSchema.validate(req.body, {
+    abortEarly: false,
+  });
+
+  const updatedProduct = await ProductModel.findByIdAndUpdate(productId, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  res.status(200).json(updatedProduct);
 }
 
 export async function deleteProduct(req: Request, res: Response) {
