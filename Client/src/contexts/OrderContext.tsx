@@ -50,7 +50,9 @@ export interface Address {
 
 type OrderContextType = {
   createOrder: (addres: Address) => Promise<string>;
+  getAllOrders: () => Promise<Order[]>;
   getOneOrder: (orderId: string) => Promise<Order>;
+  markShipped: (orderId: string) => Promise<Order>;
 };
 
 // Context object with an initial value of null for the order
@@ -64,15 +66,21 @@ export const OrderProvider = ({ children }: Props) => {
   const { items, totalPrice, clearCart } = useShoppingCart();
   const { user } = useUserContext();
 
-  const ordersCall = async (method: string, body: string, subRoute?: string) => {
-    const response = await fetch(`/api/orders/${subRoute ? subRoute : ""}`, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body,
-    }).then((res) => res.json());
-    return response;
+  // Handles all API calls related to orders
+  const ordersCall = async (method?: string, subRoute?: string, body?: string) => {
+    try {
+      const response = await fetch(`/api/orders/${subRoute ? subRoute : ""}`, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body,
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Creates the order object based on the current shopping cart state and delivery address
@@ -91,22 +99,34 @@ export const OrderProvider = ({ children }: Props) => {
       price: totalPrice,
     };
 
-    const orderId = await ordersCall("POST", JSON.stringify(newOrder)).then((data) => data._id);
+    const orderId = await ordersCall("POST", undefined, JSON.stringify(newOrder)).then((data) => data._id);
 
     clearCart();
 
     return orderId;
   };
 
+  const getAllOrders = async () => {
+    const orders = await ordersCall();
+    return orders;
+  };
+
   const getOneOrder = async (orderId: string) => {
-    const order = await fetch(`/api/orders/${orderId}`).then((res) => res.json());
+    const order = await ordersCall("GET", orderId);
+    return order;
+  };
+
+  const markShipped = async (orderId: string) => {
+    const order = await ordersCall("PUT", orderId);
     return order;
   };
 
   // Create an object with all necessary properties and methods for the OrderContext
   const orderContext: OrderContextType = {
     createOrder,
+    getAllOrders,
     getOneOrder,
+    markShipped,
   };
 
   // Renders the child components wrapped inside the OrderContext.Provider
