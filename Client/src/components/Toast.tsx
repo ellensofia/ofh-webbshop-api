@@ -49,7 +49,7 @@ function Toast({
             }}
           >
             <img
-              src={lastAddedItem?.imageUrl}
+              src={`/api/images/${lastAddedItem?.imageId}`}
               alt={lastAddedItem?.title}
               style={{
                 width: "5rem",

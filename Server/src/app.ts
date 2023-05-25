@@ -25,6 +25,8 @@ app.use(categoryRouter);
 app.use(imageRouter);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  res.sendStatus(500);
-  console.error(err);
-});
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+    next(err); // Pass the error to the next error handler
+  });
+ 

@@ -52,7 +52,7 @@ function OrderConfirmation({ order }: Props) {
         >
           <CardMedia
             component="img"
-            image={orderItem.product.imageUrl}
+            image={`/api/images/${orderItem.product.imageId}`}
             sx={{
               width: isSmallScreen ? "6rem" : "10rem",
             }}

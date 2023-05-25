@@ -7,6 +7,6 @@ import { deleteImage, getImage, uploadImage } from "./image-controller";
 // TODO: Reinstate auth and authAdmin (or just authAdmin?)
 export const imageRouter = express
   .Router()
-  .post("/api/images/", uploadImage)
+  .post("/api/images", uploadImage)
   .get("/api/images/:id", getImage)
   .delete("/api/images/:id", deleteImage)
