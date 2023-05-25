@@ -14,18 +14,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useProduct } from "../contexts/AdminProductContext";
 
-// const validateImage = (value: File | undefined) => {
-//   if (!value) {
-//     return "Please add product image";
-//   }
-
-//   const supportedTypes = ["image/jpeg", "image/png", "image/gif"];
-//   if (!supportedTypes.includes(value.type)) {
-//     return "Invalid file format";
-//   }
-
-//   return undefined; // Return undefined if the file is valid
-// };
 
 const ProductSchema = Yup.object({
   title: Yup.string().required("Please enter the title for the product"),
