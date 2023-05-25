@@ -3,9 +3,9 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../contexts/UserContext";
 import { useCheckIsLoggedIn } from "../hooks/checkedLoggedin";
 import { iconStyle } from "./HeaderIcons";
-import { useUserContext } from "../contexts/UserContext";
 
 export default function UserButton() {
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ export default function UserButton() {
             {user?.isAdmin === true && (
               <div>
                 <MenuItem onClick={() => navigate("/users")}>Users</MenuItem>
-                <MenuItem onClick={() => navigate("/orders")}>Orders</MenuItem>
+                <MenuItem onClick={() => navigate("/admin/orders")}>Orders</MenuItem>
                 <MenuItem onClick={() => navigate("/admin")}>Products</MenuItem>
               </div>
             )}
