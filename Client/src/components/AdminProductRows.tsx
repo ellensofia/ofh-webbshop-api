@@ -28,7 +28,7 @@ function AdminProductRows(props: Props) {
         <TableCell component="th" scope="row" align="center">
           <Box
             component="img"
-            src={props.product.imageUrl}
+            src={props.product.imageId}
             alt={props.product.title}
             sx={{ width: { xs: "4rem", sm: "10rem" } }}
           ></Box>
