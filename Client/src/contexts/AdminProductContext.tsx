@@ -117,10 +117,32 @@ export const ProductProvider = ({ children }: Props) => {
     setProducts(products.map((product) => (product._id === editedProduct._id ? editedProduct : product)));
   };
 
-  const removeProduct = (product: Product) => {
-    setProducts(products.filter((p) => p._id !== product._id));
-  };
+  const removeProduct = async (product: Product) => {
+    try {
+      setProducts(products.filter((p) => p._id !== product._id));
 
+      const imageResponse = await fetch(`/api/images/${product.imageId}`, {
+        method: "DELETE",
+      });
+  
+      if (!imageResponse.ok) {
+        throw new Error("Failed to delete image");
+      }
+  
+      const productResponse = await fetch(`/api/products/${product._id}`, {
+        method: "DELETE",
+      });
+
+      if (!productResponse.ok) {
+        throw new Error("Failed to delete product");
+      }
+  
+      console.log("Product and image deleted successfully");
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+  
   const productContext: ProductContextType = {
     products,
     getAllProducts,
