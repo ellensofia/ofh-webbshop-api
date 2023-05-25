@@ -41,7 +41,18 @@ export async function editProduct(req: Request, res: Response) {
 }
 
 export async function deleteProduct(req: Request, res: Response) {
-  return console.log("Delete Product");
+  const productId = req.params.id;
+
+  // Check if the product exists
+  const existingProduct = await ProductModel.findById(productId);
+
+  if (!existingProduct) {
+    return res.status(404).json(`/${productId} not found.`);
+  }
+
+  // Delete the product
+  await ProductModel.findByIdAndDelete(productId);
+  res.status(204).json({ message: "Product deleted successfully" });
 }
 
 export async function updateStockOnOrder(productId: string, quantity: number) {
