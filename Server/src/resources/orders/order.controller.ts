@@ -16,7 +16,8 @@ export async function getAllOrders(req: Request, res: Response) {
 }
 
 export async function markAsShipped(req: Request, res: Response) {
-  return console.log("Update Order");
+  const updatedOrder = await OrderModel.findByIdAndUpdate(req.params.id, { isShipped: true }, { new: true });
+  updatedOrder ? res.status(200).json(updatedOrder) : res.status(404).json("Order not found");
 }
 
 export async function getOneOrder(req: Request, res: Response) {
@@ -25,5 +26,7 @@ export async function getOneOrder(req: Request, res: Response) {
 }
 
 export async function getUserOrders(req: Request, res: Response) {
-  return console.log("Get User Orders");
+  const userOrders = await OrderModel.find({ userId: req.params.id });
+  userOrders ? res.status(200).json(userOrders) : res.status(404).json("Order not found");
+  return console.log(userOrders);
 }

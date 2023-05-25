@@ -10,14 +10,26 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { Order } from "../../contexts/OrderContext";
+import { useEffect, useState } from "react";
+import { Order, useOrder } from "../../contexts/OrderContext";
 import AdminOrderRow from "./AdminOrderRow";
 
-interface Props {
-  orders: Order[];
-}
+function AdminOrderTable() {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const { getAllOrders, markShipped } = useOrder();
 
-function AdminOrderTable({ orders }: Props) {
+  useEffect(() => {
+    const fetchOrders = async () => {
+      return await getAllOrders().then((orders) => setOrders(orders));
+    };
+    fetchOrders();
+  });
+
+  const handleMarkShipped = async (orderId: string) => {
+    const updatedOrder = await markShipped(orderId);
+    setOrders((prevOrders) => prevOrders.map((order) => (order._id === updatedOrder._id ? updatedOrder : order)));
+  };
+
   return (
     <Container maxWidth="md">
       <Box
@@ -43,7 +55,7 @@ function AdminOrderTable({ orders }: Props) {
           </TableHead>
           <TableBody>
             {orders.map((order) => (
-              <AdminOrderRow key={order._id} order={order} />
+              <AdminOrderRow key={order._id} order={order} handleMarkShipped={handleMarkShipped} />
             ))}
           </TableBody>
         </Table>
