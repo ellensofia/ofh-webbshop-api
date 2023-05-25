@@ -9,11 +9,10 @@ import {
   useTheme,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { CSSProperties, useState } from "react";
+import { CSSProperties } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useProduct } from "../contexts/AdminProductContext";
-
 
 const ProductSchema = Yup.object({
   title: Yup.string().required("Please enter the title for the product"),
@@ -24,7 +23,6 @@ const ProductSchema = Yup.object({
   description: Yup.string().required("Please enter the description for the product"),
   brand: Yup.string(),
   imageId: Yup.string().required("Please add product image"),
-  // _id: Yup.string().required("Please enter the product id"),
   inStockAmount: Yup.number()
     .required("Please enter the amount in stock")
     .min(1, "Amount in stock must be at least 1")
@@ -81,7 +79,6 @@ function AddProductForm() {
       description: isEdit ? product?.description ?? "" : "",
       brand: isEdit ? product?.brand ?? "" : "",
       imageId: isEdit ? product?.imageId ?? "" : "",
-      // _id: isEdit ? product?._id ?? `b${Math.floor(Math.random() * 10000)}` : "",
       inStockAmount: isEdit ? product?.inStockAmount ?? 1 : 1,
       isArchived: false,
     },

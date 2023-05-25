@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState } from "react";
-import { ProductValues } from "../components/AddProductForm";
 
 interface Props {
   children: React.ReactNode;
@@ -7,26 +6,26 @@ interface Props {
 
 // export type Product = ProductValues;
 export type Product = {
-  title: string,
-  price: number,
-  description: string,
-  brand?: string,
-  imageId: string,
-  _id: string,
-  inStockAmount: number,
-  isArchived: boolean,
+  title: string;
+  price: number;
+  description: string;
+  brand?: string;
+  imageId: string;
+  _id: string;
+  inStockAmount: number;
+  isArchived: boolean;
   timestamp: string;
-}
+};
 
 export type NewProduct = {
-  title: string,
-  price: number,
-  description: string,
-  brand?: string,
-  imageId: string,
-  inStockAmount: number,
-  isArchived: boolean,
-}
+  title: string;
+  price: number;
+  description: string;
+  brand?: string;
+  imageId: string;
+  inStockAmount: number;
+  isArchived: boolean;
+};
 
 export interface CartItem extends Product {
   quantity: number;
