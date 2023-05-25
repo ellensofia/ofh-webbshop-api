@@ -22,8 +22,7 @@ const ProductSchema = Yup.object({
     .typeError("Price must be a number"),
   description: Yup.string().required("Please enter the description for the product"),
   brand: Yup.string(),
-  image: Yup.string().required("Please add product image"),
-  id: Yup.string().required("Please enter the product id"),
+  imageId: Yup.string().required("Please add product image"),
   inStockAmount: Yup.number()
     .required("Please enter the amount in stock")
     .min(1, "Amount in stock must be at least 1")
@@ -49,41 +48,53 @@ function AddProductForm() {
 
   const isEdit = Boolean(product);
 
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const imageResponse = await fetch("/api/images", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!imageResponse.ok) {
+      formik.setFieldError("imageId", "Error uploading image, please try again or with antoher image.");
+      return; // Stop the function execution if image upload fails
+    }
+
+    const imageId = await imageResponse.json();
+    // Handle image upload success
+
+    console.log("Uploaded image id:", imageId);
+    formik.setFieldValue("imageId", imageId); // Set formik.values.image with the selected file
+  };
+
   const formik = useFormik<ProductValues>({
     initialValues: {
       title: isEdit ? product?.title ?? "" : "",
       price: isEdit ? product?.price ?? 0 : 0,
       description: isEdit ? product?.description ?? "" : "",
       brand: isEdit ? product?.brand ?? "" : "",
-      image: isEdit ? product?.imageUrl ?? "" : "",
-      id: isEdit ? product?._id ?? `b${Math.floor(Math.random() * 10000)}` : `b${Math.floor(Math.random() * 10000)}`,
+      imageId: isEdit ? product?.imageId ?? "" : "",
       inStockAmount: isEdit ? product?.inStockAmount ?? 1 : 1,
       isArchived: false,
     },
     validationSchema: ProductSchema,
     onSubmit: async (product) => {
+      console.log(product);
       try {
-        const response = await fetch("/api/products/add", {
-          method: "POST",
-          body: JSON.stringify(product),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        const newProduct = await response.json();
-        if (response.ok) {
-          if (isEdit) {
-            editProduct(newProduct);
-          } else {
-            addProduct(newProduct);
-          }
-          navigate("/admin");
+        if (isEdit) {
+          // await editProduct(product);
         } else {
-          console.error("Error adding product:", response.status);
+          console.log("Adding new product");
+          await addProduct(product);
         }
+        navigate("/admin");
       } catch (error) {
-        console.error("Error adding product:", error);
+        // Visa felmeddelande för användaren.
       }
     },
   });
@@ -178,16 +189,13 @@ function AddProductForm() {
             <TextField
               id="image"
               type="file"
-              name="image"
-              value={formik.values.image}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              error={Boolean(formik.touched.image && formik.errors.image)}
-              helperText={formik.touched.image && formik.errors.image}
+              name="imageId"
+              onChange={handleImageChange}
+              error={Boolean(formik.touched.imageId && formik.errors.imageId)}
+              helperText={formik.touched.imageId && formik.errors.imageId}
               inputProps={{
                 "data-cy": "product-image",
                 accept: "image/*",
-                capture: "environment",
                 lang: "en",
               }}
               FormHelperTextProps={{ "data-cy": "product-image-error" } as any}
