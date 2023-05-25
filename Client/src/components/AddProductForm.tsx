@@ -87,7 +87,7 @@ function AddProductForm() {
       console.log(product);
       try {
         if (isEdit) {
-          // await editProduct(product);
+          await editProduct(product);
         } else {
           console.log("Adding new product");
           await addProduct(product);
