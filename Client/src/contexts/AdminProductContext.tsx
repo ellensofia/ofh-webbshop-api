@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
+import { Category } from "../contexts/CategoryContext";
+// import { Product } from "../../data";
 
 interface Props {
   children: React.ReactNode;
@@ -6,6 +8,7 @@ interface Props {
 
 // export type Product = ProductValues;
 export type Product = {
+  categories: Category[];
   title: string;
   price: number;
   description: string;

@@ -14,7 +14,9 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useProduct } from "../contexts/AdminProductContext";
+import { useCategoryContext } from "../contexts/CategoryContext";
 import { useShoppingCart } from "../contexts/ShoppingCartContext";
+
 // import { createSlug } from "../slug/utils";
 
 /**
@@ -24,6 +26,7 @@ import { useShoppingCart } from "../contexts/ShoppingCartContext";
 function ProductGallery() {
   const { addItem } = useShoppingCart();
   const { products, getAllProducts } = useProduct();
+  const { selectedCategories } = useCategoryContext();
 
   const displayAllProducts = useCallback(() => {
     getAllProducts();
@@ -33,18 +36,23 @@ function ProductGallery() {
     displayAllProducts();
   }, [displayAllProducts]);
 
+  const filteredProducts =
+    selectedCategories.length > 0
+      ? products.filter((product) =>
+          selectedCategories.some((category) => product.categories.includes(category._id as any)),
+        )
+      : products;
+
   return (
     // Maps over the products and returns TSX for each product item
     <Container maxWidth="xl" sx={rootStyle}>
       <Box sx={{ width: "100%" }}>
         <Grid container rowSpacing={2} columnSpacing={2}>
-          {products.map((product) => {
-            // const slug = createSlug(product.title);
+          {filteredProducts.map((product) => {
             // Renders the overall structure of the ProductGallery component
             return (
               <Grid key={product._id} xs={12} sm={6} md={4} data-cy="product">
                 <StyledLink
-                  // to={`/product/${product._id}/${slug}`}
                   to={`/product/${product._id}`}
                   onClick={() => {
                     window.scroll(0, 0);
