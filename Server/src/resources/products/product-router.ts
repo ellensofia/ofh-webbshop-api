@@ -18,4 +18,4 @@ export const productRouter = express
   .get("/api/products/category/:id", getAllProductsFromCategory)
   .get("/api/products/:id", getOneProduct)
   .put("/api/products/:id", auth, authAdmin, editProduct)
-  .delete("/api/products/:id", auth, deleteProduct);
+  .delete("/api/products/:id", auth, authAdmin, deleteProduct);
