@@ -1,21 +1,16 @@
 import { RadioButtonUnchecked, TaskAlt } from "@mui/icons-material";
 import { IconButton, Link, SxProps, TableCell, TableRow, Typography } from "@mui/material";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Order } from "../../contexts/OrderContext";
 import { theme } from "../../theme/theme";
 
 interface Props {
   order: Order;
+  handleMarkShipped: (orderId: string) => void;
 }
 
-function AdminOrderRow({ order }: Props) {
-  const [isShipped, setIsShipped] = useState<boolean>(order.isShipped);
+function AdminOrderRow({ order, handleMarkShipped }: Props) {
   const navigate = useNavigate();
-
-  const handleMarkShipped = async () => {
-    setIsShipped(!isShipped);
-  };
 
   return (
     <TableRow>
@@ -29,8 +24,14 @@ function AdminOrderRow({ order }: Props) {
       </TableCell>
       <TableCell>
         <Typography variant="body2">
-          <IconButton sx={styledIconButton} onClick={handleMarkShipped} disabled={isShipped}>
-            {isShipped ? <TaskAlt /> : <RadioButtonUnchecked />}
+          <IconButton
+            sx={styledIconButton}
+            onClick={() => {
+              handleMarkShipped(order._id);
+            }}
+            disabled={order.isShipped}
+          >
+            {order.isShipped ? <TaskAlt /> : <RadioButtonUnchecked />}
           </IconButton>
         </Typography>
       </TableCell>
