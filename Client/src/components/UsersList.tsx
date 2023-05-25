@@ -66,6 +66,7 @@ export function UsersList() {
                   email: user.email,
                   isAdmin: user.isAdmin,
                 }}
+                getAllUsers={getAllUsers}
               />
             ))}
           </TableBody>

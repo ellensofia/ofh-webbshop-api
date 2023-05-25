@@ -28,7 +28,6 @@ function AdminTable() {
   useEffect(() => {
     displayAllProducts();
   }, [displayAllProducts]);
-  
 
   return (
     <Container maxWidth="md">
@@ -42,15 +41,25 @@ function AdminTable() {
         }}
       >
         <h2>Admin</h2>
-        <Button
-          variant="contained"
-          sx={{ height: "10%" }}
-          component={Link}
-          data-cy="admin-add-product"
-          to="/admin/product/new/"
+        <Box
+          sx={{
+            display: "flex",
+            gap: "1rem",
+          }}
         >
-          + Add product
-        </Button>
+          <Button
+            variant="contained"
+            sx={{ height: "10%" }}
+            component={Link}
+            data-cy="admin-add-product"
+            to="/admin/product/new/"
+          >
+            + Add product
+          </Button>
+          <Button variant="contained" sx={{ height: "10%" }} component={Link} to="/admin/category/new/">
+            + Add category
+          </Button>
+        </Box>
       </Box>
       <TableContainer component={Paper}>
         <Table>
@@ -74,11 +83,7 @@ function AdminTable() {
           </TableHead>
           <TableBody>
             {products.map((product) => (
-              <AdminProductRows
-                data-cy="product"
-                key={product._id}
-                product={product}
-              />
+              <AdminProductRows data-cy="product" key={product._id} product={product} />
             ))}
           </TableBody>
         </Table>

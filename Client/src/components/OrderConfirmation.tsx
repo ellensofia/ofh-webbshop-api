@@ -32,7 +32,7 @@ function OrderConfirmation({ order }: Props) {
         }}
       >
         <Typography variant="h6">Your order</Typography>
-        <Typography variant="h6">{order?.orderNumber}</Typography>
+        <Typography variant="h6">{order?._id}</Typography>
       </Box>
       <Divider
         sx={{
@@ -40,9 +40,9 @@ function OrderConfirmation({ order }: Props) {
           marginBottom: "1rem",
         }}
       ></Divider>
-      {order.products.map((CartItem) => (
+      {order.orderItems.map((orderItem) => (
         <Card
-          key={CartItem._id}
+          key={orderItem._id}
           sx={{
             display: "flex",
             margin: "1rem",
@@ -52,7 +52,7 @@ function OrderConfirmation({ order }: Props) {
         >
           <CardMedia
             component="img"
-            image={`/api/images/${CartItem.imageId}`}
+            image={`/api/images/${orderItem.product.imageId}`}
             sx={{
               width: isSmallScreen ? "6rem" : "10rem",
             }}
@@ -80,11 +80,9 @@ function OrderConfirmation({ order }: Props) {
                   marginTop: isSmallScreen ? "0.2rem" : "2rem",
                 }}
               >
-                <Typography variant={isSmallScreen ? "body1" : "h6"}>
-                  {CartItem.title}
-                </Typography>
+                <Typography variant={isSmallScreen ? "body1" : "h6"}>{orderItem.product.title}</Typography>
                 <Typography variant={isSmallScreen ? "body2" : "body1"}>
-                  {CartItem.price * CartItem.quantity} SEK
+                  {orderItem.product.price * orderItem.quantity} SEK
                 </Typography>
               </CardContent>
             </Container>
@@ -94,9 +92,7 @@ function OrderConfirmation({ order }: Props) {
                 marginLeft: "1rem",
               }}
             >
-              <Typography fontSize={"0.8rem"}>
-                Quantity: {CartItem.quantity}
-              </Typography>
+              <Typography fontSize={"0.8rem"}>Quantity: {orderItem.quantity}</Typography>
             </CardContent>
           </Container>
         </Card>

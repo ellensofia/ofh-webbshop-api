@@ -23,6 +23,7 @@ import { RegisterPage } from "./pages/RegisterPage";
 import StartPage from "./pages/StartPage";
 import { theme } from "./theme/theme";
 import { UserProvider } from "./contexts/UserContext";
+import AdminCategoryPage from "./pages/AdminCategoryPage";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -36,9 +37,10 @@ const router = createBrowserRouter(
     >
       <Route index element={<StartPage />} />
       <Route path="/product/:id/" element={<ProductPage />} />
-      <Route path="confirmation" element={<OrderConfirmationPage />} />
+      <Route path="confirmation/:id/" element={<OrderConfirmationPage />} />
       <Route path="admin" element={<AdminPage />} />
       <Route path="admin/product/:id/" element={<AdminProductFormPage />} />
+      <Route path="admin/category/new" element={<AdminCategoryPage />} />
       <Route path="*" element={<h3>404 Not Found</h3>} />
       <Route path="underconstruction" element={<ConstructionPage />} />
       <Route path="checkout" element={<CheckoutPage />} />
