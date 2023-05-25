@@ -25,7 +25,7 @@ export default function AddCategoryForm() {
     onSubmit: async (values) => {
       try {
         const category = {
-          _id: `c${Math.floor(Math.random() * 10000)}`, // Generera ett unikt _id
+          _id: `c${Math.floor(Math.random() * 10000)}`,
           name: values.name,
         };
         await addCategoryToDb(category);
