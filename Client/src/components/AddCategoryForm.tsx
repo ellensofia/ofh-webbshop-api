@@ -1,65 +1,35 @@
 import { Button, Container, IconButton, TextField, Typography, useMediaQuery } from "@mui/material";
 import { Box } from "@mui/system";
 import { useFormik } from "formik";
-import { CSSProperties, useEffect, useState } from "react";
+import { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
+import { useCategoryContext } from "../contexts/CategoryContext";
 import { theme } from "../theme/theme";
 
 const CategorySchema = Yup.object({
   name: Yup.string().required("Please enter the name for the category"),
 });
 
-type Category = {
-  _id: string;
-  name: string;
-};
 export type CategoryValues = Yup.InferType<typeof CategorySchema>;
 
 export default function AddCategoryForm() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const [categories, setCategories] = useState<Category[]>([]);
-
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch("/api/categories");
-      const data = await response.json();
-      if (response.ok) {
-        setCategories(data);
-      } else {
-        console.error("Error fetching categories:", response.status);
-      }
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
+  const { categories, addCategoryToDb } = useCategoryContext();
 
   const formik = useFormik<CategoryValues>({
     initialValues: {
       name: "",
     },
     validationSchema: CategorySchema,
-    onSubmit: async (category) => {
+    onSubmit: async (values) => {
       try {
-        const response = await fetch("/api/categories/add", {
-          method: "POST",
-          body: JSON.stringify(category),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const newCategory = await response.json();
-        if (response.ok) {
-          console.log("Category added:", newCategory);
-          await fetchCategories();
-          formik.resetForm();
-        } else {
-          console.error("Error adding category:", response.status);
-        }
+        const category = {
+          _id: `c${Math.floor(Math.random() * 10000)}`,
+          name: values.name,
+        };
+        await addCategoryToDb(category);
+        formik.resetForm();
       } catch (error) {
         console.error("Error adding category:", error);
       }

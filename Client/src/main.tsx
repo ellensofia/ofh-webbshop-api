@@ -7,11 +7,13 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import PageNotFound from "./components/PageNotFound";
 import ToastOutlet from "./components/ToastOutlet";
 import { ProductProvider } from "./contexts/AdminProductContext";
+import { CategoryProvider } from "./contexts/CategoryContext";
 import { OrderProvider } from "./contexts/OrderContext";
 import { ShoppingCartProvider } from "./contexts/ShoppingCartContext";
 import { UserProvider } from "./contexts/UserContext";
 import "./index.css";
 import AdminCategoryPage from "./pages/AdminCategoryPage";
+
 import AdminOrderPage from "./pages/AdminOrderPage";
 import AdminPage from "./pages/AdminPage";
 import AdminProductFormPage from "./pages/AdminProductFormPage";
@@ -60,15 +62,17 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <ErrorBoundary>
       <ThemeProvider theme={theme}>
-        <UserProvider>
-          <ProductProvider>
-            <ShoppingCartProvider>
-              <OrderProvider>
-                <RouterProvider router={router} />
-              </OrderProvider>
-            </ShoppingCartProvider>
-          </ProductProvider>
-        </UserProvider>
+        <CategoryProvider>
+          <UserProvider>
+            <ProductProvider>
+              <ShoppingCartProvider>
+                <OrderProvider>
+                  <RouterProvider router={router} />
+                </OrderProvider>
+              </ShoppingCartProvider>
+            </ProductProvider>
+          </UserProvider>
+        </CategoryProvider>
       </ThemeProvider>
     </ErrorBoundary>
   </React.StrictMode>,
