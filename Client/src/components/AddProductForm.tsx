@@ -14,18 +14,18 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useProduct } from "../contexts/AdminProductContext";
 
-const validateImage = (value: File | undefined) => {
-  if (!value) {
-    return "Please add product image";
-  }
+// const validateImage = (value: File | undefined) => {
+//   if (!value) {
+//     return "Please add product image";
+//   }
 
-  const supportedTypes = ["image/jpeg", "image/png", "image/gif"];
-  if (!supportedTypes.includes(value.type)) {
-    return "Invalid file format";
-  }
+//   const supportedTypes = ["image/jpeg", "image/png", "image/gif"];
+//   if (!supportedTypes.includes(value.type)) {
+//     return "Invalid file format";
+//   }
 
-  return undefined; // Return undefined if the file is valid
-};
+//   return undefined; // Return undefined if the file is valid
+// };
 
 const ProductSchema = Yup.object({
   title: Yup.string().required("Please enter the title for the product"),
@@ -35,8 +35,8 @@ const ProductSchema = Yup.object({
     .typeError("Price must be a number"),
   description: Yup.string().required("Please enter the description for the product"),
   brand: Yup.string(),
-  image: Yup.mixed().required(validateImage),
-  id: Yup.string().required("Please enter the product id"),
+  imageId: Yup.string().required("Please add product image"),
+  // _id: Yup.string().required("Please enter the product id"),
   inStockAmount: Yup.number()
     .required("Please enter the amount in stock")
     .min(1, "Amount in stock must be at least 1")
@@ -59,15 +59,31 @@ function AddProductForm() {
   const { addProduct, editProduct, products } = useProduct();
   const { id } = useParams<{ id: string }>();
   const product = products.find((p) => p._id === id);
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const isEdit = Boolean(product);
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    console.log("Selected image file:", file);
-    formik.setFieldValue("image", file); // Set formik.values.image with the selected file
-    setSelectedImage(file || null);
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const imageResponse = await fetch("/api/images", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!imageResponse.ok) {
+      formik.setFieldError("imageId", "Error uploading image, please try again or with antoher image.");
+      return; // Stop the function execution if image upload fails
+    }
+
+    const imageId = await imageResponse.json();
+    // Handle image upload success
+
+    console.log("Uploaded image id:", imageId);
+    formik.setFieldValue("imageId", imageId); // Set formik.values.image with the selected file
   };
 
   const formik = useFormik<ProductValues>({
@@ -76,66 +92,26 @@ function AddProductForm() {
       price: isEdit ? product?.price ?? 0 : 0,
       description: isEdit ? product?.description ?? "" : "",
       brand: isEdit ? product?.brand ?? "" : "",
-      image: isEdit ? product?.imageId ?? "" : "",
-      id: isEdit ? product?._id ?? `b${Math.floor(Math.random() * 10000)}` : `b${Math.floor(Math.random() * 10000)}`,
+      imageId: isEdit ? product?.imageId ?? "" : "",
+      // _id: isEdit ? product?._id ?? `b${Math.floor(Math.random() * 10000)}` : "",
       inStockAmount: isEdit ? product?.inStockAmount ?? 1 : 1,
       isArchived: false,
     },
     validationSchema: ProductSchema,
     onSubmit: async (product) => {
+      console.log(product);
       try {
-        if (selectedImage) {
-          console.log("Selected Image:", selectedImage);
-    
-          const formData = new FormData();
-          formData.append("image", selectedImage);
-    
-          console.log("FormData:", formData);
-    
-          const imageResponse = await fetch("/api/images", {
-            method: "POST",
-            body: formData,
-          });
-    
-          console.log("Image Upload Response:", imageResponse);
-    
-          if (!imageResponse.ok) {
-            console.error("Error uploading image:", imageResponse.status);
-            return; // Stop the function execution if image upload fails
-          }
-    
-          const imageResult = await imageResponse.json();
-          console.log("Image uploaded:", imageResult);
-          // Handle image upload success
-        }
-    
-        const response = await fetch("/api/products/add", {
-          method: "POST",
-          body: JSON.stringify(product),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-    
-        console.log("Product Add Response:", response);
-    
-        const newProduct = await response.json();
-        if (response.ok) {
-          if (isEdit) {
-            editProduct(newProduct);
-          } else {
-            console.log("Adding new product");
-            addProduct(newProduct);
-          }
-          navigate("/admin");
+        if (isEdit) {
+          // await editProduct(product);
         } else {
-          console.error("Error adding product:", response.status);
+          console.log("Adding new product");
+          await addProduct(product);
         }
+        navigate("/admin");
       } catch (error) {
-        console.error("Error adding product:", error);
+        // Visa felmeddelande för användaren.
       }
     },
-    
   });
 
   return (
@@ -228,12 +204,10 @@ function AddProductForm() {
             <TextField
               id="image"
               type="file"
-              name="image"
-              // value={formik.values.image}
+              name="imageId"
               onChange={handleImageChange}
-              onBlur={formik.handleBlur}
-              error={Boolean(formik.touched.image && formik.errors.image)}
-              helperText={formik.touched.image && formik.errors.image ? formik.errors.image.toString() : ""}
+              error={Boolean(formik.touched.imageId && formik.errors.imageId)}
+              helperText={formik.touched.imageId && formik.errors.imageId}
               inputProps={{
                 "data-cy": "product-image",
                 accept: "image/*",

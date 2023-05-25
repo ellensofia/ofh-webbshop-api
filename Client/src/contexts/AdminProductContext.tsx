@@ -1,18 +1,30 @@
 import React, { createContext, useContext, useState } from "react";
+import { ProductValues } from "../components/AddProductForm";
 
 interface Props {
   children: React.ReactNode;
 }
 
-export interface Product {
-  _id: string;
-  imageId: string;
-  title: string;
-  brand?: string;
-  description: string;
-  price: number;
-  timestamp: string;
-  inStockAmount: number;
+// export type Product = ProductValues;
+export type Product = {
+  title: string,
+  price: number,
+  description: string,
+  brand?: string,
+  imageId: string,
+  _id: string,
+  inStockAmount: number,
+  isArchived: boolean,
+}
+
+export type NewProduct = {
+  title: string,
+  price: number,
+  description: string,
+  brand?: string,
+  imageId: string,
+  inStockAmount: number,
+  isArchived: boolean,
 }
 
 export interface CartItem extends Product {
@@ -23,7 +35,7 @@ type ProductContextType = {
   products: Product[];
   getAllProducts: () => void;
   getOneProduct: (_id: string) => Promise<Product | null>;
-  addProduct: (product: Product) => void;
+  addProduct: (product: NewProduct) => Promise<void>;
   removeProduct: (product: Product) => void;
   editProduct: (editedProduct: Product) => void;
   product?: Product;
@@ -37,7 +49,7 @@ const AdminProductContext = createContext<ProductContextType>({
   getAllProducts: () => {},
   getOneProduct: () => Promise.resolve(null),
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  addProduct: () => {},
+  addProduct: async () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   editProduct: () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -77,11 +89,26 @@ export const ProductProvider = ({ children }: Props) => {
     }
   };
 
-  const addProduct = (product: Product) => {
-    const productWithImage = { ...product, image: product.imageId };
-    setProducts([...products, productWithImage]);
+  const addProduct = async (product: NewProduct) => {
+    try {
+      const response = await fetch("/api/products/add", {
+        method: "POST",
+        body: JSON.stringify(product),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      console.log("Product Add Response:", response);
+      if (!response.ok) throw new Error("Failed to add product.");
+
+      const newProduct = await response.json();
+      setProducts([...products, newProduct]);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
-  
 
   const editProduct = (editedProduct: Product) => {
     setProducts(products.map((product) => (product._id === editedProduct._id ? editedProduct : product)));
