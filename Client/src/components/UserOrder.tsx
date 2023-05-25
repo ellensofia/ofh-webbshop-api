@@ -12,7 +12,7 @@ export function UserOrder({ order }: UserOrderProps) {
   return (
     <TableRow>
       <TableCell align="left" sx={{ fontSize: "1rem", cursor: 'pointer' }}>
-        <span onClick={() => navigate(`/api/orders/${order._id}`)}>{order._id}</span>
+        <span onClick={() => navigate(`/orders/${order._id}`)}>{order._id}</span>
       </TableCell>
       <TableCell align="center">
         {order.createdAt}
