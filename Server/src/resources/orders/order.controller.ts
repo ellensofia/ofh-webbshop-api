@@ -12,7 +12,8 @@ export async function registerOrder(req: Request, res: Response) {
 }
 
 export async function getAllOrders(req: Request, res: Response) {
-  return console.log("Get All Orders");
+  const allOrders = await OrderModel.find();
+  res.status(200).json(allOrders);
 }
 
 export async function markAsShipped(req: Request, res: Response) {

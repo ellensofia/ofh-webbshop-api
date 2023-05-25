@@ -1,6 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { Product } from "./AdminProductContext";
 import { useShoppingCart } from "./ShoppingCartContext";
+import { useUserContext } from "./UserContext";
 
 interface Props {
   children: React.ReactNode;
@@ -8,11 +9,13 @@ interface Props {
 
 export interface Order {
   _id: string;
+  userId: string;
   orderItems: OrderItem[];
   address: Address;
   price: number;
-  createdAt: Date;
-  updatedAt: Date;
+  isShipped: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface OrderItem {
@@ -43,15 +46,12 @@ export interface Address {
 }
 
 type OrderContextType = {
-  createOrder: (addres: Address) => void;
+  createOrder: (addres: Address) => Promise<string>;
+  getOneOrder: (orderId: string) => Promise<Order>;
 };
 
 // Context object with an initial value of null for the order
-const OrderContext = createContext<OrderContextType>({
-  createOrder: () => {
-    null;
-  },
-});
+const OrderContext = createContext<OrderContextType>(null as any);
 
 // Custom hook to easier use the order
 export const useOrder = () => useContext(OrderContext);
@@ -59,30 +59,45 @@ export const useOrder = () => useContext(OrderContext);
 // Component that provides the order context to its child components
 export const OrderProvider = ({ children }: Props) => {
   const { items, totalPrice, clearCart } = useShoppingCart();
+  const { user } = useUserContext();
+
+  const ordersCall = async (method: string, body: string, subRoute?: string) => {
+    const response = await fetch(`/api/orders/${subRoute ? subRoute : ""}`, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body,
+    }).then((res) => res.json());
+    return response;
+  };
 
   // Creates the order object based on the current shopping cart state and delivery address
   const createOrder = async (address: Address) => {
+    if (!user) throw new Error("User is not logged in");
     const newOrder: NewOrder = {
-      userId: "placeholderId", // TODO: Replace with actual user id
+      userId: user._id,
       orderItems: items.map((item) => ({ product: item._id, quantity: item.quantity })),
       address,
       price: totalPrice,
     };
 
-    const order = await fetch("api/orders", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newOrder),
-    }).then((res) => res.json());
+    const orderId = await ordersCall("POST", JSON.stringify(newOrder)).then((data) => data._id);
+
     clearCart();
-    return order._id;
+
+    return orderId;
+  };
+
+  const getOneOrder = async (orderId: string) => {
+    const order = await fetch(`/api/orders/${orderId}`).then((res) => res.json());
+    return order;
   };
 
   // Create an object with all necessary properties and methods for the OrderContext
   const orderContext: OrderContextType = {
     createOrder,
+    getOneOrder,
   };
 
   // Renders the child components wrapped inside the OrderContext.Provider
