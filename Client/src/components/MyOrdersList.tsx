@@ -1,9 +1,11 @@
 import { Box, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Order } from "../contexts/OrderContext";
 import { useUserContext } from "../contexts/UserContext";
+import { UserOrder } from "./UserOrder";
 
 export function MyOrdersList() {
-  const [orders, setOrders] = useState([]);
+  const [myOrders, setMyOrders] = useState<Order[]>([]);
   const { user } = useUserContext();
 
   const getUserOrders = async () => {
@@ -11,7 +13,7 @@ export function MyOrdersList() {
     const data = await response.json();
 
     if (response.ok) {
-      setOrders(data);
+      setMyOrders(data);
     }
   };
 
@@ -36,26 +38,27 @@ export function MyOrdersList() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell />
-              <TableCell align="left" sx={{ fontSize: "1.2rem" }}>
+              <TableCell align="left" sx={{ fontSize: "1.5rem" }}>
                 Order ID
               </TableCell>
-              <TableCell align="left" sx={{ fontSize: "1.2rem" }}>
-                User
-              </TableCell>
-              <TableCell align="left" sx={{ fontSize: "1.2rem" }}>
+              <TableCell align="center" sx={{ fontSize: "1.5rem" }}>
                 Date
               </TableCell>
-              <TableCell align="right" sx={{ fontSize: "1.2rem" }}>
+              <TableCell align="center" sx={{ fontSize: "1.5rem" }}>
+                Products
+              </TableCell>
+              <TableCell align="center" sx={{ fontSize: "1.5rem" }}>
+                Price
+              </TableCell>
+              <TableCell align="right" sx={{ fontSize: "1.5rem" }}>
                 Status
               </TableCell>
-              <TableCell />
             </TableRow>
           </TableHead>
           <TableBody>
-            {orders.map((order) => (
-              <div>{order}</div>
-            ))}
+            {myOrders.map((order) => (
+              <UserOrder key={order._id} order={order} />
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
