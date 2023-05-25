@@ -20,6 +20,9 @@ export interface Order {
 
 interface OrderItem {
   _id: string;
+  title: string;
+  price: number;
+  description: string;
   product: Product;
   quantity: number;
 }
@@ -77,7 +80,13 @@ export const OrderProvider = ({ children }: Props) => {
     if (!user) throw new Error("User is not logged in");
     const newOrder: NewOrder = {
       userId: user._id,
-      orderItems: items.map((item) => ({ product: item._id, quantity: item.quantity })),
+      orderItems: items.map((item) => ({
+        product: item._id,
+        quantity: item.quantity,
+        title: item.title,
+        price: item.price,
+        description: item.description,
+      })),
       address,
       price: totalPrice,
     };
