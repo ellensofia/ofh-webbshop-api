@@ -1,7 +1,7 @@
 import express from "express";
 import { auth } from "../../middlewares/auth";
 import { authAdmin } from "../../middlewares/authAdmin";
-import { validateIdMiddleware } from "../../middlewares/validateObjectId";
+import { userSchema, validateBody, validateId } from "../../middlewares/validation";
 import {
   changeRole,
   checkUserInfo,
@@ -11,14 +11,13 @@ import {
   logoutUser,
   registerUser,
 } from "./user-controller";
-import { validateLogin, validateNewUser } from "./user-validation";
 
 export const userRouter = express
   .Router()
-  .post("/api/users/register", validateNewUser, registerUser)
+  .post("/api/users/register", validateBody(userSchema), registerUser)
   .get("/api/users", auth, authAdmin, getAllUsers)
-  .post("/api/users/login", validateLogin, loginUser)
+  .post("/api/users/login", validateBody(userSchema.omit(["username"])), loginUser)
   .post("/api/users/logout", auth, logoutUser)
   .get("/api/users/checkUserInfo", auth, checkUserInfo)
-  .put("/api/users/:id", validateIdMiddleware, auth, authAdmin, changeRole)
-  .get("/api/users/:id", validateIdMiddleware, authAdmin, getOneUser);
+  .put("/api/users/:id", validateId, auth, authAdmin, changeRole)
+  .get("/api/users/:id", validateId, authAdmin, getOneUser);

@@ -89,7 +89,6 @@ export const OrderProvider = ({ children }: Props) => {
       address,
       price: totalPrice,
     };
-    console.log(newOrder);
 
     const orderId = await ordersCall("POST", undefined, JSON.stringify(newOrder)).then((data) => data._id);
 
