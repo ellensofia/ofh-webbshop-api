@@ -12,7 +12,7 @@ export function OrderDetails() {
 
   useEffect(() => {
     async function getOrder() {
-       if (!id) return
+      if (!id) return;
       const gotOrder = await getOneOrder(id);
       setOrder(gotOrder);
     }
@@ -30,8 +30,14 @@ export function OrderDetails() {
           marginBottom: "1rem",
         }}
       >
-        <h2>{"Order id: " + order?._id}</h2>
-        <span>{order?.isShipped ? <h4>Status: Shipped</h4> : <h4>Status: Pending shippment</h4>}</span>
+        <div style={{ display: "flex", alignItems: "baseline", gap: "1rem" }}>
+          <h3>{"Order id: "}</h3>
+          <span>{order?._id}</span>
+        </div>
+        <div style={{ display: "flex", alignItems: "baseline", gap: "1rem" }}>
+          <h3>{"Status:"}</h3>
+          <span>{order?.isShipped ? <span>Shipped</span> : <span>Shippment pending</span>}</span>
+        </div>
       </Box>
       <TableContainer component={Paper}>
         <Table>
@@ -56,7 +62,7 @@ export function OrderDetails() {
             {order?.orderItems.map((items) => (
               <TableRow key={items._id}>
                 <TableCell align="left" sx={{ fontSize: "1rem" }}>
-                  <img  style={{ width: '10rem'}} src={`/api/images/${items.product.imageId}`}/>
+                  <img style={{ width: "10rem" }} src={`/api/images/${items.product.imageId}`} />
                 </TableCell>
                 <TableCell align="left" sx={{ fontSize: "1rem" }}>
                   <div>{items.product.title}</div>
