@@ -86,14 +86,15 @@ function AddProductForm() {
       isArchived: false,
     },
     validationSchema: ProductSchema,
-    onSubmit: async (product) => {
+    onSubmit: async (newValues) => {
       console.log(product);
       try {
         if (isEdit) {
-          await editProduct(product);
+          if (!product) throw new Error("No product found.");
+          editProduct({ ...product, ...newValues });
         } else {
           const productWithCategories = {
-            ...product,
+            ...newValues,
             categories: selectedCategoriesAdd.map((category) => category._id),
           };
           await addProduct(productWithCategories);
