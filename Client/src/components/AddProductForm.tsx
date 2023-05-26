@@ -82,7 +82,7 @@ function AddProductForm() {
       inStockAmount: isEdit ? product?.inStockAmount ?? 1 : 1,
       isArchived: false,
     },
-    validationSchema: ProductSchema,
+    // validationSchema: ProductSchema,
     onSubmit: async (product) => {
       console.log(product);
       try {
