@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import { ProductModel } from "./product-model";
-import productUpdateValidationSchema from "./product-update-validation";
 
 export async function registerProduct(req: Request, res: Response) {
   try {
@@ -15,7 +14,7 @@ export async function registerProduct(req: Request, res: Response) {
 }
 
 export async function getAllProducts(req: Request, res: Response) {
-  const products = await ProductModel.find({});
+  const products = await ProductModel.find({isArchived: false});
   res.status(200).json(products);
 }
 
