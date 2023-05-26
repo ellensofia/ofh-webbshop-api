@@ -38,24 +38,13 @@ export async function getOneProduct(req: Request, res: Response) {
 }
 
 export async function editProduct(req: Request, res: Response) {
-  const productId = req.params.id;
+  const { _id, ...newData } = req.body;
 
-  const product = await ProductModel.findById(productId);
-
+  const product = await ProductModel.findByIdAndUpdate(_id, { isArchived: true });
   if (!product) {
-    return res.status(404).json(`Product with ID ${productId} not found`);
+    return res.status(404).json(`Product with ID ${_id} not found`);
   }
-
-  // Validate request body with Yup
-   await productUpdateValidationSchema.validate(req.body, {
-    abortEarly: false,
-  });
-
-  delete req.body._id;
-
-  await ProductModel.findByIdAndUpdate(productId, { isArchived: true });
-  const newProduct = new ProductModel(req.body);
-  
+  const newProduct = new ProductModel(newData);
   await newProduct.save();
 
   res.status(200).json(newProduct);
