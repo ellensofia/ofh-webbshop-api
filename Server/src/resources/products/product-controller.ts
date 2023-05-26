@@ -51,9 +51,11 @@ export async function editProduct(req: Request, res: Response) {
     abortEarly: false,
   });
 
-  await ProductModel.findByIdAndUpdate(productId, { isArchived: true });
+  delete req.body._id;
 
+  await ProductModel.findByIdAndUpdate(productId, { isArchived: true });
   const newProduct = new ProductModel(req.body);
+  
   await newProduct.save();
 
   res.status(200).json(newProduct);
