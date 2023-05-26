@@ -101,7 +101,7 @@ function AddProductForm() {
         }
         navigate("/admin");
       } catch (error) {
-        // Visa felmeddelande för användaren.
+        console.log(error);
       }
     },
   });
