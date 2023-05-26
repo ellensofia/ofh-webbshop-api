@@ -20,9 +20,6 @@ export interface Order {
 
 interface OrderItem {
   _id: string;
-  title: string;
-  price: number;
-  description: string;
   product: Product;
   quantity: number;
 }
@@ -91,9 +88,6 @@ export const OrderProvider = ({ children }: Props) => {
       orderItems: items.map((item) => ({
         product: item._id,
         quantity: item.quantity,
-        title: item.title,
-        price: item.price,
-        description: item.description,
       })),
       address,
       price: totalPrice,
