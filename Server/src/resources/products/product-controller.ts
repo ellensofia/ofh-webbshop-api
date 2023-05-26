@@ -51,11 +51,12 @@ export async function editProduct(req: Request, res: Response) {
     abortEarly: false,
   });
 
-  const updatedProduct = await ProductModel.findByIdAndUpdate(productId, req.body, {
-    new: true,
-    runValidators: true,
-  });
-  res.status(200).json(updatedProduct);
+  await ProductModel.findByIdAndUpdate(productId, { isArchived: true });
+
+  const newProduct = new ProductModel(req.body);
+  await newProduct.save();
+
+  res.status(200).json(newProduct);
 }
 
 export async function deleteProduct(req: Request, res: Response) {
