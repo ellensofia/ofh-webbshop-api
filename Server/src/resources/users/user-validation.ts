@@ -8,6 +8,7 @@ const userSchema = Yup.object().shape({
 });
 
 export const validateNewUser = async (req: Request, res: Response, next: NextFunction) => {
+  // QUESTION: Does this have to be async?
   try {
     await userSchema.validate(req.body);
     next();
@@ -18,11 +19,11 @@ export const validateNewUser = async (req: Request, res: Response, next: NextFun
 };
 
 export const validateLogin = async (req: Request, res: Response, next: NextFunction) => {
+  // QUESTION: Does this have to be async?
   try {
     await userSchema.pick(["username", "password"]).validate(req.body);
     next();
   } catch (err: any) {
     res.status(400).json({ message: err });
   }
-  next();
 };
