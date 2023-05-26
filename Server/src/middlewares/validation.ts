@@ -8,8 +8,8 @@ export const validateBody = (schema: Yup.AnySchema) => async (req: Request, res:
   next();
 };
 
-export const validateId = (req: Request, res: Response, next: NextFunction) => {
-  Yup.string()
+export const validateId = async (req: Request, res: Response, next: NextFunction) => {
+  await Yup.string()
     .test("valid-object-id", "Invalid ID.", (value) => {
       return validateIdTest(value);
     })
@@ -43,4 +43,43 @@ export const productSchema = Yup.object().shape({
     .required("Image is required."),
   inStockAmount: Yup.number().required("In stock amount is required."),
   isArchived: Yup.boolean().required("Is archived is required."),
+});
+
+// ------- Order Schemas ------- //
+
+const orderItemSchema = Yup.object().shape({
+  product: Yup.string()
+    .test("valid-object-id", "Invalid ID.", (value) => {
+      return validateIdTest(value);
+    })
+    .required("Product ID is required."),
+  quantity: Yup.number().min(1, "Quantity must be at least 1.").required("Quantity is required."),
+});
+
+const addressSchema = Yup.object().shape({
+  firstName: Yup.string().required("First name is required."),
+  lastName: Yup.string().required("Last name is required."),
+  street: Yup.string().required("Street is required."),
+  city: Yup.string().required("City is required."),
+  postCode: Yup.string().required("Post code is required."),
+  phoneNumber: Yup.string().required("Phone number is required."),
+});
+
+export const orderSchema = Yup.object().shape({
+  _id: Yup.string()
+    .test("valid-object-id", "Invalid ID.", (value) => {
+      return validateIdTest(value);
+    })
+    .required("ID is required."),
+  userId: Yup.string()
+    .test("valid-object-id", "Invalid ID.", (value) => {
+      return validateIdTest(value);
+    })
+    .required("User ID is required."),
+  orderItems: Yup.array().of(orderItemSchema).required("Order items are required."),
+  address: addressSchema.required("Address is required."),
+  price: Yup.number().min(1, "Price must be at least 1.").required("Price is required."),
+  isShipped: Yup.boolean(),
+  createdAt: Yup.string(),
+  updatedAt: Yup.string(),
 });
