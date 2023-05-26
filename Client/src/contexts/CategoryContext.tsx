@@ -3,10 +3,11 @@ import { createContext, useContext, useEffect, useState } from "react";
 type CategoryContextValue = {
   categories: Category[];
   selectedCategories: Category[];
+  selectedCategoriesAdd: Category[];
   setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
   setSelectedCategories: React.Dispatch<React.SetStateAction<Category[]>>;
+  setSelectedCategoriesAdd: React.Dispatch<React.SetStateAction<Category[]>>;
   addCategoryToDb: (category: Category) => Promise<void>;
-  fetchCategoriesFromDb: () => Promise<void>;
 };
 
 type CategoryProviderProps = {
@@ -18,20 +19,14 @@ export type Category = {
   name: string;
 };
 
-const CategoryContext = createContext<CategoryContextValue | undefined>(undefined);
+const CategoryContext = createContext<CategoryContextValue>({} as CategoryContextValue);
 
-export const useCategoryContext: () => CategoryContextValue = () => {
-  const context = useContext(CategoryContext);
-
-  if (!context) {
-    throw new Error("useCategoryContext must be used within CategoryProvider");
-  }
-  return context;
-};
+export const useCategoryContext = (): CategoryContextValue => useContext(CategoryContext);
 
 export const CategoryProvider: React.FC<CategoryProviderProps> = ({ children }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
+  const [selectedCategoriesAdd, setSelectedCategoriesAdd] = useState<Category[]>([]);
 
   const addCategoryToDb = async (category: Category) => {
     try {
@@ -79,8 +74,9 @@ export const CategoryProvider: React.FC<CategoryProviderProps> = ({ children }) 
         selectedCategories,
         setCategories,
         setSelectedCategories,
+        setSelectedCategoriesAdd,
+        selectedCategoriesAdd,
         addCategoryToDb,
-        fetchCategoriesFromDb,
       }}
     >
       {children}

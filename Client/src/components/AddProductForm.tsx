@@ -13,6 +13,8 @@ import { CSSProperties } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useProduct } from "../contexts/AdminProductContext";
+import { useCategoryContext } from "../contexts/CategoryContext";
+import AddCategoryDropDown from "./AddCategoryDropDown";
 
 const ProductSchema = Yup.object({
   title: Yup.string().required("Please enter the title for the product"),
@@ -45,6 +47,7 @@ function AddProductForm() {
   const { addProduct, editProduct, products } = useProduct();
   const { id } = useParams<{ id: string }>();
   const product = products.find((p) => p._id === id);
+  const { selectedCategoriesAdd } = useCategoryContext();
 
   const isEdit = Boolean(product);
 
@@ -89,8 +92,11 @@ function AddProductForm() {
         if (isEdit) {
           await editProduct(product);
         } else {
-          console.log("Adding new product");
-          await addProduct(product);
+          const productWithCategories = {
+            ...product,
+            categories: selectedCategoriesAdd.map((category) => category._id),
+          };
+          await addProduct(productWithCategories);
         }
         navigate("/admin");
       } catch (error) {
@@ -215,20 +221,31 @@ function AddProductForm() {
             inputProps={{ "data-cy": "product-description" }}
             FormHelperTextProps={{ "data-cy": "product-description-error" } as any}
           />
-          <TextField
-            id="inStockAmount"
-            type="number"
-            name="inStockAmount"
-            label="Products in stock"
-            value={formik.values.inStockAmount}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={Boolean(formik.touched.inStockAmount && formik.errors.inStockAmount)}
-            helperText={formik.touched.inStockAmount && formik.errors.inStockAmount}
-            inputProps={{ "data-cy": "product-inStockAmount", min: 1, step: 1 }}
-            FormHelperTextProps={{ "data-cy": "product-inStockAmount-error" } as any}
-            sx={{ flex: 1 }}
-          />
+          <Container
+            sx={{
+              padding: "0 !important",
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              gap: "1rem",
+            }}
+          >
+            <TextField
+              id="inStockAmount"
+              type="number"
+              name="inStockAmount"
+              label="Products in stock"
+              value={formik.values.inStockAmount}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={Boolean(formik.touched.inStockAmount && formik.errors.inStockAmount)}
+              helperText={formik.touched.inStockAmount && formik.errors.inStockAmount}
+              inputProps={{ "data-cy": "product-inStockAmount", min: 1, step: 1 }}
+              FormHelperTextProps={{ "data-cy": "product-inStockAmount-error" } as any}
+              sx={{ flex: 1 }}
+            />
+            <AddCategoryDropDown />
+          </Container>
           <Button type="submit" variant="contained">
             {isEdit ? "Edit Product" : "Add Product"}
           </Button>
