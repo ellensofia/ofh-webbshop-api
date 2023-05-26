@@ -113,8 +113,24 @@ export const ProductProvider = ({ children }: Props) => {
     }
   };
 
-  const editProduct = (editedProduct: Product) => {
-    setProducts(products.map((product) => (product._id === editedProduct._id ? editedProduct : product)));
+  const editProduct = async (editedProduct: Product) => {
+    try {
+      const response = await fetch(`/api/products/${editedProduct._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editedProduct),
+      });
+
+      console.log("Product Edit Response:", response);
+      if (!response.ok) throw new Error("Failed to add product.");
+
+      setProducts(products.map((product) => (product._id === editedProduct._id ? editedProduct : product)));
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
 
   const removeProduct = async (product: Product) => {
