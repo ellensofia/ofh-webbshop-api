@@ -15,7 +15,7 @@ export function UserOrder({ order }: UserOrderProps) {
         <span onClick={() => navigate(`/orders/${order._id}`)}>{order._id}</span>
       </TableCell>
       <TableCell align="center">
-        {order.createdAt}
+        {order.createdAt.replace("T", " ").slice(0, order.createdAt.length - 2)}
       </TableCell>
       <TableCell align="center">
         {order.orderItems.length}
