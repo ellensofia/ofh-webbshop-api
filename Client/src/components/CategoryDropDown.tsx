@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, Menu, MenuItem, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCategoryContext } from "../contexts/CategoryContext";
 import { theme } from "../theme/theme";
 
@@ -12,6 +12,15 @@ export default function CategoryDropDown() {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  // Build initial URL based on selected categories
+  useEffect(() => {
+    const selectedCategoryNames = selectedCategories.map((category) => category.name);
+    const queryString = selectedCategoryNames.join(",");
+    const newUrl =
+      selectedCategoryNames.length > 0 ? `${window.location.origin}?Category/${queryString}` : window.location.origin;
+    window.history.replaceState(null, "", newUrl);
+  }, [selectedCategories]);
 
   const handleCategoryToggle = (categoryId: string) => {
     setSelectedCategories((prevSelectedCategories) => {
