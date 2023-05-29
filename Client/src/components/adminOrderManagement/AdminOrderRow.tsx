@@ -66,12 +66,13 @@ function AdminOrderRow({ order, handleMarkShipped }: Props) {
       >
         <TableCell sx={{ display: "flex", gap: "1rem", justifyContent: "space-between" }}>
           <Box component="div">
-            <Box>ID: {order._id}</Box>
-            <Box>Registered: {order.createdAt.replace("T", " ").slice(0, order.createdAt.length - 2)}</Box>
+            <Box><Typography variant="button">ID: </Typography>{order._id}</Box>
+            <Box><Typography variant="button">Reg: </Typography>{order.createdAt.replace("T", " ").slice(0, order.createdAt.length - 2)}</Box>
             <Link
               component={"button"}
               color={"secondary"}
               underline="always"
+              fontSize={'18px'}
               onClick={() => navigate(`/orders/${order._id}`)}
             >
               See details
