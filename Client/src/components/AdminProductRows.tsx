@@ -22,7 +22,6 @@ function AdminProductRows(props: Props) {
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }} data-cy="product">
-        <TableCell sx={{ padding: 0 }} />
         <TableCell component="th" scope="row" align="center" sx={{ width: { padding: "1rem 0.5rem" } }}>
           <Box
             component="img"
@@ -40,6 +39,9 @@ function AdminProductRows(props: Props) {
         </TableCell>
         <TableCell align="center" data-cy="product-price" sx={{ width: { padding: "1rem 0.5rem" } }}>
           {props.product.price} SEK
+        </TableCell>
+        <TableCell align="center" sx={{ width: { padding: "1rem 0.5rem" } }}>
+          In stock {props.product.inStockAmount}
         </TableCell>
         <TableCell align="center" sx={{ width: { padding: "1rem 0.5rem" } }}>
           <IconButton
