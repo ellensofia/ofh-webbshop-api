@@ -7,7 +7,7 @@ import { getAllOrders, getOneOrder, getUserOrders, markAsShipped, registerOrder 
 export const orderRouter = express
   .Router()
   .post("/api/orders", validateBody(orderSchema.omit(["_id"])), auth, registerOrder)
-  .get("/api/orders", auth, getAllOrders)
+  .get("/api/orders", auth, authAdmin, getAllOrders)
   .get("/api/orders/:id", validateId, auth, getOneOrder)
   .put("/api/orders/:id", validateId, validateBody(orderSchema), auth, authAdmin, markAsShipped)
   .get("/api/orders/user/:id", validateId, auth, getUserOrders);

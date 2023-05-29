@@ -1,3 +1,4 @@
+import busboy from "connect-busboy";
 import cookieSession from "cookie-session";
 import express, { NextFunction, Request, Response } from "express";
 import "express-async-errors";
@@ -9,6 +10,8 @@ import { productRouter } from "./resources/products/product-router";
 import { userRouter } from "./resources/users/user-router";
 
 export const app = express();
+
+app.use(busboy());
 
 app.use(express.json());
 app.use(

@@ -23,11 +23,15 @@ export const validateIdTest = async (id: string | undefined) => {
 
 // ------- Schemas ------- //
 
+// ------- User ------- //
+
 export const userSchema = Yup.object().shape({
   username: Yup.string().required("Username is required."),
   email: Yup.string().email("Email address invalid.").required("Email is required."),
   password: Yup.string().required("Password is required."),
 });
+
+// ------- Product ------- //
 
 export const productSchema = Yup.object().shape({
   title: Yup.string()
@@ -82,4 +86,10 @@ export const orderSchema = Yup.object().shape({
   isShipped: Yup.boolean(),
   createdAt: Yup.string(),
   updatedAt: Yup.string(),
+});
+
+// ------- Category ------- //
+
+export const categorySchema = Yup.object().shape({
+  name: Yup.string().required("Name is required."),
 });

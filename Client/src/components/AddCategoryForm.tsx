@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
-import { useCategoryContext } from "../contexts/CategoryContext";
+import { NewCategory, useCategoryContext } from "../contexts/CategoryContext";
 import { theme } from "../theme/theme";
 
 const CategorySchema = Yup.object({
@@ -32,11 +32,10 @@ export default function AddCategoryForm() {
           formik.setFieldError("name", "Category name already exists");
           return;
         }
-        const category = {
-          _id: `c${Math.floor(Math.random() * 10000)}`,
+        const newCategory: NewCategory = {
           name: firstLetter + values.name.slice(1),
         };
-        await addCategoryToDb(category);
+        await addCategoryToDb(newCategory);
         formik.resetForm();
       } catch (error) {
         console.error("Error adding category:", error);
