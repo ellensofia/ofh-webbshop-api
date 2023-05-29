@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { Product } from "./AdminProductContext";
 import { useShoppingCart } from "./ShoppingCartContext";
-import { useUserContext } from "./UserContext";
+import { User, useUserContext } from "./UserContext";
 
 interface Props {
   children: React.ReactNode;
@@ -9,7 +9,7 @@ interface Props {
 
 export interface Order {
   _id: string;
-  userId: string;
+  userId: User;
   orderItems: OrderItem[];
   address: Address;
   price: number;
