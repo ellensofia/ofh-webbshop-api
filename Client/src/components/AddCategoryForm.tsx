@@ -23,10 +23,18 @@ export default function AddCategoryForm() {
     },
     validationSchema: CategorySchema,
     onSubmit: async (values) => {
+      const firstLetter = values.name.charAt(0).toUpperCase();
       try {
+        const existingCategory = categories.find(
+          (category) => category.name.toLocaleLowerCase() === values.name.toLocaleLowerCase(),
+        );
+        if (existingCategory) {
+          formik.setFieldError("name", "Category name already exists");
+          return;
+        }
         const category = {
           _id: `c${Math.floor(Math.random() * 10000)}`,
-          name: values.name,
+          name: firstLetter + values.name.slice(1),
         };
         await addCategoryToDb(category);
         formik.resetForm();
@@ -50,13 +58,28 @@ export default function AddCategoryForm() {
         arrow_back
       </IconButton>
       <Typography variant="h5" sx={{ marginBottom: "1rem", marginTop: "1rem" }}>
-        Categories
+        Add new category
+      </Typography>
+      <Typography variant="body1" sx={{ marginTop: "1rem", color: "#333" }}>
+        Current categories:
       </Typography>
 
-      <Box sx={{ display: "flex", gap: "1rem", marginBottom: "1rem", marginTop: "1rem" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "0.5rem",
+          marginBottom: "2rem",
+          marginTop: "1rem",
+        }}
+      >
         {categories &&
           categories.map((category) => (
-            <Typography variant="body1" key={category._id} sx={{ textDecoration: "underlined" }}>
+            <Typography
+              variant="body2"
+              key={category._id}
+              sx={{ background: theme.palette.primary.light, padding: "0.2rem 0.4rem" }}
+            >
               {category.name}
             </Typography>
           ))}
