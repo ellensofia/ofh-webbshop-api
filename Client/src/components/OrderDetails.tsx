@@ -95,7 +95,7 @@ export function OrderDetails() {
       </TableContainer>
       <Box
         sx={{
-          padding: "1rem",
+          padding: "2rem 0 1rem",
         }}
       >
         <Typography variant="body1">{"User information:"}</Typography>
