@@ -45,7 +45,13 @@ function AdminOrderTable() {
       </Box>
       <TableContainer component={Paper}>
         <Table>
-          <TableHead>
+          <TableHead
+            sx={{
+              "@media (max-width: 550px)": {
+                display: "none",
+              },
+            }}
+          >
             <TableRow>
               <TableCell sx={styledTableCell}>Order Id</TableCell>
               <TableCell sx={styledTableCell}>Registered</TableCell>
