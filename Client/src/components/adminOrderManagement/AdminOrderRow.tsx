@@ -40,7 +40,7 @@ function AdminOrderRow({ order, handleMarkShipped }: Props) {
           component={"button"}
           color={"secondary"}
           underline="hover"
-          onClick={() => navigate(`/order/${order._id}`)}
+          onClick={() => navigate(`/orders/${order._id}`)}
         >
           See details
         </Link>

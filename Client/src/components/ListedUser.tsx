@@ -2,7 +2,7 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import IconButton from "@mui/material/IconButton";
 import { theme } from "../theme/theme";
-import GppGoodIcon from '@mui/icons-material/GppGood';
+import GppGoodOutlinedIcon from '@mui/icons-material/GppGoodOutlined';
 
 interface ListedUserProps {
   user: {
@@ -62,7 +62,7 @@ export function ListedUser({ user, getAllUsers }: ListedUserProps) {
             }}
             onClick={changeUserRole}
           >
-            <GppGoodIcon color="info"/>
+            <GppGoodOutlinedIcon color="secondary"/>
           </IconButton>
         )}
       </TableCell>

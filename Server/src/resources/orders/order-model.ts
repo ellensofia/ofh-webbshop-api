@@ -18,7 +18,7 @@ export type Address = InferSchemaType<typeof AddressSchema>;
 
 export const orderSchema = new Schema(
   {
-    userId: { type: String, required: true },
+    userId: { type: mongoose.Types.ObjectId, ref: 'user', required: true },
     orderItems: { type: [orderItemSchema], required: true },
     address: { type: AddressSchema, required: true },
     price: { type: Number, required: true },

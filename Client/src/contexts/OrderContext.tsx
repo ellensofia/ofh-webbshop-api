@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from "react";
 import { Product } from "./AdminProductContext";
 import { useShoppingCart } from "./ShoppingCartContext";
-import { useUserContext } from "./UserContext";
+import { User, useUserContext } from "./UserContext";
 
 interface Props {
   children: React.ReactNode;
@@ -9,7 +9,7 @@ interface Props {
 
 export interface Order {
   _id: string;
-  userId: string;
+  userId: User;
   orderItems: OrderItem[];
   address: Address;
   price: number;
@@ -85,7 +85,10 @@ export const OrderProvider = ({ children }: Props) => {
     if (!user) throw new Error("User is not logged in");
     const newOrder: NewOrder = {
       userId: user._id,
-      orderItems: items.map((item) => ({ product: item._id, quantity: item.quantity })),
+      orderItems: items.map((item) => ({
+        product: item._id,
+        quantity: item.quantity,
+      })),
       address,
       price: totalPrice,
     };
