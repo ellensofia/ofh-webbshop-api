@@ -1,18 +1,21 @@
 import { TableCell, TableRow } from "@mui/material";
 import { Order } from "../contexts/OrderContext";
+import { useNavigate } from "react-router-dom";
 
 interface UserOrderProps {
   order: Order;
 }
 
 export function UserOrder({ order }: UserOrderProps) {
+    const navigate = useNavigate();
+    
   return (
     <TableRow>
       <TableCell align="left" sx={{ fontSize: "1rem", cursor: 'pointer' }}>
-        {order._id}
+        <span onClick={() => navigate(`/orders/${order._id}`)}>{order._id}</span>
       </TableCell>
       <TableCell align="center">
-        {order.createdAt}
+        {order.createdAt.replace("T", " ").slice(0, order.createdAt.length - 2)}
       </TableCell>
       <TableCell align="center">
         {order.orderItems.length}
