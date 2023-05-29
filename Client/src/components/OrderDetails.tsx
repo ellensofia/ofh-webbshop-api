@@ -14,13 +14,12 @@ import {
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Order, useOrder } from "../contexts/OrderContext";
+import { OrderProductRow } from "./OrderProductRow";
 
 export function OrderDetails() {
   const [order, setOrder] = useState<Order>();
   const { getOneOrder } = useOrder();
   const { id } = useParams<{ id: string }>();
-
-  console.log(order);
 
   useEffect(() => {
     async function getOrder() {
@@ -66,7 +65,13 @@ export function OrderDetails() {
       </Box>
       <TableContainer component={Paper}>
         <Table>
-          <TableHead>
+          <TableHead
+            sx={{
+              "@media (max-width: 550px)": {
+                display: "none",
+              },
+            }}
+          >
             <TableRow>
               <TableCell />
               <TableCell align="left" sx={{ fontSize: "1.5rem" }}>
@@ -84,33 +89,8 @@ export function OrderDetails() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {order?.orderItems.map((items) => (
-              <TableRow key={items._id}>
-                <TableCell align="left" sx={{ fontSize: "1rem" }}>
-                  <Box
-                    component="img"
-                    sx={{
-                      width: "10rem",
-                      "@media (max-width: 550px)": {
-                        width: "5rem",
-                      },
-                    }}
-                    src={`/api/images/${items.product.imageId}`}
-                  />
-                </TableCell>
-                <TableCell align="left" sx={{ fontSize: "1rem" }}>
-                  <Box>{items.product.title}</Box>
-                </TableCell>
-                <TableCell align="center" sx={{ fontSize: "1rem" }}>
-                  <Box>{items.product.description}</Box>
-                </TableCell>
-                <TableCell align="center" sx={{ fontSize: "1rem" }}>
-                  <Box>{items.quantity}</Box>
-                </TableCell>
-                <TableCell align="center" sx={{ fontSize: "1rem" }}>
-                  <Box>{items.product.price} SEK</Box>
-                </TableCell>
-              </TableRow>
+            {order?.orderItems.map((item) => (
+              <OrderProductRow key={item._id} item={item} />
             ))}
           </TableBody>
         </Table>
