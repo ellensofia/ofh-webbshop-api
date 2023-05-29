@@ -44,11 +44,23 @@ export function UserOrder({ order }: UserOrderProps) {
           onClick={() => navigate(`/orders/${order._id}`)}
         >
           <Box component="div">
-            <Box><Typography variant="button">ID: </Typography>{order._id}</Box>
-            <Box><Typography variant="button">Reg: </Typography>{order.createdAt.replace("T", " ").slice(0, order.createdAt.length - 2)}</Box>
-            <Box><Typography variant="button">Price: </Typography>{order.price + " SEK"}</Box>
+            <Box>
+              <Typography variant="button">ID: </Typography>
+              {order._id}
+            </Box>
+            <Box>
+              <Typography variant="button">Reg: </Typography>
+              {order.createdAt.replace("T", " ").slice(0, order.createdAt.length - 2)}
+            </Box>
+            <Box>
+              <Typography variant="button">Price: </Typography>
+              {order.price + " SEK"}
+            </Box>
           </Box>
-          <Box component="div" sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            component="div"
+            sx={{ display: "flex", alignItems: "center", justifyContent: "flex-end", width: "100%" }}
+          >
             <Box>{order.isShipped ? <span>Shipped &#10003;</span> : <span>Pending shippment</span>}</Box>
           </Box>
         </TableCell>
