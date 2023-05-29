@@ -261,7 +261,7 @@ function AddProductForm() {
             }}
           >
             <Box sx={{width: "50%"}}>
-              <Typography variant="subtitle2">Preview</Typography>
+              <Typography variant="subtitle2" sx={{ color: "#606060"}}>Preview</Typography>
               {imagePreview ? (
                 <Box
                   component="img"
@@ -278,10 +278,10 @@ function AddProductForm() {
                     justifyContent: "center",
                     width: "100%",
                     height: "20rem",
-                    border: "1px solid grey",
+                    border: "1px solid #60606069",
                   }}
                 >
-                  <Typography variant="subtitle2">No image uploaded yet</Typography>
+                  <Typography variant="subtitle2" sx={{ color: "#606060" }}>No image uploaded yet</Typography>
                 </Box>
               )}
             </Box>
