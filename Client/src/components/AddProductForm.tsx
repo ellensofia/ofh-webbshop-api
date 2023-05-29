@@ -24,8 +24,10 @@ const ProductSchema = Yup.object({
     .typeError("Price must be a number"),
   description: Yup.string().required("Please enter the description for the product"),
   brand: Yup.string(),
+  categories: Yup.array().min(1).required("Please select at least one category"),
   imageId: Yup.string().required("Please add product image"),
   inStockAmount: Yup.number()
+    .min(1)
     .required("Please enter the amount in stock")
     .min(1, "Amount in stock must be at least 1")
     .typeError("Amount in stock must be a number"),
@@ -81,6 +83,7 @@ function AddProductForm() {
       price: isEdit ? product?.price ?? 0 : 0,
       description: isEdit ? product?.description ?? "" : "",
       brand: isEdit ? product?.brand ?? "" : "",
+      categories: isEdit ? product?.categories ?? [""] : [""],
       imageId: isEdit ? product?.imageId ?? "" : "",
       inStockAmount: isEdit ? product?.inStockAmount ?? 1 : 1,
       isArchived: false,
@@ -229,6 +232,7 @@ function AddProductForm() {
               flexDirection: "row",
               width: "100%",
               gap: "1rem",
+              alignItems: "flex-start",
             }}
           >
             <TextField
