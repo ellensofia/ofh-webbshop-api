@@ -40,16 +40,29 @@ export function OrderDetails() {
           alignItems: "center",
           marginTop: "2rem",
           marginBottom: "1rem",
+          "@media (max-width: 550px)": {
+            display: "block",
+          },
         }}
       >
-        <div style={{ display: "flex", alignItems: "baseline", gap: "1rem" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "baseline",
+            gap: "1rem",
+            "@media (max-width: 550px)": {
+              display: "block",
+              marginBottom: "1rem",
+            },
+          }}
+        >
           <Typography variant="h6">{"Order id: "}</Typography>
           <Typography variant="body1">{order?._id}</Typography>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
           <Typography variant="h6">{"Shipped:"}</Typography>
           <Typography>{order?.isShipped ? <TaskAlt /> : <RadioButtonUnchecked />}</Typography>
-        </div>
+        </Box>
       </Box>
       <TableContainer component={Paper}>
         <Table>
@@ -74,19 +87,28 @@ export function OrderDetails() {
             {order?.orderItems.map((items) => (
               <TableRow key={items._id}>
                 <TableCell align="left" sx={{ fontSize: "1rem" }}>
-                  <img style={{ width: "10rem" }} src={`/api/images/${items.product.imageId}`} />
+                  <Box
+                    component="img"
+                    sx={{
+                      width: "10rem",
+                      "@media (max-width: 550px)": {
+                        width: "5rem",
+                      },
+                    }}
+                    src={`/api/images/${items.product.imageId}`}
+                  />
                 </TableCell>
                 <TableCell align="left" sx={{ fontSize: "1rem" }}>
-                  <div>{items.product.title}</div>
+                  <Box>{items.product.title}</Box>
                 </TableCell>
                 <TableCell align="center" sx={{ fontSize: "1rem" }}>
-                  <div>{items.product.description}</div>
+                  <Box>{items.product.description}</Box>
                 </TableCell>
                 <TableCell align="center" sx={{ fontSize: "1rem" }}>
-                  <div>{items.quantity}</div>
+                  <Box>{items.quantity}</Box>
                 </TableCell>
                 <TableCell align="center" sx={{ fontSize: "1rem" }}>
-                  <div>{items.product.price} SEK</div>
+                  <Box>{items.product.price} SEK</Box>
                 </TableCell>
               </TableRow>
             ))}
