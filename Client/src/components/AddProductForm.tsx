@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Container,
   IconButton,
@@ -9,7 +10,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { CSSProperties } from "react";
+import { CSSProperties, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useProduct } from "../contexts/AdminProductContext";
@@ -46,8 +47,11 @@ function AddProductForm() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { addProduct, editProduct, products } = useProduct();
   const { id } = useParams<{ id: string }>();
-  const product = products.find((p) => p._id === id);
   const { selectedCategoriesAdd } = useCategoryContext();
+  const product = products.find((p) => p._id === id);
+  const [file, setFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const isEdit = Boolean(product);
 
@@ -64,15 +68,29 @@ function AddProductForm() {
     });
 
     if (!imageResponse.ok) {
-      formik.setFieldError("imageId", "Error uploading image, please try again or with antoher image.");
-      return; // Stop the function execution if image upload fails
+      formik.setFieldError("imageId", "Error uploading image, please try again or with another image.");
+      return;
     }
 
+    const handleChooseFile = () => {
+      if (fileInputRef.current) {
+        fileInputRef.current.click();
+      }
+    };
+
     const imageId = await imageResponse.json();
-    // Handle image upload success
 
     console.log("Uploaded image id:", imageId);
     formik.setFieldValue("imageId", imageId); // Set formik.values.image with the selected file
+
+    // Display image preview
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setImagePreview(reader.result as string);
+      }
+    };
+    reader.readAsDataURL(file);
   };
 
   const formik = useFormik<ProductValues>({
@@ -193,21 +211,7 @@ function AddProductForm() {
               helperText={formik.touched.brand && formik.errors.brand}
               sx={{ flex: 1 }}
             />
-            <TextField
-              id="image"
-              type="file"
-              name="imageId"
-              onChange={handleImageChange}
-              error={Boolean(formik.touched.imageId && formik.errors.imageId)}
-              helperText={formik.touched.imageId && formik.errors.imageId}
-              inputProps={{
-                "data-cy": "product-image",
-                accept: "image/*",
-                lang: "en",
-              }}
-              FormHelperTextProps={{ "data-cy": "product-image-error" } as any}
-              sx={{ flex: 1 }}
-            />
+            <AddCategoryDropDown />
           </Container>
           <TextField
             id="description"
@@ -245,7 +249,57 @@ function AddProductForm() {
               FormHelperTextProps={{ "data-cy": "product-inStockAmount-error" } as any}
               sx={{ flex: 1 }}
             />
-            <AddCategoryDropDown />
+          </Container>
+          <Container
+            sx={{
+              padding: "0 !important",
+              display: "flex",
+              alignItems: "flex-end",
+              flexDirection: "row",
+              width: "100%",
+              gap: "1rem",
+            }}
+          >
+            <Box sx={{width: "50%"}}>
+              <Typography variant="subtitle2">Preview</Typography>
+              {imagePreview ? (
+                <Box
+                  component="img"
+                  src={imagePreview}
+                  sx={{
+                    width: "100%",
+                  }}
+                />
+              ) : (
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100%",
+                    height: "20rem",
+                    border: "1px solid grey",
+                  }}
+                >
+                  <Typography variant="subtitle2">No image uploaded yet</Typography>
+                </Box>
+              )}
+            </Box>
+            <TextField
+              id="image"
+              type="file"
+              name="imageId"
+              onChange={handleImageChange}
+              error={Boolean(formik.touched.imageId && formik.errors.imageId)}
+              helperText={formik.touched.imageId && formik.errors.imageId}
+              inputProps={{
+                "data-cy": "product-image",
+                accept: "image/*",
+                lang: "en",
+              }}
+              FormHelperTextProps={{ "data-cy": "product-image-error" } as any}
+              sx={{ flex: 1 }}
+            />
           </Container>
           <Button type="submit" variant="contained">
             {isEdit ? "Edit Product" : "Add Product"}
