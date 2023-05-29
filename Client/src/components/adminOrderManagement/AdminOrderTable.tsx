@@ -47,7 +47,7 @@ function AdminOrderTable() {
         <Table>
           <TableHead
             sx={{
-              "@media (max-width: 550px)": {
+              "@media (max-width: 720px)": {
                 display: "none",
               },
             }}

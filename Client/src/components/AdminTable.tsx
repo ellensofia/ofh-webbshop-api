@@ -38,7 +38,7 @@ function AdminTable() {
           alignItems: "center",
           marginTop: "2rem",
           marginBottom: "1rem",
-          "@media (max-width: 550px)": {
+          "@media (max-width: 720px)": {
             display: "block",
           },
         }}
@@ -48,7 +48,7 @@ function AdminTable() {
           sx={{
             display: "flex",
             gap: "1rem",
-            "@media (max-width: 550px)": {
+            "@media (max-width: 720px)": {
               justifyContent: "space-between",
             },
           }}
@@ -57,7 +57,7 @@ function AdminTable() {
             variant="contained"
             sx={{
               height: "10%",
-              "@media (max-width: 550px)": {
+              "@media (max-width: 720px)": {
                 fontSize: "12px",
               },
             }}
@@ -71,7 +71,7 @@ function AdminTable() {
             variant="contained"
             sx={{
               height: "10%",
-              "@media (max-width: 550px)": {
+              "@media (max-width: 720px)": {
                 fontSize: "12px",
               },
             }}
@@ -85,7 +85,7 @@ function AdminTable() {
       <TableContainer component={Paper}>
         <Table>
           <TableHead sx={{
-              "@media (max-width: 550px)": {
+              "@media (max-width: 720px)": {
                 display: "none",
               },
             }}>

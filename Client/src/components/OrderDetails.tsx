@@ -39,7 +39,7 @@ export function OrderDetails() {
           alignItems: "center",
           marginTop: "2rem",
           marginBottom: "1rem",
-          "@media (max-width: 550px)": {
+          "@media (max-width: 720px)": {
             display: "block",
           },
         }}
@@ -49,7 +49,7 @@ export function OrderDetails() {
             display: "flex",
             alignItems: "baseline",
             gap: "1rem",
-            "@media (max-width: 550px)": {
+            "@media (max-width: 720px)": {
               display: "block",
               marginBottom: "1rem",
             },
@@ -67,7 +67,7 @@ export function OrderDetails() {
         <Table>
           <TableHead
             sx={{
-              "@media (max-width: 550px)": {
+              "@media (max-width: 720px)": {
                 display: "none",
               },
             }}

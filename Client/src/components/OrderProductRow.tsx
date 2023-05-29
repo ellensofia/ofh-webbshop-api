@@ -11,7 +11,7 @@ export function OrderProductRow({ item }: OrderProductRowProps) {
       <TableRow
         sx={{
           display: "none",
-          "@media (min-width: 551px)": {
+          "@media (min-width: 721px)": {
             display: "table-row",
           },
         }}
@@ -43,7 +43,7 @@ export function OrderProductRow({ item }: OrderProductRowProps) {
       <TableRow
         sx={{
           display: "none",
-          "@media (max-width: 550px)": {
+          "@media (max-width: 720px)": {
             display: "table-row",
           },
         }}
