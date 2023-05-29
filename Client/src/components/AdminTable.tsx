@@ -10,10 +10,10 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useProduct } from "../contexts/AdminProductContext";
 import AdminProductRows from "./AdminProductRows";
-import { useCallback, useEffect } from "react";
 
 /**
  * The AdminTable where all the AdminProductRows are
@@ -38,6 +38,9 @@ function AdminTable() {
           alignItems: "center",
           marginTop: "2rem",
           marginBottom: "1rem",
+          "@media (max-width: 550px)": {
+            display: "block",
+          },
         }}
       >
         <h2>Admin</h2>
@@ -45,18 +48,36 @@ function AdminTable() {
           sx={{
             display: "flex",
             gap: "1rem",
+            "@media (max-width: 550px)": {
+              justifyContent: "space-between",
+            },
           }}
         >
           <Button
             variant="contained"
-            sx={{ height: "10%" }}
+            sx={{
+              height: "10%",
+              "@media (max-width: 550px)": {
+                fontSize: "12px",
+              },
+            }}
             component={Link}
             data-cy="admin-add-product"
             to="/admin/product/new/"
           >
             + Add product
           </Button>
-          <Button variant="contained" sx={{ height: "10%" }} component={Link} to="/admin/category/new/">
+          <Button
+            variant="contained"
+            sx={{
+              height: "10%",
+              "@media (max-width: 550px)": {
+                fontSize: "12px",
+              },
+            }}
+            component={Link}
+            to="/admin/category/new/"
+          >
             + Add category
           </Button>
         </Box>
