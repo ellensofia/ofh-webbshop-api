@@ -84,7 +84,11 @@ function AdminTable() {
       </Box>
       <TableContainer component={Paper}>
         <Table>
-          <TableHead>
+          <TableHead sx={{
+              "@media (max-width: 550px)": {
+                display: "none",
+              },
+            }}>
             <TableRow>
               <TableCell />
               <TableCell align="center" sx={{ fontSize: "1.2rem" }}>
