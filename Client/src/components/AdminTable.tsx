@@ -10,10 +10,10 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import { useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useProduct } from "../contexts/AdminProductContext";
 import AdminProductRows from "./AdminProductRows";
-import { useCallback, useEffect } from "react";
 
 /**
  * The AdminTable where all the AdminProductRows are
@@ -38,6 +38,7 @@ function AdminTable() {
           alignItems: "center",
           marginTop: "2rem",
           marginBottom: "1rem",
+          flexWrap: "wrap",
         }}
       >
         <h2>Admin</h2>
@@ -45,6 +46,7 @@ function AdminTable() {
           sx={{
             display: "flex",
             gap: "1rem",
+            flexWrap: "wrap",
           }}
         >
           <Button
@@ -77,6 +79,9 @@ function AdminTable() {
               </TableCell>
               <TableCell align="center" sx={{ fontSize: "1.2rem" }}>
                 Price
+              </TableCell>
+              <TableCell align="center" sx={{ fontSize: "1.2rem" }}>
+                In stock
               </TableCell>
               <TableCell />
             </TableRow>
