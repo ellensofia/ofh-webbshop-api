@@ -152,7 +152,6 @@ export const ProductProvider = ({ children }: Props) => {
       if (!productResponse.ok) {
         throw new Error("Failed to delete product");
       }
-  
       console.log("Product and image deleted successfully");
     } catch (error) {
       console.error("Error deleting product:", error);
