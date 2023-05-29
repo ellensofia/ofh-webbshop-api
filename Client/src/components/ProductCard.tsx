@@ -77,40 +77,44 @@ function ProductCard() {
                 >
                   {product.description}
                 </Typography>
-                <Typography variant="subtitle1">Quantity</Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: "1rem",
-                  }}
-                >
-                  <Button
-                    variant="text"
-                    onClick={handleDecreaseQuantity}
-                    sx={{
-                      fontSize: "1.3rem",
-                      color: (theme) => theme.palette.text.primary,
-                    }}
-                  >
-                    -
-                  </Button>
-                  <Typography data-cy="product-quantity">{quantity}</Typography>
-                  <Button
-                    variant="text"
-                    onClick={handleIncreaseQuantity}
-                    sx={{
-                      fontSize: "1.3rem",
-                      color: (theme) => theme.palette.text.primary,
-                    }}
-                  >
-                    +
-                  </Button>
-                </Box>
-                {errorMessage && (
-                  <Typography variant="subtitle2" sx={{ color: "red", marginBottom: "1rem" }}>
-                    {errorMessage}
-                  </Typography>
+                {product.inStockAmount > 0 && (
+                  <>
+                    <Typography variant="subtitle1">Quantity</Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "1rem",
+                      }}
+                    >
+                      <Button
+                        variant="text"
+                        onClick={handleDecreaseQuantity}
+                        sx={{
+                          fontSize: "1.3rem",
+                          color: (theme) => theme.palette.text.primary,
+                        }}
+                      >
+                        -
+                      </Button>
+                      <Typography data-cy="product-quantity">{quantity}</Typography>
+                      <Button
+                        variant="text"
+                        onClick={handleIncreaseQuantity}
+                        sx={{
+                          fontSize: "1.3rem",
+                          color: (theme) => theme.palette.text.primary,
+                        }}
+                      >
+                        +
+                      </Button>
+                    </Box>
+                    {errorMessage && (
+                      <Typography variant="subtitle2" sx={{ color: "red", marginBottom: "1rem" }}>
+                        {errorMessage}
+                      </Typography>
+                    )}
+                  </>
                 )}
                 {product.inStockAmount > 0 ? (
                   <Button
