@@ -1,4 +1,16 @@
-import { Box, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { RadioButtonUnchecked, TaskAlt } from "@mui/icons-material";
+import {
+  Box,
+  Container,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Order, useOrder } from "../contexts/OrderContext";
@@ -31,12 +43,12 @@ export function OrderDetails() {
         }}
       >
         <div style={{ display: "flex", alignItems: "baseline", gap: "1rem" }}>
-          <h3>{"Order id: "}</h3>
-          <span>{order?._id}</span>
+          <Typography variant="h6">{"Order id: "}</Typography>
+          <Typography variant="body1">{order?._id}</Typography>
         </div>
-        <div style={{ display: "flex", alignItems: "baseline", gap: "1rem" }}>
-          <h3>{"Status:"}</h3>
-          <span>{order?.isShipped ? <span>Shipped</span> : <span>Shippment pending</span>}</span>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <Typography variant="h6">{"Shipped:"}</Typography>
+          <Typography>{order?.isShipped ? <TaskAlt /> : <RadioButtonUnchecked />}</Typography>
         </div>
       </Box>
       <TableContainer component={Paper}>
@@ -83,14 +95,26 @@ export function OrderDetails() {
       </TableContainer>
       <Box
         sx={{
+          padding: "1rem",
+        }}
+      >
+        <Typography variant="body1">{"User information:"}</Typography>
+        <Typography variant="body2">{"Name: " + order?.address.firstName + " " + order?.address.lastName}</Typography>
+        <Typography variant="body2">{"Email: " + order?.userId.email}</Typography>
+        <Typography variant="body2">{"City: " + order?.address.city}</Typography>
+        <Typography variant="body2">{"Post code: " + order?.address.postCode}</Typography>
+        <Typography variant="body2">{"Street: " + order?.address.street}</Typography>
+        <Typography variant="body2">{"Phone number: " + order?.address.phoneNumber}</Typography>
+      </Box>
+      <Box
+        sx={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          marginTop: "2rem",
           marginBottom: "1rem",
         }}
       >
-        <h3>Total: {order?.price} SEK</h3>
+        <Typography variant="subtitle1">Total: {order?.price} SEK</Typography>
       </Box>
     </Container>
   );
