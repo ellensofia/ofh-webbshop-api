@@ -36,7 +36,13 @@ export function MyOrdersList() {
       </Box>
       <TableContainer component={Paper}>
         <Table>
-          <TableHead>
+          <TableHead
+            sx={{
+              "@media (max-width: 550px)": {
+                display: "none",
+              },
+            }}
+          >
             <TableRow>
               <TableCell align="left" sx={{ fontSize: "1.5rem" }}>
                 Order ID
@@ -58,7 +64,7 @@ export function MyOrdersList() {
           <TableBody>
             {myOrders.map((order) => (
               <UserOrder key={order._id} order={order} />
-              ))}
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
