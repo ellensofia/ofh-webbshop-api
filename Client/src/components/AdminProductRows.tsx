@@ -14,18 +14,16 @@ type Props = {
 
 /**
  * All the rows inside AdminTable
-*/
+ */
 function AdminProductRows(props: Props) {
-  
   const { removeProduct } = useProduct();
-  const [deleteProductDialogOpen, setDeleteProductDialogOpen] =
-    React.useState(false);
+  const [deleteProductDialogOpen, setDeleteProductDialogOpen] = React.useState(false);
 
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }} data-cy="product">
         <TableCell sx={{ padding: 0 }} />
-        <TableCell component="th" scope="row" align="center">
+        <TableCell component="th" scope="row" align="center" sx={{ width: { padding: "1rem 0.5rem" } }}>
           <Box
             component="img"
             src={`/api/images/${props.product.imageId}`}
@@ -33,17 +31,17 @@ function AdminProductRows(props: Props) {
             sx={{ width: { xs: "4rem", sm: "10rem" } }}
           ></Box>
         </TableCell>
-        <TableCell align="center" data-cy="product-id">
+        <TableCell align="center" data-cy="product-id" sx={{ width: { padding: "1rem 0.5rem" } }}>
           {props.product._id}
         </TableCell>
 
-        <TableCell align="center" data-cy="product-title">
+        <TableCell align="center" data-cy="product-title" sx={{ width: { padding: "1rem 0.5rem" } }}>
           {props.product.title}
         </TableCell>
-        <TableCell align="center" data-cy="product-price">
+        <TableCell align="center" data-cy="product-price" sx={{ width: { padding: "1rem 0.5rem" } }}>
           {props.product.price} SEK
         </TableCell>
-        <TableCell align="center">
+        <TableCell align="center" sx={{ width: { padding: "1rem 0.5rem" } }}>
           <IconButton
             className="material-symbols-outlined"
             data-cy="admin-edit-product"
@@ -51,7 +49,7 @@ function AdminProductRows(props: Props) {
               bgcolor: theme.palette.primary.main,
               color: "black",
               fontSize: "1.8rem",
-              margin: "0.5rem",
+              margin: "1rem 0.5rem",
             }}
             component={Link}
             to={`/admin/product/${props.product._id}`}

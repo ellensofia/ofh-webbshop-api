@@ -1,12 +1,10 @@
 import React, { createContext, useContext, useState } from "react";
 import { Category } from "../contexts/CategoryContext";
-// import { Product } from "../../data";
 
 interface Props {
   children: React.ReactNode;
 }
 
-// export type Product = ProductValues;
 export type Product = {
   categories: Category[];
   title: string;
@@ -112,8 +110,24 @@ export const ProductProvider = ({ children }: Props) => {
     }
   };
 
-  const editProduct = (editedProduct: Product) => {
-    setProducts(products.map((product) => (product._id === editedProduct._id ? editedProduct : product)));
+  const editProduct = async (editedProduct: Product) => {
+    try {
+      const response = await fetch(`/api/products/${editedProduct._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editedProduct),
+      });
+
+      console.log("Product Edit Response:", response);
+      if (!response.ok) throw new Error("Failed to add product.");
+
+      setProducts(products.map((product) => (product._id === editedProduct._id ? editedProduct : product)));
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   };
 
   const removeProduct = async (product: Product) => {
@@ -135,7 +149,6 @@ export const ProductProvider = ({ children }: Props) => {
       if (!productResponse.ok) {
         throw new Error("Failed to delete product");
       }
-
       console.log("Product and image deleted successfully");
     } catch (error) {
       console.error("Error deleting product:", error);

@@ -71,7 +71,6 @@ function AddProductForm() {
     const imageId = await imageResponse.json();
     // Handle image upload success
 
-    console.log("Uploaded image id:", imageId);
     formik.setFieldValue("imageId", imageId); // Set formik.values.image with the selected file
   };
 
@@ -85,22 +84,23 @@ function AddProductForm() {
       inStockAmount: isEdit ? product?.inStockAmount ?? 1 : 1,
       isArchived: false,
     },
-    // validationSchema: ProductSchema,
-    onSubmit: async (product) => {
+    validationSchema: ProductSchema,
+    onSubmit: async (newValues) => {
       console.log(product);
       try {
         if (isEdit) {
-          // await editProduct(product);
+          if (!product) throw new Error("No product found.");
+          editProduct({ ...product, ...newValues });
         } else {
           const productWithCategories = {
-            ...product,
+            ...newValues,
             categories: selectedCategoriesAdd.map((category) => category._id),
           };
           await addProduct(productWithCategories);
         }
         navigate("/admin");
       } catch (error) {
-        // Visa felmeddelande för användaren.
+        console.log(error);
       }
     },
   });

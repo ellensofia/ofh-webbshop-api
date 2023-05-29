@@ -14,7 +14,7 @@ export async function registerProduct(req: Request, res: Response) {
 }
 
 export async function getAllProducts(req: Request, res: Response) {
-  const products = await ProductModel.find({});
+  const products = await ProductModel.find({isArchived: false});
   res.status(200).json(products);
 }
 
@@ -37,7 +37,16 @@ export async function getOneProduct(req: Request, res: Response) {
 }
 
 export async function editProduct(req: Request, res: Response) {
-  return console.log("Update Product");
+  const { _id, ...newData } = req.body;
+
+  const product = await ProductModel.findByIdAndUpdate(_id, { isArchived: true });
+  if (!product) {
+    return res.status(404).json(`Product with ID ${_id} not found`);
+  }
+  const newProduct = new ProductModel(newData);
+  await newProduct.save();
+
+  res.status(200).json(newProduct);
 }
 
 export async function deleteProduct(req: Request, res: Response) {
