@@ -67,7 +67,6 @@ function AdminTable() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell />
               <TableCell align="center" sx={{ fontSize: "1.2rem" }}>
                 Image
               </TableCell>

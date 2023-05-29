@@ -41,7 +41,7 @@ function AdminProductRows(props: Props) {
           {props.product.price} SEK
         </TableCell>
         <TableCell align="center" sx={{ width: { padding: "1rem 0.5rem" } }}>
-          In stock {props.product.inStockAmount}
+          {props.product.inStockAmount}
         </TableCell>
         <TableCell align="center" sx={{ width: { padding: "1rem 0.5rem" } }}>
           <IconButton
