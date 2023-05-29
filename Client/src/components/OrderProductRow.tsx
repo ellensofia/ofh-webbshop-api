@@ -52,15 +52,15 @@ export function OrderProductRow({ item }: OrderProductRowProps) {
           <Box
             component="img"
             sx={{
-              width: "10rem",
+              width: "7rem",
             }}
             src={`/api/images/${item.product.imageId}`}
           />
           <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'end', justifyContent: 'space-evenly'}}>
-            <Box sx={{ fontSize: "1.5rem" }}>Title: {item.product.title}</Box>
-            <Box sx={{ fontSize: "1rem" }}>Desc: {item.product.description}</Box>
+            <Box sx={{ fontSize: "1.5rem" }}>{item.product.title}</Box>
+            <Box sx={{ fontSize: "1rem" }}>{item.product.description}</Box>
             <Box sx={{ fontSize: "1.2rem" }}> Quantity: {item.quantity}</Box>
-            <Box sx={{ fontSize: "1.2rem" }}>Price: {item.product.price} SEK</Box>
+            <Box sx={{ fontSize: "1.2rem" }}>{item.product.price} SEK</Box>
           </Container>
         </TableCell>
       </TableRow>
