@@ -78,6 +78,9 @@ function AddProductForm() {
     console.log("Uploaded image id:", imageId);
     formik.setFieldValue("imageId", imageId);
 
+    // The FileReader API reads the content of a file and converts it into a data URL.
+    // It reads the file using the readAsDataURL method and triggers the onload event 
+    // when the reading is complete. 
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
@@ -98,8 +101,10 @@ function AddProductForm() {
     }
   };
 
-  // This useEffect fetch and display the image preview when in edit mode.
-  // Base64 converts the image data to a string
+  // This useEffect fetches and displays the image preview when in edit mode.
+  // The image data is retireved as a Blob object and creates a FileReader instance
+  // to read the Blob data. When the FileReader finishes reading the data (onloadend event),
+  // it sets the base64 string representation of the image data as the imagePreview.
   useEffect(() => {
     if (isEdit && product?.imageId) {
       const fetchImage = async () => {
