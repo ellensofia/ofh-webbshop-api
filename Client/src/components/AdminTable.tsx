@@ -48,8 +48,9 @@ function AdminTable() {
           sx={{
             display: "flex",
             gap: "1rem",
+            flexWrap: "wrap",
             "@media (max-width: 720px)": {
-              justifyContent: "space-between",
+              justifyContent: "revert",
             },
           }}
         >
@@ -58,7 +59,7 @@ function AdminTable() {
             sx={{
               height: "10%",
               "@media (max-width: 720px)": {
-                fontSize: "12px",
+                fontSize: "10px",
               },
             }}
             component={Link}
@@ -72,7 +73,7 @@ function AdminTable() {
             sx={{
               height: "10%",
               "@media (max-width: 720px)": {
-                fontSize: "12px",
+                fontSize: "10px",
               },
             }}
             component={Link}
