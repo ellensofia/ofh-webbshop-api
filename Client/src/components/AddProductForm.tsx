@@ -298,6 +298,7 @@ function AddProductForm() {
               id="image"
               type="text"
               name="image"
+              value={selectedFileName}
               placeholder={isEdit ? selectedFileName : "No image uploaded"}
               error={Boolean(formik.touched.imageId && formik.errors.imageId)}
               helperText={formik.touched.imageId && formik.errors.imageId}
