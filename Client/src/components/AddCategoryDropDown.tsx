@@ -1,6 +1,7 @@
 import { Checkbox, FormControl, InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material";
 import { useCategoryContext } from "../contexts/CategoryContext";
 
+//** Component where you choose categories for a new product */
 export default function AddCategoryDropDown() {
   const { categories, selectedCategoriesAdd, setSelectedCategoriesAdd } = useCategoryContext();
 
@@ -26,7 +27,6 @@ export default function AddCategoryDropDown() {
         id="checkbox-select"
         multiple
         label="Categories"
-        sx={{ flex: 1 }}
         value={selectedCategoriesAdd.map((category) => category._id)}
         input={<OutlinedInput label="Tag" />}
         renderValue={(selected) => {
@@ -49,6 +49,7 @@ export default function AddCategoryDropDown() {
           >
             {category.name}
             <Checkbox
+              id="checkbox"
               checked={selectedCategoriesAdd.some((selected) => selected._id === category._id)}
               onChange={() => handleCategoryToggle(category._id)}
               color="secondary"
