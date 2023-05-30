@@ -1,18 +1,6 @@
-import {
-  Box,
-  Button,
-  Container,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
-import { Link } from "react-router-dom";
-import { User } from "../contexts/UserContext";
+import { Box, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from "react";
+import { User } from "../contexts/UserContext";
 import { ListedUser } from "./ListedUser";
 
 export function UsersList() {
@@ -29,7 +17,7 @@ export function UsersList() {
 
   useEffect(() => {
     getAllUsers();
-  });
+  }, []);
 
   return (
     <Container maxWidth="md">
