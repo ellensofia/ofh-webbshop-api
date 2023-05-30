@@ -18,7 +18,7 @@ export interface Order {
   updatedAt: string;
 }
 
-interface OrderItem {
+export interface OrderItem {
   _id: string;
   product: Product;
   quantity: number;

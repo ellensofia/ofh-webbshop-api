@@ -38,7 +38,9 @@ function AdminTable() {
           alignItems: "center",
           marginTop: "2rem",
           marginBottom: "1rem",
-          flexWrap: "wrap",
+          "@media (max-width: 720px)": {
+            display: "block",
+          },
         }}
       >
         <h2>Admin</h2>
@@ -46,26 +48,49 @@ function AdminTable() {
           sx={{
             display: "flex",
             gap: "1rem",
-            flexWrap: "wrap",
+            "@media (max-width: 720px)": {
+              justifyContent: "space-between",
+            },
           }}
         >
           <Button
             variant="contained"
-            sx={{ height: "10%" }}
+            sx={{
+              height: "10%",
+              "@media (max-width: 720px)": {
+                fontSize: "12px",
+              },
+            }}
             component={Link}
             data-cy="admin-add-product"
             to="/admin/product/new/"
           >
             + Add product
           </Button>
-          <Button variant="contained" sx={{ height: "10%" }} component={Link} to="/admin/category/new/">
+          <Button
+            variant="contained"
+            sx={{
+              height: "10%",
+              "@media (max-width: 720px)": {
+                fontSize: "12px",
+              },
+            }}
+            component={Link}
+            to="/admin/category/new/"
+          >
             + Add category
           </Button>
         </Box>
       </Box>
       <TableContainer component={Paper}>
         <Table>
-          <TableHead>
+          <TableHead
+            sx={{
+              "@media (max-width: 720px)": {
+                display: "none",
+              },
+            }}
+          >
             <TableRow>
               <TableCell align="center" sx={{ fontSize: "1.2rem" }}>
                 Image
