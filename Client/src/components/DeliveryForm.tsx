@@ -40,7 +40,7 @@ function DeliveryForm() {
     validationSchema: DeliverySchema,
     onSubmit: async (address) => {
       const orderId = await createOrder(address);
-      navigate(`/confirmation/${orderId}`);
+      orderId && navigate(`/confirmation/${orderId}`);
     },
   });
 

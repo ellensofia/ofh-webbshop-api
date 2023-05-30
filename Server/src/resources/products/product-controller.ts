@@ -14,12 +14,8 @@ export async function registerProduct(req: Request, res: Response) {
 }
 
 export async function getAllProducts(req: Request, res: Response) {
-  const products = await ProductModel.find({isArchived: false});
+  const products = await ProductModel.find({ isArchived: false });
   res.status(200).json(products);
-}
-
-export async function getAllProductsFromCategory(req: Request, res: Response) {
-  return console.log("Get All Products From Category");
 }
 
 export async function getOneProduct(req: Request, res: Response) {

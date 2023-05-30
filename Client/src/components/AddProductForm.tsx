@@ -73,7 +73,6 @@ function AddProductForm() {
     const imageId = await imageResponse.json();
     // Handle image upload success
 
-    console.log("Uploaded image id:", imageId);
     formik.setFieldValue("imageId", imageId); // Set formik.values.image with the selected file
   };
 
@@ -90,7 +89,6 @@ function AddProductForm() {
     },
     validationSchema: ProductSchema,
     onSubmit: async (newValues) => {
-      console.log(product);
       try {
         if (isEdit) {
           if (!product) throw new Error("No product found.");

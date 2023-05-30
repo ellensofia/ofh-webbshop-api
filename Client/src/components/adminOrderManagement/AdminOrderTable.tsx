@@ -23,7 +23,7 @@ function AdminOrderTable() {
       return await getAllOrders().then((orders) => setOrders(orders));
     };
     fetchOrders();
-  });
+  }, []);
 
   const handleMarkShipped = async (orderId: string) => {
     const updatedOrder = await markShipped(orderId);
