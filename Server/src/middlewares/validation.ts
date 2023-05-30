@@ -21,6 +21,16 @@ export const validateIdTest = async (id: string | undefined) => {
   return id ? ObjectId.isValid(id) : false;
 };
 
+export const validateImage = (req: Request, res: Response, next: NextFunction) => {
+  if (!req.busboy) throw new Error("Busboy is not initialized.");
+  req.pipe(req.busboy);
+  req.busboy.on("file", (_, file, info) => {
+    const { mimeType } = info;
+    if (!["image/jpg", "image/jpeg", "image/png"].includes(mimeType)) throw new Error("Invalid file type.");
+  });
+  next();
+};
+
 // ------- Schemas ------- //
 
 // ------- User ------- //

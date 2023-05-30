@@ -4,13 +4,9 @@ import { fileBucket } from "./image-model";
 
 export async function uploadImage(req: Request, res: Response) {
   if (!req.busboy) throw new Error("Busboy is not initialized.");
-  req.pipe(req.busboy);
 
   req.busboy.on("file", (_, file, info) => {
     const { filename, mimeType } = info;
-
-    // File type validation
-    if (!["image/jpg", "image/jpeg", "image/png"].includes(mimeType)) throw new Error("Invalid file type.");
 
     const uploadStream = fileBucket
       .openUploadStream(filename, { contentType: mimeType })

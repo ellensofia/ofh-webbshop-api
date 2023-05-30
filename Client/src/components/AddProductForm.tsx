@@ -86,7 +86,6 @@ function AddProductForm() {
     },
     validationSchema: ProductSchema,
     onSubmit: async (newValues) => {
-      console.log(product);
       try {
         if (isEdit) {
           if (!product) throw new Error("No product found.");
