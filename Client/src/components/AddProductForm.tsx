@@ -57,30 +57,27 @@ function AddProductForm() {
   const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
-  
+
     setSelectedFileName(file.name);
-  
+
     const formData = new FormData();
     formData.append("image", file);
-  
+
     const imageResponse = await fetch("/api/images", {
       method: "POST",
       body: formData,
     });
-  
+
     if (!imageResponse.ok) {
-      formik.setFieldError(
-        "imageId",
-        "Error uploading image, please try again or choose another image."
-      );
+      formik.setFieldError("imageId", "Error uploading image, please try again or choose another image.");
       return;
     }
-  
+
     const imageId = await imageResponse.json();
-  
+
     console.log("Uploaded image id:", imageId);
     formik.setFieldValue("imageId", imageId);
-  
+
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
@@ -89,11 +86,11 @@ function AddProductForm() {
     };
     reader.readAsDataURL(file);
   };
-  
-  useEffect(() => {
-    console.log(selectedFileName);
-  }, [selectedFileName]);
-  
+
+  // useEffect(() => {
+  //   console.log(selectedFileName);
+  // }, [selectedFileName]);
+
   const handleChooseFile = () => {
     const fileInput = document.getElementById("file-input") as HTMLInputElement;
     if (fileInput) {
@@ -101,6 +98,23 @@ function AddProductForm() {
     }
   };
 
+  useEffect(() => {
+    if (isEdit && product?.imageId) {
+      const fetchImage = async () => {
+        const response = await fetch(`/api/images/${product.imageId}`);
+        if (response.ok) {
+          const imageBlob = await response.blob();
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setImagePreview(reader.result as string);
+          };
+          reader.readAsDataURL(imageBlob);
+        }
+      };
+
+      fetchImage();
+    }
+  }, [isEdit, product]);
 
   const formik = useFormik<ProductValues>({
     initialValues: {
@@ -272,15 +286,14 @@ function AddProductForm() {
               id="image"
               type="text"
               name="image"
-              value={selectedFileName}
-              placeholder={selectedFileName || "No image uploaded"}
+              placeholder={isEdit ? "Upload new image" : "No image uploaded"}
               error={Boolean(formik.touched.imageId && formik.errors.imageId)}
               helperText={formik.touched.imageId && formik.errors.imageId}
               FormHelperTextProps={{ "data-cy": "product-image-error" } as any}
               sx={{ flex: 1 }}
             />
             <Button variant="contained" onClick={handleChooseFile} sx={{ fontSize: { xs: "0.7rem", sm: "0.85rem" } }}>
-              Choose file
+              {isEdit ? "Change file" : "Choose file"}
             </Button>
             <input
               id="file-input"
