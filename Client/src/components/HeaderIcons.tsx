@@ -20,12 +20,7 @@ function HeaderIcons() {
       }}
     >
       <UserButton />
-      <IconButton
-        className="material-symbols-outlined"
-        sx={iconStyle}
-        component={Link}
-        to="/underconstruction"
-      >
+      <IconButton className="material-symbols-outlined" sx={iconStyle} component={Link} to="/underconstruction">
         favorite
       </IconButton>
       <Badge
@@ -36,6 +31,11 @@ function HeaderIcons() {
           "& .MuiBadge-badge": {
             fontFamily: theme.typography.subtitle2.fontFamily,
             textAlign: "center",
+            minWidth: { xs: "14px", sm: "20px" },
+            width: { xs: "14px", sm: "20px" },
+            fontSize: { xs: "0.55rem", sm: "0.75rem" },
+            height: { xs: "14px", sm: "20px" },
+            padding: "6px",
           },
         }}
       >
@@ -48,7 +48,7 @@ function HeaderIcons() {
             window.scroll(0, 0);
           }}
           sx={{
-            fontSize: { xs: "2rem", sm: "2.5rem", cursor: "pointer" },
+            fontSize: { xs: "1.8rem", sm: "2.5rem", cursor: "pointer" },
             color: (theme) => theme.palette.text.primary,
             padding: 0,
           }}
@@ -63,7 +63,7 @@ function HeaderIcons() {
 /* Styling */
 
 export const iconStyle: SxProps<Theme> = {
-  fontSize: { xs: "2rem", sm: "2.5rem" },
+  fontSize: { xs: "1.8rem", sm: "2.5rem" },
   cursor: "pointer",
   padding: { xs: "0rem", md: "0.3rem" },
   color: "black",

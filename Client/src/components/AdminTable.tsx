@@ -49,7 +49,7 @@ function AdminTable() {
             display: "flex",
             gap: "1rem",
             "@media (max-width: 720px)": {
-              justifyContent: "space-between",
+              justifyContent: "revert",
             },
           }}
         >
@@ -84,11 +84,13 @@ function AdminTable() {
       </Box>
       <TableContainer component={Paper}>
         <Table>
-          <TableHead sx={{
+          <TableHead
+            sx={{
               "@media (max-width: 720px)": {
                 display: "none",
               },
-            }}>
+            }}
+          >
             <TableRow>
               <TableCell />
               <TableCell align="center" sx={{ fontSize: "1.2rem" }}>
