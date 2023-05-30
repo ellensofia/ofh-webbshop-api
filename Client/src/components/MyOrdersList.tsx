@@ -11,6 +11,7 @@ export function MyOrdersList() {
   const getUserOrders = async () => {
     const response = await fetch(`/api/orders/user/${user?._id}`);
     const data = await response.json();
+    console.log("Getting orders.");
 
     if (response.ok) {
       setMyOrders(data);
@@ -19,7 +20,7 @@ export function MyOrdersList() {
 
   useEffect(() => {
     getUserOrders();
-  });
+  }, [user]);
 
   return (
     <Container maxWidth="md">
