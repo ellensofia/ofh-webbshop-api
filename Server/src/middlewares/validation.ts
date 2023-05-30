@@ -55,6 +55,14 @@ export const productSchema = Yup.object().shape({
       return validateIdTest(value);
     })
     .required("Image is required."),
+  categories: Yup.array()
+    .of(
+      Yup.string().test("valid-object-id", "Invalid ID.", (value) => {
+        return validateIdTest(value);
+      }),
+    )
+    .min(1, "Each product must have at least one category.")
+    .required("Categories are required."),
   inStockAmount: Yup.number().required("In stock amount is required."),
   isArchived: Yup.boolean().required("Is archived is required."),
 });
@@ -101,5 +109,5 @@ export const orderSchema = Yup.object().shape({
 // ------- Category ------- //
 
 export const categorySchema = Yup.object().shape({
-  name: Yup.string().required("Name is required."),
+  name: Yup.string().min(1, "Category names must have at least one character.").required("Name is required."),
 });

@@ -8,7 +8,9 @@ import { NewCategory, useCategoryContext } from "../contexts/CategoryContext";
 import { theme } from "../theme/theme";
 
 const CategorySchema = Yup.object({
-  name: Yup.string().required("Please enter the name for the category"),
+  name: Yup.string()
+    .min(1, "Category names must have at least one character")
+    .required("Please enter the name for the category."),
 });
 
 export type CategoryValues = Yup.InferType<typeof CategorySchema>;
