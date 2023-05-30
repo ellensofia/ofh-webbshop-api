@@ -49,7 +49,7 @@ function AddProductForm() {
   const { addProduct, editProduct, products } = useProduct();
   const { id } = useParams<{ id: string }>();
   const product = products.find((p) => p._id === id);
-  const { selectedCategoriesAdd } = useCategoryContext();
+  const { setSelectedCategoriesAdd, selectedCategoriesAdd } = useCategoryContext();
 
   const isEdit = Boolean(product);
 
@@ -102,6 +102,8 @@ function AddProductForm() {
           };
           await addProduct(productWithCategories);
         }
+        // Set selectet categories to unset/default
+        setSelectedCategoriesAdd([]);
         navigate("/admin");
       } catch (error) {
         console.log(error);

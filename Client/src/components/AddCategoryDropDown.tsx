@@ -1,6 +1,7 @@
 import { Checkbox, FormControl, InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material";
 import { useCategoryContext } from "../contexts/CategoryContext";
 
+//** Component where you choose categories for a new product */
 export default function AddCategoryDropDown() {
   const { categories, selectedCategoriesAdd, setSelectedCategoriesAdd } = useCategoryContext();
 
