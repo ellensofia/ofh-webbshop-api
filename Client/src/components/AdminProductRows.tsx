@@ -32,7 +32,6 @@ function AdminProductRows(props: Props) {
         }}
         data-cy="product"
       >
-        <TableCell sx={{ padding: 0 }} />
         <TableCell component="th" scope="row" align="center" sx={{ width: { padding: "1rem 0.5rem" } }}>
           <Box
             component="img"
