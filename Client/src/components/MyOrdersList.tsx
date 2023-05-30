@@ -11,6 +11,7 @@ export function MyOrdersList() {
   const getUserOrders = async () => {
     const response = await fetch(`/api/orders/user/${user?._id}`);
     const data = await response.json();
+    console.log("Getting orders.");
 
     if (response.ok) {
       setMyOrders(data);
@@ -19,7 +20,7 @@ export function MyOrdersList() {
 
   useEffect(() => {
     getUserOrders();
-  });
+  }, [user]);
 
   return (
     <Container maxWidth="md">
@@ -36,7 +37,13 @@ export function MyOrdersList() {
       </Box>
       <TableContainer component={Paper}>
         <Table>
-          <TableHead>
+          <TableHead
+            sx={{
+              "@media (max-width: 720px)": {
+                display: "none",
+              },
+            }}
+          >
             <TableRow>
               <TableCell align="left" sx={{ fontSize: "1.5rem" }}>
                 Order ID
@@ -58,7 +65,7 @@ export function MyOrdersList() {
           <TableBody>
             {myOrders.map((order) => (
               <UserOrder key={order._id} order={order} />
-              ))}
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
