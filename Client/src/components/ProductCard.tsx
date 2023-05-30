@@ -1,14 +1,6 @@
-import {
-  Box,
-  Button,
-  CardContent,
-  CardMedia,
-  Container,
-  Paper,
-  Typography,
-} from "@mui/material";
-import { styled, SxProps, Theme } from "@mui/material/styles";
+import { Box, Button, CardContent, CardMedia, Container, Paper, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
+import { SxProps, Theme, styled } from "@mui/material/styles";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useProduct } from "../contexts/AdminProductContext";
@@ -24,14 +16,23 @@ function ProductCard() {
   const product = products.find((p) => p._id === id);
   const { addItem } = useShoppingCart();
   const [quantity, setQuantity] = useState(1);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleIncreaseQuantity = () => {
-    setQuantity(quantity + 1);
+    const stock = product?.inStockAmount;
+    if (stock !== undefined) {
+      if (quantity < stock) {
+        setQuantity(quantity + 1);
+      } else {
+        setErrorMessage(`Sorry we only have ${stock} items in stock`);
+      }
+    }
   };
 
   const handleDecreaseQuantity = () => {
     if (quantity > 1) {
       setQuantity(quantity - 1);
+      setErrorMessage("");
     }
   };
 
@@ -61,18 +62,10 @@ function ProductCard() {
                 <Typography variant="overline" sx={{ marginBottom: "1rem" }}>
                   {product.brand}
                 </Typography>
-                <Typography
-                  variant="h5"
-                  sx={{ marginBottom: "1rem" }}
-                  data-cy="product-title"
-                >
+                <Typography variant="h5" sx={{ marginBottom: "1rem" }} data-cy="product-title">
                   {product.title}
                 </Typography>
-                <Typography
-                  variant="subtitle1"
-                  sx={{ marginBottom: "2rem" }}
-                  data-cy="product-price"
-                >
+                <Typography variant="subtitle1" sx={{ marginBottom: "2rem" }} data-cy="product-price">
                   {product.price} SEK
                 </Typography>
                 <Typography
@@ -84,43 +77,58 @@ function ProductCard() {
                 >
                   {product.description}
                 </Typography>
-                <Typography variant="subtitle1">Quantity</Typography>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: "1rem",
-                  }}
-                >
+                {product.inStockAmount > 0 && (
+                  <>
+                    <Typography variant="subtitle1">Quantity</Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "1rem",
+                      }}
+                    >
+                      <Button
+                        variant="text"
+                        onClick={handleDecreaseQuantity}
+                        sx={{
+                          fontSize: "1.3rem",
+                          color: (theme) => theme.palette.text.primary,
+                        }}
+                      >
+                        -
+                      </Button>
+                      <Typography data-cy="product-quantity">{quantity}</Typography>
+                      <Button
+                        variant="text"
+                        onClick={handleIncreaseQuantity}
+                        sx={{
+                          fontSize: "1.3rem",
+                          color: (theme) => theme.palette.text.primary,
+                        }}
+                      >
+                        +
+                      </Button>
+                    </Box>
+                    {errorMessage && (
+                      <Typography variant="subtitle2" sx={{ color: "red", marginBottom: "1rem" }}>
+                        {errorMessage}
+                      </Typography>
+                    )}
+                  </>
+                )}
+                {product.inStockAmount > 0 ? (
                   <Button
-                    variant="text"
-                    onClick={handleDecreaseQuantity}
-                    sx={{
-                      fontSize: "1.3rem",
-                      color: (theme) => theme.palette.text.primary,
-                    }}
+                    onClick={() => addItem({ ...product, quantity })}
+                    variant="contained"
+                    data-cy="product-buy-button"
                   >
-                    -
+                    ADD TO BAG
                   </Button>
-                  <Typography data-cy="product-quantity">{quantity}</Typography>
-                  <Button
-                    variant="text"
-                    onClick={handleIncreaseQuantity}
-                    sx={{
-                      fontSize: "1.3rem",
-                      color: (theme) => theme.palette.text.primary,
-                    }}
-                  >
-                    +
-                  </Button>
-                </Box>
-                <Button
-                  onClick={() => addItem({ ...product, quantity })}
-                  variant="contained"
-                  data-cy="product-buy-button"
-                >
-                  ADD TO BAG
-                </Button>
+                ) : (
+                  <Typography variant="body2" sx={{ color: "red" }}>
+                    OUT OF STOCK
+                  </Typography>
+                )}
               </CardContent>
             </Item>
           </Grid>
