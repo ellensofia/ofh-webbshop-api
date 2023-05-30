@@ -98,21 +98,28 @@ function AddProductForm() {
     }
   };
 
+  // This useEffect fetch and display the image preview when in edit mode.
+  // Base64 converts the image data to a string
   useEffect(() => {
     if (isEdit && product?.imageId) {
       const fetchImage = async () => {
         const response = await fetch(`/api/images/${product.imageId}`);
+
         if (response.ok) {
+          // Get the image data as a Blob object (Binary Large Object)
           const imageBlob = await response.blob();
+
           const reader = new FileReader();
+
           reader.onloadend = () => {
             setImagePreview(reader.result as string);
           };
+
           reader.readAsDataURL(imageBlob);
         }
       };
-
       fetchImage();
+      setSelectedFileName(product.imageId);
     }
   }, [isEdit, product]);
 
@@ -286,7 +293,7 @@ function AddProductForm() {
               id="image"
               type="text"
               name="image"
-              placeholder={isEdit ? "Upload new image" : "No image uploaded"}
+              placeholder={isEdit ? selectedFileName : "No image uploaded"}
               error={Boolean(formik.touched.imageId && formik.errors.imageId)}
               helperText={formik.touched.imageId && formik.errors.imageId}
               FormHelperTextProps={{ "data-cy": "product-image-error" } as any}
