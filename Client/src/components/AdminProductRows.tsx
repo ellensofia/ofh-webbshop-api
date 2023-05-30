@@ -32,7 +32,6 @@ function AdminProductRows(props: Props) {
         }}
         data-cy="product"
       >
-        <TableCell sx={{ padding: 0 }} />
         <TableCell component="th" scope="row" align="center" sx={{ width: { padding: "1rem 0.5rem" } }}>
           <Box
             component="img"
@@ -50,6 +49,9 @@ function AdminProductRows(props: Props) {
         </TableCell>
         <TableCell align="center" data-cy="product-price" sx={{ width: { padding: "1rem 0.5rem" } }}>
           {props.product.price} SEK
+        </TableCell>
+        <TableCell align="center" sx={{ width: { padding: "1rem 0.5rem" } }}>
+          {props.product.inStockAmount}
         </TableCell>
         <TableCell align="center" sx={{ width: { padding: "1rem 0.5rem" } }}>
           <IconButton
@@ -90,35 +92,61 @@ function AdminProductRows(props: Props) {
           },
         }}
       >
-        <TableCell sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box
-            component="img"
-            src={`/api/images/${props.product.imageId}`}
-            alt={props.product.title}
-            sx={{ width: "7rem", height: '7rem' }}
-          ></Box>
-          <Box component="div">
-            <Box>
-              <Typography variant="body1">ID: </Typography>
-              {props.product._id}
+        <TableCell sx={{ display: "flex", justifyContent: "left" }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", width: "100%" }}>
+            <Box
+              component="img"
+              src={`/api/images/${props.product.imageId}`}
+              alt={props.product.title}
+              sx={{
+                width: { xs: "4rem", sm: "7rem" },
+                height: { xs: "4rem", sm: "7rem" },
+              }}
+            ></Box>
+            <Box component="div" sx={{ paddingLeft: "0.5rem" }}>
+              <Box>
+                <Typography variant="body1" sx={{ fontSize: "0.75rem", marginBottom: "0.25rem" }}>
+                  ID:
+                </Typography>
+                {props.product._id}
+              </Box>
+              <Box>
+                <Typography variant="body1" sx={{ fontSize: "0.75rem", marginBottom: "0.25rem" }}>
+                  Title:
+                </Typography>
+                {props.product.title}
+              </Box>
+              <Box>
+                <Box>
+                  <Typography variant="body1" sx={{ fontSize: "0.75rem", marginBottom: "0.25rem" }}>
+                    Price:
+                  </Typography>
+                  {props.product.price} SEK
+                </Box>
+                <Box>
+                  <Typography variant="body1" sx={{ fontSize: "0.75rem", marginBottom: "0.25rem" }}>
+                    In stock:
+                  </Typography>
+                  {props.product.inStockAmount}
+                </Box>
+              </Box>
             </Box>
-            <Box>
-              <Typography variant="body1">Title: </Typography>
-              {props.product.title}
-            </Box>
-            <Box>
-              <Typography variant="body1">Price: </Typography>
-              {props.product.price} SEK
-            </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                flexDirection: "column",
+                paddingLeft: "0.5rem",
+              }}
+            >
               <IconButton
                 className="material-symbols-outlined"
                 data-cy="admin-edit-product"
                 sx={{
                   bgcolor: theme.palette.primary.main,
                   color: "black",
-                  fontSize: "1.8rem",
-                  margin: "1rem 0.5rem",
+                  fontSize: { xs: "1.2rem", sm: "1.8rem" },
                 }}
                 component={Link}
                 to={`/admin/product/${props.product._id}`}
@@ -130,7 +158,7 @@ function AdminProductRows(props: Props) {
                 sx={{
                   bgcolor: theme.palette.primary.main,
                   color: "black",
-                  fontSize: "1.8rem",
+                  fontSize: { xs: "1.2rem", sm: "1.8rem" },
                 }}
                 data-cy="admin-remove-product"
                 onClick={() => setDeleteProductDialogOpen(true)}

@@ -71,22 +71,31 @@ function ProductGallery() {
                         </Typography>
                       </Box>
                       <Box>
-                        <IconButton
-                          onClick={(event) => {
-                            event.stopPropagation(); // prevents the click event from propagating to the parent link element
-                            addItem({ ...product, quantity: 1 });
-                            event.preventDefault();
-                          }}
-                          className="material-symbols-outlined"
-                          sx={{
-                            fontSize: "2.4rem",
-                            cursor: "pointer",
-                            color: (theme) => theme.palette.text.primary,
-                          }}
-                          data-cy="product-buy-button"
-                        >
-                          shopping_bag
-                        </IconButton>
+                        {product.inStockAmount > 0 ? (
+                          <IconButton
+                            onClick={(event) => {
+                              event.stopPropagation(); // prevents the click event from propagating to the parent link element
+                              addItem({ ...product, quantity: 1 });
+                              event.preventDefault();
+                            }}
+                            className="material-symbols-outlined"
+                            sx={{
+                              fontSize: "2.4rem",
+                              cursor: "pointer",
+                              color: (theme) => theme.palette.text.primary,
+                            }}
+                            data-cy="product-buy-button"
+                          >
+                            shopping_bag
+                          </IconButton>
+                        ) : (
+                          <Typography
+                            variant="body2"
+                            sx={{ color: "red", AlignSelf: "flex-start", fontWeight: 600, fontSize: "0.85rem" }}
+                          >
+                            OUT OF STOCK
+                          </Typography>
+                        )}
                       </Box>
                     </CardContent>
                   </Item>
