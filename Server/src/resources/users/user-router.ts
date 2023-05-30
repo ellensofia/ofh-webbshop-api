@@ -8,7 +8,7 @@ export const userRouter = express
   .Router()
   .post("/api/users/register", validateBody(userSchema), registerUser)
   .get("/api/users", auth, authAdmin, getAllUsers)
+  .put("/api/users/:id", auth, authAdmin, validateId, changeRole)
   .post("/api/users/login", validateBody(userSchema.omit(["username"])), loginUser)
   .post("/api/users/logout", auth, logoutUser)
-  .get("/api/users/checkUserInfo", auth, checkUserInfo)
-  .put("/api/users/:id", validateId, auth, authAdmin, changeRole);
+  .get("/api/users/checkUserInfo", auth, checkUserInfo);

@@ -1,10 +1,10 @@
 import express from "express";
+import { auth } from "../../middlewares/auth";
 import { authAdmin } from "../../middlewares/authAdmin";
-import { categorySchema, validateBody, validateId } from "../../middlewares/validation";
-import { createCategory, getAllCategories, getSpecificCategories } from "./category-controller";
+import { categorySchema, validateBody } from "../../middlewares/validation";
+import { createCategory, getAllCategories } from "./category-controller";
 
 export const categoryRouter = express
   .Router()
-  .post("/api/categories/add", authAdmin, validateBody(categorySchema), createCategory)
-  .get("/api/categories", getAllCategories)
-  .get("/api/categories/:id", validateId, getSpecificCategories);
+  .post("/api/categories/add", auth, authAdmin, validateBody(categorySchema), createCategory)
+  .get("/api/categories", getAllCategories);
