@@ -105,20 +105,28 @@ function AdminProductRows(props: Props) {
             ></Box>
             <Box component="div" sx={{ paddingLeft: "0.5rem" }}>
               <Box>
-                <Typography variant="body2">ID: </Typography>
+                <Typography variant="body1" sx={{ fontSize: "0.75rem", marginBottom: "0.25rem" }}>
+                  ID:
+                </Typography>
                 {props.product._id}
               </Box>
               <Box>
-                <Typography variant="body2">Title: </Typography>
+                <Typography variant="body1" sx={{ fontSize: "0.75rem", marginBottom: "0.25rem" }}>
+                  Title:
+                </Typography>
                 {props.product.title}
               </Box>
               <Box>
                 <Box>
-                  <Typography variant="body2">Price: </Typography>
+                  <Typography variant="body1" sx={{ fontSize: "0.75rem", marginBottom: "0.25rem" }}>
+                    Price:
+                  </Typography>
                   {props.product.price} SEK
                 </Box>
                 <Box>
-                  <Typography variant="body2">In stock: </Typography>
+                  <Typography variant="body1" sx={{ fontSize: "0.75rem", marginBottom: "0.25rem" }}>
+                    In stock:
+                  </Typography>
                   {props.product.inStockAmount}
                 </Box>
               </Box>
