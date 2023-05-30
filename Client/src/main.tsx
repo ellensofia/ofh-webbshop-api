@@ -21,12 +21,13 @@ import CheckoutPage from "./pages/CheckoutPage";
 import ConstructionPage from "./pages/ConstructionPage";
 import EmptyBagPage from "./pages/EmptyBagPage";
 import { LoginPage } from "./pages/LoginPage";
+import { MyOrdersPage } from "./pages/MyOrdersPage";
 import OrderConfirmationPage from "./pages/OrderConfirmationPage";
+import { OrderDetailsPage } from "./pages/OrderDetailsPage";
 import ProductPage from "./pages/ProductPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import StartPage from "./pages/StartPage";
 import { UsersPage } from "./pages/UsersPage";
-import { MyOrdersPage } from "./pages/MyOrdersPage";
 import { theme } from "./theme/theme";
 
 const router = createBrowserRouter(
@@ -54,6 +55,7 @@ const router = createBrowserRouter(
       <Route path="register" element={<RegisterPage />} />
       <Route path="users" element={<UsersPage />} />
       <Route path="myOrders" element={<MyOrdersPage />} />
+      <Route path="orders/:id" element={<OrderDetailsPage />} />
     </Route>,
   ),
 );
