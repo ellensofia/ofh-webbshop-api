@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Menu, MenuItem, Typography } from "@mui/material";
+import { Box, Button, Checkbox, Menu, MenuItem, Typography, useMediaQuery } from "@mui/material";
 import { useState } from "react";
 import { useCategoryContext } from "../contexts/CategoryContext";
 import { theme } from "../theme/theme";
@@ -6,6 +6,7 @@ import { theme } from "../theme/theme";
 export default function CategoryDropDown() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { categories, selectedCategories, setSelectedCategories } = useCategoryContext();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -38,10 +39,13 @@ export default function CategoryDropDown() {
           borderColor: theme.palette.secondary.dark,
           color: theme.palette.secondary.dark,
           position: "relative",
+          fontSize: "12px",
+          padding: " 5px 9px 5px 15px",
         }}
         onClick={handleMenuOpen}
       >
         Categories
+        <span className="material-symbols-outlined">expand_more</span>
       </Button>
       <Menu
         anchorEl={anchorEl}
@@ -49,7 +53,7 @@ export default function CategoryDropDown() {
         onClose={handleMenuClose}
         sx={{
           "& .MuiPaper-root": {
-            top: "174px !important",
+            top: isSmallScreen ? "157px !important" : "174px !important",
           },
           "& .MuiList-padding": {
             padding: "0px !important",
@@ -61,7 +65,7 @@ export default function CategoryDropDown() {
             <MenuItem
               key={category._id}
               sx={{
-                minWidth: "8.4rem",
+                minWidth: "8.55rem",
                 display: "flex",
                 justifyContent: "space-between",
                 padding: "0 0.2rem 0 0.8rem",
