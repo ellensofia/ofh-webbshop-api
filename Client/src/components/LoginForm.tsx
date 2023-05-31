@@ -22,8 +22,13 @@ export function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: async (loginValues) => {
-      const loggedinUser = await login(loginValues.email, loginValues.password);
-      navigate("/");
+      try {
+        await login(loginValues.email, loginValues.password);
+        navigate("/");
+      } catch (error) {
+        formik.setFieldError("email", "Invalid email or password");
+        formik.setFieldError("password", "Invalid email or password");
+      }
     },
   });
 
