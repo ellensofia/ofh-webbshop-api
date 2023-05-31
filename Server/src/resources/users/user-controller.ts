@@ -10,7 +10,16 @@ export async function registerUser(req: Request, res: Response) {
     username,
   });
   if (existsingUser) {
-    res.status(409).json("This username is taken. Please chose another one");
+    res.status(409).json("This username is taken. Please choose another one");
+    return;
+  }
+
+  // CHECKS EMAIL TO EXSISTING ONE
+  const existsingEmail = await UserModel.findOne({
+    email,
+  });
+  if (existsingEmail) {
+    res.status(409).json("This email is taken. Please choose another one");
     return;
   }
 
