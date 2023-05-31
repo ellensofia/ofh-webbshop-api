@@ -48,12 +48,12 @@ export function RegisterFrom() {
         <Box
           display={"flex"}
           flexDirection={"column"}
-          padding={"9rem 0"}
+          margin={"7rem 0"}
           gap={"1rem"}
           alignItems={"center"}
           sx={{ width: "100%", maxWidth: "400px" }}
         >
-          <span style={{ fontSize: "30px" }}>Create account</span>
+          <span style={{ fontSize: "25px", marginBottom: "1.5rem" }}>Create account</span>
           <TextField
             fullWidth
             id="username"
@@ -90,7 +90,11 @@ export function RegisterFrom() {
             error={Boolean(formik.touched.password && formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
           />
-          <Button type="submit" variant="contained" sx={{ boxShadow: "none", marginTop: "1rem" }}>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ boxShadow: "none", marginTop: "1.2rem", marginBottom: "2rem", fontSize: "1rem" }}
+          >
             Sign up
           </Button>
           <Link
