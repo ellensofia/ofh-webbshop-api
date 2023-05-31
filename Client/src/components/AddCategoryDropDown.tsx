@@ -1,9 +1,32 @@
-import { Checkbox, FormControl, InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material";
+import { Checkbox, FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material";
+import { FormikProps } from "formik";
 import { useCategoryContext } from "../contexts/CategoryContext";
+import { ProductValues } from "./AddProductForm";
+
+// interface Props {
+//   value: any[];
+//   onChange: {
+//     (e: React.ChangeEvent<any>): void;
+//     <T_1 = string | React.ChangeEvent<any>>(field: T_1): T_1 extends React.ChangeEvent<any>
+//       ? void
+//       : (e: string | React.ChangeEvent<any>) => void;
+//   };
+//   onBlur: () => {
+//     (e: React.FocusEvent<any, Element>): void;
+//     <T = any>(fieldOrEvent: T): T extends string ? (e: any) => void : void;
+//   };
+// }
+
+interface Props {
+  formik: FormikProps<ProductValues>;
+}
 
 //** Component where you choose categories for a new product */
-export default function AddCategoryDropDown() {
+export default function AddCategoryDropDown(props: Props) {
   const { categories, selectedCategoriesAdd, setSelectedCategoriesAdd } = useCategoryContext();
+  const { values, handleChange, handleBlur, touched, errors } = props.formik;
+
+  // const { values, handleBlur, handleChange, touched } = useFormikContext<ProductValues>();
 
   const handleCategoryToggle = (categoryId: string) => {
     setSelectedCategoriesAdd((prevSelectedCategories) => {
@@ -19,15 +42,21 @@ export default function AddCategoryDropDown() {
     });
   };
 
+  console.log(Boolean(touched.categories && errors.categories), values.categories);
+
   return (
     <FormControl sx={{ flex: 1 }}>
-      <InputLabel id="checkbox">Select categories</InputLabel>
+      <InputLabel id="categories">Select categories</InputLabel>
       <Select
-        labelId="checkbox"
-        id="checkbox-select"
+        labelId="categories"
+        id="catecories"
         multiple
+        name="categories"
         label="Categories"
-        value={selectedCategoriesAdd.map((category) => category._id)}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        error={Boolean(touched.categories && errors.categories)}
+        value={values.categories}
         input={<OutlinedInput label="Tag" />}
         renderValue={(selected) => {
           if (selected.length === 0) {
@@ -50,13 +79,21 @@ export default function AddCategoryDropDown() {
             {category.name}
             <Checkbox
               id="checkbox"
-              checked={selectedCategoriesAdd.some((selected) => selected._id === category._id)}
-              onChange={() => handleCategoryToggle(category._id)}
+              checked={values.categories.some((selectedId) => selectedId === category._id)}
+              onChange={() =>
+                props.formik.setFieldValue(
+                  "categories",
+                  !values.categories.includes(category._id)
+                    ? [...values.categories, category._id]
+                    : [...values.categories.filter((id) => id !== category._id)],
+                )
+              }
               color="secondary"
             />
           </MenuItem>
         ))}
       </Select>
+      <FormHelperText>{(touched.categories && errors.categories)?.toString()}</FormHelperText>
     </FormControl>
   );
 }

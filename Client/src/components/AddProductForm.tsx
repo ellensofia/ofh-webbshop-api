@@ -82,7 +82,7 @@ function AddProductForm() {
       price: isEdit ? product?.price ?? 0 : 0,
       description: isEdit ? product?.description ?? "" : "",
       brand: isEdit ? product?.brand ?? "" : "",
-      categories: isEdit ? product?.categories ?? [""] : [""],
+      categories: isEdit ? product?.categories ?? [] : [],
       imageId: isEdit ? product?.imageId ?? "" : "",
       inStockAmount: isEdit ? product?.inStockAmount ?? 1 : 1,
       isArchived: false,
@@ -249,7 +249,7 @@ function AddProductForm() {
               FormHelperTextProps={{ "data-cy": "product-inStockAmount-error" } as any}
               sx={{ flex: 1 }}
             />
-            <AddCategoryDropDown />
+            <AddCategoryDropDown formik={formik} />
           </Container>
           <Button type="submit" variant="contained">
             {isEdit ? "Edit Product" : "Add Product"}
