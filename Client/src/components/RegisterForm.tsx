@@ -3,7 +3,6 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useUserContext } from "../contexts/UserContext";
-import { useCheckIsLoggedIn } from "../hooks/checkedLoggedin";
 
 const RegisterSchema = Yup.object({
   username: Yup.string().required("Please enter a username"),
@@ -14,7 +13,6 @@ const RegisterSchema = Yup.object({
 export type RegisterValues = Yup.InferType<typeof RegisterSchema>;
 
 export function RegisterFrom() {
-  const isLoggedIn = useCheckIsLoggedIn();
   const navigate = useNavigate();
   const { register } = useUserContext();
 
@@ -26,9 +24,20 @@ export function RegisterFrom() {
     },
     validationSchema: RegisterSchema,
     onSubmit: async (registerValues) => {
-      const newUser = await register(registerValues.email, registerValues.username, registerValues.password);
-      if (isLoggedIn) {
-        navigate("/");
+      try {
+        const newUser = await register(registerValues.email, registerValues.username, registerValues.password);
+        if (newUser) {
+          if (newUser.includes("username")) {
+            formik.setFieldError("username", "This username already exists. Please choose another one.");
+          }
+          if (newUser.includes("email")) {
+            formik.setFieldError("email", "This email already exists. Please choose another one.");
+          }
+        } else {
+          navigate("/");
+        }
+      } catch (error) {
+        console.log(error);
       }
     },
   });
@@ -54,7 +63,7 @@ export function RegisterFrom() {
             value={formik.values.username}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={Boolean(formik.touched.username && formik.errors.username)}
+            error={formik.touched.username && Boolean(formik.errors.username)}
             helperText={formik.touched.username && formik.errors.username}
           />
           <TextField
@@ -66,7 +75,7 @@ export function RegisterFrom() {
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={Boolean(formik.touched.email && formik.errors.email)}
+            error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
           />
           <TextField
