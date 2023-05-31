@@ -14,7 +14,6 @@ import { CSSProperties, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useProduct } from "../contexts/AdminProductContext";
-import { useCategoryContext } from "../contexts/CategoryContext";
 import AddCategoryDropDown from "./AddCategoryDropDown";
 
 const ProductSchema = Yup.object({
@@ -49,7 +48,6 @@ function AddProductForm() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { addProduct, editProduct, products } = useProduct();
   const { id } = useParams<{ id: string }>();
-  const { setSelectedCategoriesAdd, selectedCategoriesAdd } = useCategoryContext();
   const product = products.find((p) => p._id === id);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedFileName, setSelectedFileName] = useState("");
@@ -132,7 +130,7 @@ function AddProductForm() {
       price: isEdit ? product?.price ?? 0 : 0,
       description: isEdit ? product?.description ?? "" : "",
       brand: isEdit ? product?.brand ?? "" : "",
-      categories: isEdit ? product?.categories ?? [""] : [""],
+      categories: isEdit ? product?.categories ?? [] : [],
       imageId: isEdit ? product?.imageId ?? "" : "",
       inStockAmount: isEdit ? product?.inStockAmount ?? 1 : 1,
       isArchived: false,
@@ -144,14 +142,8 @@ function AddProductForm() {
           if (!product) throw new Error("No product found.");
           editProduct({ ...product, ...newValues });
         } else {
-          const productWithCategories = {
-            ...newValues,
-            categories: selectedCategoriesAdd.map((category) => category._id),
-          };
-          await addProduct(productWithCategories);
+          await addProduct(newValues);
         }
-        // Set selectet categories to unset/default
-        setSelectedCategoriesAdd([]);
         navigate("/admin");
       } catch (error) {
         console.log(error);
@@ -246,7 +238,6 @@ function AddProductForm() {
               helperText={formik.touched.brand && formik.errors.brand}
               sx={{ flex: 1 }}
             />
-            <AddCategoryDropDown />
           </Container>
           <TextField
             id="description"
@@ -285,6 +276,7 @@ function AddProductForm() {
               FormHelperTextProps={{ "data-cy": "product-inStockAmount-error" } as any}
               sx={{ flex: 1 }}
             />
+            <AddCategoryDropDown formik={formik} />
           </Container>
           <Container
             sx={{
