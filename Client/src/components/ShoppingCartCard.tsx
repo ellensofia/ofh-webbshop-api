@@ -91,6 +91,7 @@ function ShoppingCartCard() {
                 variant="h6"
                 data-cy="product-title"
                 sx={{
+                  maxWidth: isSmallScreen ? "170px" : "none",
                   p: "0px !important",
                   fontSize: isSmallScreen ? "1rem" : "1.25rem",
                 }}
