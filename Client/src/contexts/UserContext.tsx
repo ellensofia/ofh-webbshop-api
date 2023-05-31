@@ -70,9 +70,12 @@ export const UserProvider = ({ children }: Props) => {
       body: JSON.stringify({ email, password }),
       headers: { "Content-type": "application/json" },
     });
+ 
     if (!response.ok) {
-      throw new Error("Failed to log in user");
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.error);
     }
+    
     const user = await response.json();
     setUser(user);
     return user;
