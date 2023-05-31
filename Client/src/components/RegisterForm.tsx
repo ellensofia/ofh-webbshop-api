@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useUserContext } from "../contexts/UserContext";
+import { useCheckIsLoggedIn } from "../hooks/checkedLoggedin";
 
 const RegisterSchema = Yup.object({
   username: Yup.string().required("Please enter a username"),
@@ -13,6 +14,7 @@ const RegisterSchema = Yup.object({
 export type RegisterValues = Yup.InferType<typeof RegisterSchema>;
 
 export function RegisterFrom() {
+  const isLoggedIn = useCheckIsLoggedIn();
   const navigate = useNavigate();
   const { register } = useUserContext();
 
@@ -25,38 +27,11 @@ export function RegisterFrom() {
     validationSchema: RegisterSchema,
     onSubmit: async (registerValues) => {
       const newUser = await register(registerValues.email, registerValues.username, registerValues.password);
-      console.log("new user woho!!");
-      navigate("/");
+      if (isLoggedIn) {
+        navigate("/");
+      }
     },
   });
-
-  // const handleRegisterAccount = async (e: any) => {
-  //     e.preventDefault();
-
-  //     const newUser = {
-  //       username: formik.values.username,
-  //       email: formik.values.email,
-  //       password: formik.values.password,
-  //     };
-
-  //     const response = await fetch("/api/users/register", {
-  //       method: "POST",
-  //       body: JSON.stringify(newUser),
-  //       headers: { "Content-type": "application/json" },
-  //     });
-
-  //     const data = await response.json();
-
-  //     if (response.ok) {
-  //       localStorage.setItem(
-  //         "loggedInUsername",
-  //         data.username
-  //       );
-  //       localStorage.setItem("loggedInUserID", data._id);
-  //       localStorage.setItem("loggedInIsAdmin", data.isAdmin);
-  //       navigate("/");
-  //     }
-  //   };
 
   return (
     <Container style={{ display: "flex", justifyContent: "center" }}>
