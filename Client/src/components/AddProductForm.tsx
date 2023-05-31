@@ -25,8 +25,10 @@ const ProductSchema = Yup.object({
     .typeError("Price must be a number"),
   description: Yup.string().required("Please enter the description for the product"),
   brand: Yup.string(),
+  categories: Yup.array().min(1).required("Please select at least one category"),
   imageId: Yup.string().required("Please add product image"),
   inStockAmount: Yup.number()
+    .min(1)
     .required("Please enter the amount in stock")
     .min(1, "Amount in stock must be at least 1")
     .typeError("Amount in stock must be a number"),
@@ -47,12 +49,11 @@ function AddProductForm() {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const { addProduct, editProduct, products } = useProduct();
   const { id } = useParams<{ id: string }>();
-  const { selectedCategoriesAdd } = useCategoryContext();
+  const { setSelectedCategoriesAdd, selectedCategoriesAdd } = useCategoryContext();
   const product = products.find((p) => p._id === id);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedFileName, setSelectedFileName] = useState("");
   const [selectedPreviewImage, setSelectedPreviewImage] = useState("");
-
 
   const isEdit = Boolean(product);
 
@@ -131,13 +132,13 @@ function AddProductForm() {
       price: isEdit ? product?.price ?? 0 : 0,
       description: isEdit ? product?.description ?? "" : "",
       brand: isEdit ? product?.brand ?? "" : "",
+      categories: isEdit ? product?.categories ?? [""] : [""],
       imageId: isEdit ? product?.imageId ?? "" : "",
       inStockAmount: isEdit ? product?.inStockAmount ?? 1 : 1,
       isArchived: false,
     },
     validationSchema: ProductSchema,
     onSubmit: async (newValues) => {
-      console.log(product);
       try {
         if (isEdit) {
           if (!product) throw new Error("No product found.");
@@ -149,6 +150,8 @@ function AddProductForm() {
           };
           await addProduct(productWithCategories);
         }
+        // Set selectet categories to unset/default
+        setSelectedCategoriesAdd([]);
         navigate("/admin");
       } catch (error) {
         console.log(error);
@@ -265,6 +268,7 @@ function AddProductForm() {
               flexDirection: "row",
               width: "100%",
               gap: "1rem",
+              alignItems: "flex-start",
             }}
           >
             <TextField

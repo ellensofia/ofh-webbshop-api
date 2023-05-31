@@ -1,12 +1,10 @@
 import React, { createContext, useContext, useState } from "react";
 import { Category } from "../contexts/CategoryContext";
-// import { Product } from "../../data";
 
 interface Props {
   children: React.ReactNode;
 }
 
-// export type Product = ProductValues;
 export type Product = {
   categories: Category[];
   title: string;
@@ -102,7 +100,6 @@ export const ProductProvider = ({ children }: Props) => {
         },
       });
 
-      console.log("Product Add Response:", response);
       if (!response.ok) throw new Error("Failed to add product.");
 
       const newProduct = await response.json();
@@ -140,11 +137,11 @@ export const ProductProvider = ({ children }: Props) => {
       const imageResponse = await fetch(`/api/images/${product.imageId}`, {
         method: "DELETE",
       });
-  
+
       if (!imageResponse.ok) {
         throw new Error("Failed to delete image");
       }
-  
+
       const productResponse = await fetch(`/api/products/${product._id}`, {
         method: "DELETE",
       });
@@ -157,7 +154,7 @@ export const ProductProvider = ({ children }: Props) => {
       console.error("Error deleting product:", error);
     }
   };
-  
+
   const productContext: ProductContextType = {
     products,
     getAllProducts,
