@@ -3,11 +3,9 @@ import { createContext, useContext, useEffect, useState } from "react";
 type CategoryContextValue = {
   categories: Category[];
   selectedCategories: Category[];
-  selectedCategoriesAdd: Category[];
   setCategories: React.Dispatch<React.SetStateAction<Category[]>>;
   setSelectedCategories: React.Dispatch<React.SetStateAction<Category[]>>;
-  setSelectedCategoriesAdd: React.Dispatch<React.SetStateAction<Category[]>>;
-  addCategoryToDb: (category: Category) => Promise<void>;
+  addCategoryToDb: (category: NewCategory) => Promise<void>;
 };
 
 type CategoryProviderProps = {
@@ -19,6 +17,10 @@ export type Category = {
   name: string;
 };
 
+export type NewCategory = {
+  name: string;
+};
+
 const CategoryContext = createContext<CategoryContextValue>({} as CategoryContextValue);
 
 export const useCategoryContext = (): CategoryContextValue => useContext(CategoryContext);
@@ -26,9 +28,8 @@ export const useCategoryContext = (): CategoryContextValue => useContext(Categor
 export const CategoryProvider: React.FC<CategoryProviderProps> = ({ children }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
-  const [selectedCategoriesAdd, setSelectedCategoriesAdd] = useState<Category[]>([]);
 
-  const addCategoryToDb = async (category: Category) => {
+  const addCategoryToDb = async (category: NewCategory) => {
     try {
       const response = await fetch("/api/categories/add", {
         method: "POST",
@@ -74,8 +75,6 @@ export const CategoryProvider: React.FC<CategoryProviderProps> = ({ children }) 
         selectedCategories,
         setCategories,
         setSelectedCategories,
-        setSelectedCategoriesAdd,
-        selectedCategoriesAdd,
         addCategoryToDb,
       }}
     >

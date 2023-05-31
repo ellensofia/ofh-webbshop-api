@@ -1,13 +1,11 @@
-import busboy from "busboy";
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import { fileBucket } from "./image-model";
 
 export async function uploadImage(req: Request, res: Response) {
-  const bb = busboy({ headers: req.headers });
-  req.pipe(bb);
+  if (!req.busboy) throw new Error("Busboy is not initialized.");
 
-  bb.on("file", (_, file, info) => {
+  req.busboy.on("file", (_, file, info) => {
     const { filename, mimeType } = info;
 
     const uploadStream = fileBucket

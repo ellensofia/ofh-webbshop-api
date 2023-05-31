@@ -1,4 +1,4 @@
-import { Box, Button, Container, TextField, Link } from "@mui/material";
+import { Box, Button, Container, Link, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
@@ -15,10 +15,6 @@ export type RegisterValues = Yup.InferType<typeof RegisterSchema>;
 export function RegisterFrom() {
   const navigate = useNavigate();
   const { register } = useUserContext();
-
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [email, setEmail] = useState("");
 
   const formik = useFormik<RegisterValues>({
     initialValues: {
