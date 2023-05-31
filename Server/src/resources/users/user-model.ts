@@ -4,7 +4,7 @@ import argon2 from 'argon2';
 export const userSchema = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
-  email: { type: String }, 
+  email: { type: String, required: true }, 
   isAdmin: { type: Boolean, default: false },
 });
 
