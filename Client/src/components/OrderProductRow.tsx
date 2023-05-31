@@ -53,6 +53,8 @@ export function OrderProductRow({ item }: OrderProductRowProps) {
             component="img"
             sx={{
               width: "7rem",
+              objectFit: "contain",
+              alignSelf: "flex-start",
             }}
             src={`/api/images/${item.product.imageId}`}
           />
