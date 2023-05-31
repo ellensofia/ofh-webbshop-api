@@ -3,53 +3,21 @@ import { FormikProps } from "formik";
 import { useCategoryContext } from "../contexts/CategoryContext";
 import { ProductValues } from "./AddProductForm";
 
-// interface Props {
-//   value: any[];
-//   onChange: {
-//     (e: React.ChangeEvent<any>): void;
-//     <T_1 = string | React.ChangeEvent<any>>(field: T_1): T_1 extends React.ChangeEvent<any>
-//       ? void
-//       : (e: string | React.ChangeEvent<any>) => void;
-//   };
-//   onBlur: () => {
-//     (e: React.FocusEvent<any, Element>): void;
-//     <T = any>(fieldOrEvent: T): T extends string ? (e: any) => void : void;
-//   };
-// }
-
 interface Props {
   formik: FormikProps<ProductValues>;
 }
 
 //** Component where you choose categories for a new product */
 export default function AddCategoryDropDown(props: Props) {
-  const { categories, selectedCategoriesAdd, setSelectedCategoriesAdd } = useCategoryContext();
+  const { categories } = useCategoryContext();
   const { values, handleChange, handleBlur, touched, errors } = props.formik;
-
-  // const { values, handleBlur, handleChange, touched } = useFormikContext<ProductValues>();
-
-  const handleCategoryToggle = (categoryId: string) => {
-    setSelectedCategoriesAdd((prevSelectedCategories) => {
-      if (prevSelectedCategories.some((category) => category._id === categoryId)) {
-        return prevSelectedCategories.filter((category) => category._id !== categoryId);
-      } else {
-        const selectedCategoryAdd = categories.find((category) => category._id === categoryId);
-        if (selectedCategoryAdd) {
-          return [...prevSelectedCategories, selectedCategoryAdd];
-        }
-      }
-      return prevSelectedCategories;
-    });
-  };
-
-  console.log(Boolean(touched.categories && errors.categories), values.categories);
 
   return (
     <FormControl sx={{ flex: 1 }}>
       <InputLabel id="categories">Select categories</InputLabel>
       <Select
         labelId="categories"
-        id="catecories"
+        id="categories"
         multiple
         name="categories"
         label="Categories"
@@ -57,7 +25,7 @@ export default function AddCategoryDropDown(props: Props) {
         onBlur={handleBlur}
         error={Boolean(touched.categories && errors.categories)}
         value={values.categories}
-        input={<OutlinedInput label="Tag" />}
+        input={<OutlinedInput label="Select categories" />}
         renderValue={(selected) => {
           if (selected.length === 0) {
             return <em>Select categories</em>;

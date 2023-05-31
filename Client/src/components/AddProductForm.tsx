@@ -13,7 +13,6 @@ import { CSSProperties } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { useProduct } from "../contexts/AdminProductContext";
-import { useCategoryContext } from "../contexts/CategoryContext";
 import AddCategoryDropDown from "./AddCategoryDropDown";
 
 const ProductSchema = Yup.object({
@@ -49,7 +48,6 @@ function AddProductForm() {
   const { addProduct, editProduct, products } = useProduct();
   const { id } = useParams<{ id: string }>();
   const product = products.find((p) => p._id === id);
-  const { setSelectedCategoriesAdd, selectedCategoriesAdd } = useCategoryContext();
 
   const isEdit = Boolean(product);
 
@@ -94,14 +92,8 @@ function AddProductForm() {
           if (!product) throw new Error("No product found.");
           editProduct({ ...product, ...newValues });
         } else {
-          const productWithCategories = {
-            ...newValues,
-            categories: selectedCategoriesAdd.map((category) => category._id),
-          };
-          await addProduct(productWithCategories);
+          await addProduct(newValues);
         }
-        // Set selectet categories to unset/default
-        setSelectedCategoriesAdd([]);
         navigate("/admin");
       } catch (error) {
         console.log(error);

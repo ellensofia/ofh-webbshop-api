@@ -9,5 +9,5 @@ export const orderRouter = express
   .post("/api/orders", validateBody(orderSchema.omit(["_id"])), auth, registerOrder)
   .get("/api/orders", auth, authAdmin, getAllOrders)
   .get("/api/orders/:id", validateId, auth, getOneOrder)
-  .put("/api/orders/:id", validateId, validateBody(orderSchema), auth, authAdmin, markAsShipped)
+  .put("/api/orders/:id", validateId, auth, authAdmin, markAsShipped)
   .get("/api/orders/user/:id", validateId, auth, getUserOrders);
