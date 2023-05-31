@@ -75,12 +75,11 @@ function AddProductForm() {
 
     const imageId = await imageResponse.json();
 
-    console.log("Uploaded image id:", imageId);
     formik.setFieldValue("imageId", imageId);
 
     // The FileReader API reads the content of a file and converts it into a data URL.
-    // It reads the file using the readAsDataURL method and triggers the onload event 
-    // when the reading is complete. 
+    // It reads the file using the readAsDataURL method and triggers the onload event
+    // when the reading is complete.
     const reader = new FileReader();
     reader.onload = () => {
       if (reader.readyState === 2) {
@@ -89,10 +88,6 @@ function AddProductForm() {
     };
     reader.readAsDataURL(file);
   };
-
-  // useEffect(() => {
-  //   console.log(selectedFileName);
-  // }, [selectedFileName]);
 
   const handleChooseFile = () => {
     const fileInput = document.getElementById("file-input") as HTMLInputElement;
@@ -298,8 +293,7 @@ function AddProductForm() {
               id="image"
               type="text"
               name="image"
-              value={selectedFileName}
-              placeholder={isEdit ? selectedFileName : "No image uploaded"}
+              placeholder={isEdit ? "Change to new image" : "No image uploaded"}
               error={Boolean(formik.touched.imageId && formik.errors.imageId)}
               helperText={formik.touched.imageId && formik.errors.imageId}
               FormHelperTextProps={{ "data-cy": "product-image-error" } as any}
