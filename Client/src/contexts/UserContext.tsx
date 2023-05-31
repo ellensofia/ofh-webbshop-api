@@ -14,7 +14,7 @@ interface Props {
 
 interface UserContextProps {
   user: User | null;
-  login: (username: string, password: string) => Promise<User>;
+  login: (email: string, password: string) => Promise<User>;
   logout: () => Promise<void>; // Update the return type to Promise<void>
   register: (email: string, username: string, password: string) => Promise<string>;
 }
