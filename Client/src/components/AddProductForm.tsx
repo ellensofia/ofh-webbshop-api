@@ -51,6 +51,8 @@ function AddProductForm() {
   const product = products.find((p) => p._id === id);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedFileName, setSelectedFileName] = useState("");
+  const [selectedPreviewImage, setSelectedPreviewImage] = useState("");
+
 
   const isEdit = Boolean(product);
 
@@ -119,7 +121,7 @@ function AddProductForm() {
         }
       };
       fetchImage();
-      setSelectedFileName(product.imageId);
+      setSelectedPreviewImage(product.imageId);
     }
   }, [isEdit, product]);
 
@@ -293,6 +295,7 @@ function AddProductForm() {
               id="image"
               type="text"
               name="image"
+              value={selectedFileName}
               placeholder={isEdit ? "Change to new image" : "No image uploaded"}
               error={Boolean(formik.touched.imageId && formik.errors.imageId)}
               helperText={formik.touched.imageId && formik.errors.imageId}
