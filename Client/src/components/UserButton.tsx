@@ -70,7 +70,7 @@ export default function UserButton() {
           </div>
         ) : (
           <div>
-            <MenuItem onClick={() => navigate("/login")}>Login</MenuItem>
+            <MenuItem onClick={() => navigate("/login")}>Log in</MenuItem>
             <MenuItem onClick={() => navigate("/register")}>Sign up</MenuItem>
           </div>
         )}

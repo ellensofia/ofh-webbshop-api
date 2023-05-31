@@ -20,7 +20,7 @@ export function LoginRequet() {
         <Typography marginLeft={"0.5rem"} sx={{ fontSize: "1.1rem", textAlign: "center" }}>
           Please {" "}
           <Link to={"/login"} style={{ color: "black" }}>
-            login
+            log in
           </Link>{" "}
           to continue your purchase
         </Typography>
