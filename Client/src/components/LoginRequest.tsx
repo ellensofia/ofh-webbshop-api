@@ -22,7 +22,7 @@ export function LoginRequet() {
           <Link to={"/login"} style={{ color: "black" }}>
             login
           </Link>{" "}
-          to make a purchase
+          to continue your purchase
         </Typography>
         <Typography marginLeft={"0.5rem"} sx={{ fontSize: "1rem", textAlign: "center" }}>
           Don't have an account?{" "}
