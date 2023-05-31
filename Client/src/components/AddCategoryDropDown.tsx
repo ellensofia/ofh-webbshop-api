@@ -1,6 +1,16 @@
-import { Checkbox, FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select } from "@mui/material";
+import {
+  Checkbox,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  Typography,
+} from "@mui/material";
 import { FormikProps } from "formik";
 import { useCategoryContext } from "../contexts/CategoryContext";
+import { theme } from "../theme/theme";
 import { ProductValues } from "./AddProductForm";
 
 interface Props {
@@ -14,7 +24,9 @@ export default function AddCategoryDropDown(props: Props) {
 
   return (
     <FormControl sx={{ flex: 1 }}>
-      <InputLabel id="categories">Select categories</InputLabel>
+      <InputLabel id="categories" error={Boolean(errors.categories)}>
+        Select categories
+      </InputLabel>
       <Select
         labelId="categories"
         id="categories"
@@ -25,7 +37,7 @@ export default function AddCategoryDropDown(props: Props) {
         onBlur={handleBlur}
         error={Boolean(touched.categories && errors.categories)}
         value={values.categories}
-        input={<OutlinedInput label="Select categories" />}
+        input={<OutlinedInput label="Select categories" error={Boolean(errors.categories)} />}
         renderValue={(selected) => {
           if (selected.length === 0) {
             return <em>Select categories</em>;
@@ -61,7 +73,19 @@ export default function AddCategoryDropDown(props: Props) {
           </MenuItem>
         ))}
       </Select>
-      <FormHelperText>{(touched.categories && errors.categories)?.toString()}</FormHelperText>
+      <FormHelperText>
+        <Typography variant="body2" sx={{ color: theme.palette.error.main }}>
+          {(touched.categories && errors.categories)?.toString()}
+        </Typography>
+      </FormHelperText>
     </FormControl>
   );
 }
+
+const setLabelColor = (isError: boolean) => {
+  isError
+    ? {
+        color: theme.palette.error.main,
+      }
+    : {};
+};
