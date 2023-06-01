@@ -40,6 +40,10 @@ Parham Berenjian, [github](https://github.com/ParhamInBinary)
 
 [Github repository](https://github.com/ellensofia/ofh-webbshop-api)
 
+## Företagsidé pitch
+
+Stig in i framtidens sätt att shoppa möbler – välkommen till Our furnished home! Utforska vårt handplockade inredningssortiment online och skapa ditt drömhem med några enkla klick. Slipp trängsel och få allt levererat direkt till din dörr. Our furnished home - där stil och bekvämlighet möter framtidens shopping. Besök oss idag och låt din inredningsfantasi flöda fritt!
+
 # Kravlistan
 
 ### G
@@ -58,11 +62,11 @@ Parham Berenjian, [github](https://github.com/ParhamInBinary)
 
 - [x] Skapa ett ER diagram och koddiagram, detta ska lämnas in vid idégodkännandet (G)
 
-  >
+  > Diagrammen finns [här](https://drive.google.com/file/d/1YvyGwDXw9pSFX4pKZ9lUu4rCFx7lhcnL/view?usp=sharing)
 
 - [x] Beskriv er företagsidé i en kort textuell presentation, detta ska lämnas in vid idégodkännandet (G)
 
-  >
+  > Företagsidén finns ovan.
 
 - [x] All data som programmet utnyttjar ska vara sparat i en Mongo-databas (produkter, beställningar, konton mm)
 
@@ -90,26 +94,50 @@ Parham Berenjian, [github](https://github.com/ParhamInBinary)
 
 - [x] Sidans produkter ska delas upp i kategorier, en produkt ska tillhöra minst en kategori, men kan tillhöra flera (G)
 
+  > Admin kan lägga till nya kategorier från produkt överblick sidan. Kategorierna kan läggas till på prdukter i både ny produkt panelen produktredgiering panelen.
+
 - [x] Från hemsidan ska man kunna se en lista över alla produkter, och man ska kunna lista bara dom produkter som tillhör en kategori (G)
+
+  > Det finns en dropdown på hemsidan där man kan toggla produktkategorierna som visas. Om inga kategorier är valda så visas alla.
 
 - [x] Besökare ska kunna lägga produkterna i en kundkorg, som är sparad i local-storage på klienten (G)
 
+  > Kundkorgen i localStorages implementerades i den tigigare uppgiften.
+
 - [x] En besökare som gör en beställning ska få möjligheten att registrera sig samt logga in och måste vara inloggad som kund innan beställningen skapas (G)
 
+  > Om en nya användare lägger till produkter i korgen och navigera till checkout så se de en länk där de kan klicka för att logga in eller registrera sig.
+
 - [x] Checkoutflödet i frontendapplikationen ska ha validering på samtliga fält (G)
+
+  > Yup används för validering på samtiliga checkoutfält.
 
 ### VG
 
 - [x] Ett CI flöde ska sättas upp (i början av projektet) som kontrollerar prettier, eslint, typescript & tester i varje PR, tester kan lånas ifrån tidigare uppgifter (VG)
 
+  > CI flödet finns i filen .github/workflows/check-pr.yml.
+
 - [x] När man är inloggad som kund ska man kunna se sina gjorda beställning och om det är skickade eller inte (VG)
+
+  > Om en användare är inloggad som kund så kan de se sina beställningar på sidan /myOrders.
 
 - [x] Administratörer ska kunna redigera produkt inklusive vilka kategorier den tillhör (VG)
 
+  > Admin kan redigera produkter från produktöverblick sidan genom att klicka på redgiera-ikonen bredvid varje produkt.
+
 - [x] Administratörer ska kunna lägga till och ta bort produkter (VG)
+
+> Det går att lägga till produkter som admin genom att klicka på 'Add product' på produktöverblick sidan. Det går att ta bort produkter genom att klicka på ikonen bredvid varje produkt i listan.
 
 - [x] Backendapplikationen ska ha en fungerande global felhantering (VG)
 
+> Global felhantering finns i filen server/src/app.ts.
+
 - [x] En administratör ska kunna uppgradera en användare till administratör (VG)
 
+> Admin kan ändra roll på användare från sidan /users genom att klicka på ikonen bredvid varje användare i listan.
+
 - [x] Administratörer ska kunna markera beställningar som skickade (VG)
+
+> Admin kan ändra egenskapet 'isShipped' på order dokument genom att klicka på ikonen bredvid varje order i listan på sidan /admin/orders.
