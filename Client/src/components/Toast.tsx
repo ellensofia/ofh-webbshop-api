@@ -6,8 +6,8 @@ import Snackbar from "@mui/material/Snackbar";
 import Stack from "@mui/material/Stack";
 import React from "react";
 import { Link } from "react-router-dom";
-import { theme } from "../theme/theme";
 import { CartItem } from "../contexts/AdminProductContext";
+import { theme } from "../theme/theme";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -28,7 +28,7 @@ function Toast({
   lastAddedItem?: CartItem;
   clearLastAddedItem: () => void;
 }) {
-  return (
+  return lastAddedItem ? (
     <Stack spacing={2} sx={{ width: "20%" }}>
       <Snackbar
         data-cy="added-to-cart-toast"
@@ -77,6 +77,8 @@ function Toast({
         </Alert>
       </Snackbar>
     </Stack>
+  ) : (
+    <></>
   );
 }
 
