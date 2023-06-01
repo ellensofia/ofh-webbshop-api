@@ -22,8 +22,13 @@ export function LoginForm() {
     },
     validationSchema: LoginSchema,
     onSubmit: async (loginValues) => {
-      const loggedinUser = await login(loginValues.email, loginValues.password);
-      navigate("/");
+      try {
+        await login(loginValues.email, loginValues.password);
+        navigate("/");
+      } catch (error) {
+        formik.setFieldError("email", "Invalid email or password");
+        formik.setFieldError("password", "Invalid email or password");
+      }
     },
   });
 
@@ -33,12 +38,12 @@ export function LoginForm() {
         <Box
           display={"flex"}
           flexDirection={"column"}
-          padding={"9rem 0"}
+          padding={"7rem 0"}
           gap={"1rem"}
           alignItems={"center"}
           sx={{ width: "100%", maxWidth: "400px" }}
         >
-          <span style={{ fontSize: "30px" }}>Log in</span>
+          <span style={{ fontSize: "25px", marginBottom: "1.5rem" }}>Log in</span>
           <TextField
             fullWidth
             id="email"
@@ -65,7 +70,11 @@ export function LoginForm() {
             error={Boolean(formik.touched.password && formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
           />
-          <Button type="submit" variant="contained" sx={{ boxShadow: "none", marginTop: "1rem" }}>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ boxShadow: "none", marginTop: "1rem", marginBottom: "2rem", fontSize: "1rem" }}
+          >
             Log in
           </Button>
           <Link
