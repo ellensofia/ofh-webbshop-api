@@ -13,6 +13,16 @@ export default function AddCategoryDropDown(props: Props) {
   const { categories } = useCategoryContext();
   const { values, handleChange, handleBlur, touched, errors } = props.formik;
 
+  // const toggleCategory = (categoryId: string) => {
+  //   console.log(categoryId);
+  //   props.formik.setFieldValue(
+  //     "categories",
+  //     !values.categories.includes(categoryId)
+  //       ? [...values.categories, categoryId]
+  //       : [...values.categories.filter((id) => id !== categoryId)],
+  //   );
+  // };
+
   return (
     <FormControl sx={{ flex: 1 }}>
       <InputLabel id="categories" error={Boolean(touched.categories && errors.categories)}>
@@ -46,6 +56,17 @@ export default function AddCategoryDropDown(props: Props) {
               display: "flex",
               justifyContent: "space-between",
             }}
+
+            // THIS DOESN'T WORK!?!?!?
+
+            // onClick={() =>
+            //   props.formik.setFieldValue(
+            //     "categories",
+            //     !values.categories.includes(category._id)
+            //       ? [...values.categories, category._id]
+            //       : [...values.categories.filter((id) => id !== category._id)],
+            //   )
+            // }
           >
             {category.name}
             <Checkbox
