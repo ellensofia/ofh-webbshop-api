@@ -11,7 +11,16 @@ interface Props {
 //** Component where you choose categories for a new product */
 export default function AddCategoryDropDown(props: Props) {
   const { categories } = useCategoryContext();
-  const { values, handleChange, handleBlur, touched, errors } = props.formik;
+  const { values, handleChange, handleBlur, touched, errors, setFieldTouched } = props.formik;
+
+  const handleSelectCategory = (categoryID: string) => {
+    const updatedCategories = values.categories.includes(categoryID)
+      ? values.categories.filter((id) => id !== categoryID)
+      : [...values.categories, categoryID];
+
+    props.formik.setFieldValue("categories", updatedCategories);
+    setFieldTouched("categories", true);
+  };
 
   return (
     <FormControl sx={{ flex: 1 }}>
@@ -46,19 +55,14 @@ export default function AddCategoryDropDown(props: Props) {
               display: "flex",
               justifyContent: "space-between",
             }}
+            onMouseDown={() => {
+              handleSelectCategory(category._id);
+            }}
           >
             {category.name}
             <Checkbox
               id="checkbox"
               checked={values.categories.some((selectedId) => selectedId === category._id)}
-              onChange={() =>
-                props.formik.setFieldValue(
-                  "categories",
-                  !values.categories.includes(category._id)
-                    ? [...values.categories, category._id]
-                    : [...values.categories.filter((id) => id !== category._id)],
-                )
-              }
               color="secondary"
             />
           </MenuItem>
