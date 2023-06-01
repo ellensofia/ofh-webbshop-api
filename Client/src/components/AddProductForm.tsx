@@ -291,6 +291,7 @@ function AddProductForm(props: Props) {
               flexDirection: "row",
               width: "100%",
               gap: "1rem",
+              alignItems: "flex-start",
             }}
           >
             <TextField
@@ -304,7 +305,11 @@ function AddProductForm(props: Props) {
               FormHelperTextProps={{ "data-cy": "product-image-error" } as any}
               sx={{ flex: 1 }}
             />
-            <Button variant="contained" onClick={handleChooseFile} sx={{ fontSize: { xs: "0.7rem", sm: "0.85rem" } }}>
+            <Button
+              variant="contained"
+              onClick={handleChooseFile}
+              sx={{ fontSize: { xs: "0.7rem", sm: "0.85rem", height: "56px" } }}
+            >
               {isEdit ? "Change file" : "Choose file"}
             </Button>
             <input
@@ -333,6 +338,8 @@ function AddProductForm(props: Props) {
                 alignItems: "center",
                 justifyContent: "center",
                 flexDirection: "column",
+                border: "1px solid rgba(0,0,0,0.23)",
+                padding: "0.5rem 0.5rem 1rem",
               }}
             >
               <Typography variant="subtitle2" sx={{ color: "#606060" }}>
@@ -343,7 +350,7 @@ function AddProductForm(props: Props) {
                   component="img"
                   src={imagePreview}
                   sx={{
-                    width: "50%",
+                    width: "30%",
                   }}
                 />
               ) : (
@@ -353,7 +360,7 @@ function AddProductForm(props: Props) {
                     alignItems: "center",
                     justifyContent: "center",
                     width: "50%",
-                    height: { xs: "10rem", sm: "20rem" },
+                    height: { xs: "10rem", sm: "14rem" },
                     border: "1px solid #60606069",
                   }}
                 >
