@@ -64,7 +64,7 @@ function AdminTable() {
             }}
             component={Link}
             data-cy="admin-add-product"
-            to="/admin/product/new/"
+            to="/admin/product/"
           >
             + Add product
           </Button>

@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import mongoose from "mongoose";
 import { ProductModel } from "./product-model";
 
 export async function registerProduct(req: Request, res: Response) {
@@ -19,17 +18,13 @@ export async function getAllProducts(req: Request, res: Response) {
 }
 
 export async function getOneProduct(req: Request, res: Response) {
-  const productId = req.params._id;
-  if (!mongoose.Types.ObjectId.isValid(productId)) {
-    return res.status(400).json({ error: `Invalid post ID.` });
-  }
+  const productId = req.params.id;
   const product = await ProductModel.findById(productId);
   if (product) {
     res.status(200).json(product);
   } else {
     res.status(404).json(`/${productId} not found.`);
   }
-  return console.log("Get Product");
 }
 
 export async function editProduct(req: Request, res: Response) {
