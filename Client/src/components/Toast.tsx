@@ -25,10 +25,10 @@ function Toast({
 }: {
   open: boolean;
   onClose: () => void;
-  lastAddedItem?: CartItem;
+  lastAddedItem: CartItem;
   clearLastAddedItem: () => void;
 }) {
-  return lastAddedItem ? (
+  return (
     <Stack spacing={2} sx={{ width: "20%" }}>
       <Snackbar
         data-cy="added-to-cart-toast"
@@ -76,8 +76,6 @@ function Toast({
         </Alert>
       </Snackbar>
     </Stack>
-  ) : (
-    <></>
   );
 }
 
