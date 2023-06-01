@@ -338,8 +338,6 @@ function AddProductForm(props: Props) {
                 alignItems: "center",
                 justifyContent: "center",
                 flexDirection: "column",
-                border: "1px solid rgba(0,0,0,0.23)",
-                padding: "0.5rem 0.5rem 1rem",
               }}
             >
               <Typography variant="subtitle2" sx={{ color: "#606060" }}>
@@ -350,7 +348,7 @@ function AddProductForm(props: Props) {
                   component="img"
                   src={imagePreview}
                   sx={{
-                    width: "30%",
+                    width: "50%",
                   }}
                 />
               ) : (
@@ -360,7 +358,7 @@ function AddProductForm(props: Props) {
                     alignItems: "center",
                     justifyContent: "center",
                     width: "50%",
-                    height: { xs: "10rem", sm: "14rem" },
+                    height: { xs: "10rem", sm: "20rem" },
                     border: "1px solid #60606069",
                   }}
                 >
