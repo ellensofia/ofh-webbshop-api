@@ -14,7 +14,7 @@ interface Props {
 
 interface UserContextProps {
   user: User | null;
-  login: (username: string, password: string) => Promise<User>;
+  login: (email: string, password: string) => Promise<User>;
   logout: () => Promise<void>; // Update the return type to Promise<void>
   register: (email: string, username: string, password: string) => Promise<string>;
 }
@@ -70,9 +70,12 @@ export const UserProvider = ({ children }: Props) => {
       body: JSON.stringify({ email, password }),
       headers: { "Content-type": "application/json" },
     });
+ 
     if (!response.ok) {
-      throw new Error("Failed to log in user");
+      const errorResponse = await response.json();
+      throw new Error(errorResponse.error);
     }
+    
     const user = await response.json();
     setUser(user);
     return user;

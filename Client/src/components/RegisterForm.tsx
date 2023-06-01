@@ -24,39 +24,23 @@ export function RegisterFrom() {
     },
     validationSchema: RegisterSchema,
     onSubmit: async (registerValues) => {
-      const newUser = await register(registerValues.email, registerValues.username, registerValues.password);
-      console.log("new user woho!!");
-      navigate("/");
+      try {
+        const newUser = await register(registerValues.email, registerValues.username, registerValues.password);
+        if (newUser) {
+          if (newUser.includes("username")) {
+            formik.setFieldError("username", "This username already exists. Please choose another one.");
+          }
+          if (newUser.includes("email")) {
+            formik.setFieldError("email", "This email already exists. Please choose another one.");
+          }
+        } else {
+          navigate("/");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
-
-  // const handleRegisterAccount = async (e: any) => {
-  //     e.preventDefault();
-
-  //     const newUser = {
-  //       username: formik.values.username,
-  //       email: formik.values.email,
-  //       password: formik.values.password,
-  //     };
-
-  //     const response = await fetch("/api/users/register", {
-  //       method: "POST",
-  //       body: JSON.stringify(newUser),
-  //       headers: { "Content-type": "application/json" },
-  //     });
-
-  //     const data = await response.json();
-
-  //     if (response.ok) {
-  //       localStorage.setItem(
-  //         "loggedInUsername",
-  //         data.username
-  //       );
-  //       localStorage.setItem("loggedInUserID", data._id);
-  //       localStorage.setItem("loggedInIsAdmin", data.isAdmin);
-  //       navigate("/");
-  //     }
-  //   };
 
   return (
     <Container style={{ display: "flex", justifyContent: "center" }}>
@@ -64,12 +48,12 @@ export function RegisterFrom() {
         <Box
           display={"flex"}
           flexDirection={"column"}
-          padding={"9rem 0"}
+          margin={"7rem 0"}
           gap={"1rem"}
           alignItems={"center"}
           sx={{ width: "100%", maxWidth: "400px" }}
         >
-          <span style={{ fontSize: "30px" }}>Create account</span>
+          <span style={{ fontSize: "25px", marginBottom: "1.5rem" }}>Create account</span>
           <TextField
             fullWidth
             id="username"
@@ -79,7 +63,7 @@ export function RegisterFrom() {
             value={formik.values.username}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={Boolean(formik.touched.username && formik.errors.username)}
+            error={formik.touched.username && Boolean(formik.errors.username)}
             helperText={formik.touched.username && formik.errors.username}
           />
           <TextField
@@ -91,7 +75,7 @@ export function RegisterFrom() {
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={Boolean(formik.touched.email && formik.errors.email)}
+            error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
           />
           <TextField
@@ -106,7 +90,11 @@ export function RegisterFrom() {
             error={Boolean(formik.touched.password && formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
           />
-          <Button type="submit" variant="contained" sx={{ boxShadow: "none", marginTop: "1rem" }}>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ boxShadow: "none", marginTop: "1.2rem", marginBottom: "2rem", fontSize: "1rem" }}
+          >
             Sign up
           </Button>
           <Link
