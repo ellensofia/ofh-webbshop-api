@@ -6,8 +6,8 @@ import Snackbar from "@mui/material/Snackbar";
 import Stack from "@mui/material/Stack";
 import React from "react";
 import { Link } from "react-router-dom";
-import { theme } from "../theme/theme";
 import { CartItem } from "../contexts/AdminProductContext";
+import { theme } from "../theme/theme";
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -25,7 +25,7 @@ function Toast({
 }: {
   open: boolean;
   onClose: () => void;
-  lastAddedItem?: CartItem;
+  lastAddedItem: CartItem;
   clearLastAddedItem: () => void;
 }) {
   return (
@@ -49,18 +49,17 @@ function Toast({
             }}
           >
             <img
-              src={`/api/images/${lastAddedItem?.imageId}`}
-              alt={lastAddedItem?.title}
+              src={`/api/images/${lastAddedItem.imageId}`}
+              alt={lastAddedItem.title}
               style={{
                 width: "5rem",
                 border: "1px solid #00000047",
               }}
             />
             <Box>
-              <h4>{lastAddedItem?.title}</h4>
+              <h4>{lastAddedItem.title}</h4>
               <h4>
-                {lastAddedItem?.price && lastAddedItem?.quantity ? lastAddedItem.price * lastAddedItem.quantity : ""}{" "}
-                SEK
+                {lastAddedItem.price && lastAddedItem.quantity ? lastAddedItem.price * lastAddedItem.quantity : ""} SEK
               </h4>
             </Box>
           </Box>
