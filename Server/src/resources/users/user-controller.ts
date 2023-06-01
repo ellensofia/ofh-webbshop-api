@@ -68,9 +68,6 @@ export async function changeRole(req: Request, res: Response) {
   });
 }
 
-export async function getOneUser(req: Request, res: Response) {
-  return console.log("Get User");
-}
 export async function loginUser(req: Request, res: Response) {
   const { email, password } = req.body;
   const user = await UserModel.findOne({

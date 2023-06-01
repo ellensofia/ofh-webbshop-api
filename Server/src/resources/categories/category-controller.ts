@@ -29,7 +29,3 @@ export async function getAllCategories(req: Request, res: Response) {
     res.status(500).json({ message: "Failed to fetch categories" });
   }
 }
-
-export async function getSpecificCategories(req: Request, res: Response) {
-  return console.log("Get Category");
-}
