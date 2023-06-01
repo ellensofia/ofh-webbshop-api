@@ -10,7 +10,7 @@ The front end is built in React with Vite and the backend implements Express, Mo
 
 Clone the repository to your local machine.
 
-The project consists of two parts, the frontend and the backend. To run the project locally, you need to install the dependencies for both parts:
+The project consists of two parts, client and server. To run the project locally, you need to install the dependencies for both parts:
 
 - `cd client` and run `npm install`
 - `cd server` and run `npm install`
@@ -20,11 +20,11 @@ Similarly, to run the project in development mode, you need to run both parts:
 - `cd client` and run `npm run dev`
 - `cd server` and run `npm run dev`
 
-The application will then be visible at http://localhost:5173/
+The application will then be accessible at http://localhost:5173/
 
 ## Usage
 
-Users of Our Furnished Home can brose the products in the database, add them to a shopping cart and place an order. The user can also create an account and log in to see their order history. Some users are designated as admins and therefore have admin access. Admins can add, edit and delete products, as well as view all orders and mark them as shipped.
+Users of Our Furnished Home can browse the products in the database, add them to a shopping cart and place an order. The user can also create an account and log in to see their order history. Some users are designated as admins and therefore have admin access. Admins can add, edit and delete products, as well as view all orders and mark them as shipped and view all users and make them admins.
 
 To log in as a user create an account by clicking the user icon in the top right corner. In the dropdown menu click 'Login' then follow the link to create an account. To log in as an admin, use the following credentials:
 
@@ -40,7 +40,7 @@ Parham Berenjian, [github](https://github.com/ParhamInBinary)
 
 [Github repository](https://github.com/ellensofia/ofh-webbshop-api)
 
-## Företagsidé pitch
+## Företagsidé
 
 Stig in i framtidens sätt att shoppa möbler – välkommen till Our furnished home! Utforska vårt handplockade inredningssortiment online och skapa ditt drömhem med några enkla klick. Slipp trängsel och få allt levererat direkt till din dörr. Our furnished home - där stil och bekvämlighet möter framtidens shopping. Besök oss idag och låt din inredningsfantasi flöda fritt!
 
@@ -50,11 +50,11 @@ Stig in i framtidens sätt att shoppa möbler – välkommen till Our furnished 
 
 - [x] Alla sidor skall vara responsiva. (G)
 
-  > Frontenden byggdes i en tidigare uppgift, och är responsiv.
+  > Gränsnittet som byggdes under förra uppgiften var redan rensponsiv. Vi har dock uppdaterat designen på vissa sidor och sett till att de nya sidorna är också responsiva.
 
 - [x] Arbetet ska implementeras med en React frontend och en Express backend. (G)
 
-  > Frontenden byggdes i en tidigare uppgift, och är byggd med React och Vite. Backendapplikationen är byggd med Express.
+  > Frontenden byggdes i en tidigare uppgift, och är byggd med React och Vite. Backendapplikationen är byggd med Express. App-instansen skapas i filen server/src/app.ts.
 
 - [x] Express backenden ska ha validering på samtliga endpoints. (G)
 
@@ -62,7 +62,7 @@ Stig in i framtidens sätt att shoppa möbler – välkommen till Our furnished 
 
 - [x] Skapa ett ER diagram och koddiagram, detta ska lämnas in vid idégodkännandet (G)
 
-  > Diagrammen finns [här](https://drive.google.com/file/d/1YvyGwDXw9pSFX4pKZ9lUu4rCFx7lhcnL/view?usp=sharing)
+  > Diagrammen finns [här](https://drive.google.com/file/d/1YvyGwDXw9pSFX4pKZ9lUu4rCFx7lhcnL/view?usp=sharing).
 
 - [x] Beskriv er företagsidé i en kort textuell presentation, detta ska lämnas in vid idégodkännandet (G)
 
@@ -74,7 +74,7 @@ Stig in i framtidens sätt att shoppa möbler – välkommen till Our furnished 
 
 - [x] Man ska kunna logga in som administratör i systemet (G)
 
-  > Administratörer kan logga in med email 'admin@email.com' och 'lösenord admin'.
+  > Kontot med email 'admin@email.com' och lösenord 'admin' har admin rättigheter och kan ger rättigheterna till andra på sidan /users.
 
 - [x] Inga Lösenord får sparas i klartext i databasen (G)
 
@@ -82,11 +82,11 @@ Stig in i framtidens sätt att shoppa möbler – välkommen till Our furnished 
 
 - [x] En besökare ska kunna beställa produkter från sidan, detta ska uppdatera lagersaldot i databasen (G)
 
-  > Funktionen registerOrder i filen server/src/controllers/orderController.ts anropar funktionen updateStockOnOrder i filen server/src/resources/products/product-controller.ts för att uppdatera lagersaldot i databasen.
+  > Funktionen registerOrder i filen server/src/resources/orders/order-controller.ts anropar funktionen updateStockOnOrder i filen server/src/resources/products/product-controller.ts för att uppdatera lagersaldot i databasen.
 
 - [x] Administratörer ska kunna uppdatera antalet produkter i lager från admin delen av sidan (G)
 
-  > Funktionen editProduct i filen server/src/resources/products/product-controller.ts hanterar all användare-ändring av produktdata.
+  > Funktionen editProduct i filen server/src/resources/products/product-controller.ts hanterar alla ändringar av produktdata från användare.
 
 - [x] Administratörer ska kunna se en lista på alla gjorda beställningar (G)
 
@@ -94,7 +94,7 @@ Stig in i framtidens sätt att shoppa möbler – välkommen till Our furnished 
 
 - [x] Sidans produkter ska delas upp i kategorier, en produkt ska tillhöra minst en kategori, men kan tillhöra flera (G)
 
-  > Admin kan lägga till nya kategorier från produkt överblick sidan. Kategorierna kan läggas till på prdukter i både ny produkt panelen produktredgiering panelen.
+  > Admin kan lägga till nya kategorier från produkt överblick sidan. Kategorierna kan läggas till på prdukter i både ny produkt panelen produktredigering-panelen.
 
 - [x] Från hemsidan ska man kunna se en lista över alla produkter, och man ska kunna lista bara dom produkter som tillhör en kategori (G)
 
@@ -102,11 +102,11 @@ Stig in i framtidens sätt att shoppa möbler – välkommen till Our furnished 
 
 - [x] Besökare ska kunna lägga produkterna i en kundkorg, som är sparad i local-storage på klienten (G)
 
-  > Kundkorgen i localStorages implementerades i den tigigare uppgiften.
+  > Kundkorgen i localStorage implementerades i den tidigare uppgiften.
 
 - [x] En besökare som gör en beställning ska få möjligheten att registrera sig samt logga in och måste vara inloggad som kund innan beställningen skapas (G)
 
-  > Om en nya användare lägger till produkter i korgen och navigera till checkout så se de en länk där de kan klicka för att logga in eller registrera sig.
+  > Om nya användare lägger till produkter i korgen och navigera till checkout så se de en länk där de kan klicka för att logga in eller registrera sig.
 
 - [x] Checkoutflödet i frontendapplikationen ska ha validering på samtliga fält (G)
 
