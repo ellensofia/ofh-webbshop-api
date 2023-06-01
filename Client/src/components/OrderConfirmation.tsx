@@ -27,12 +27,14 @@ function OrderConfirmation({ order }: Props) {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: isSmallScreen ? "center" : "space-between",
+          alignItems: "center",
+          flexDirection: isSmallScreen ? "column" : "row",
           margin: "1rem",
         }}
       >
-        <Typography variant="h6">Your order</Typography>
-        <Typography variant="h6">{order?._id}</Typography>
+        <Typography sx={{ fontSize: isSmallScreen ? "1.2rem" : "1.3rem" }}>Your order</Typography>
+        <Typography sx={{ fontSize: isSmallScreen ? "1.1rem" : "1.2rem" }}>{order?._id}</Typography>
       </Box>
       <Divider
         sx={{
