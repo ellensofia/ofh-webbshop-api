@@ -8,6 +8,6 @@ export const orderRouter = express
   .Router()
   .post("/api/orders", auth, validateBody(orderSchema.omit(["_id"])), registerOrder)
   .get("/api/orders", auth, authAdmin, getAllOrders)
-  .put("/api/orders/:id", auth, authAdmin, validateId, validateBody(orderSchema), markAsShipped)
+  .put("/api/orders/:id", auth, authAdmin, validateId, markAsShipped)
   .get("/api/orders/:id", auth, validateId, getOneOrder)
   .get("/api/orders/user/:id", auth, validateId, getUserOrders);
