@@ -13,15 +13,6 @@ export default function AddCategoryDropDown(props: Props) {
   const { categories } = useCategoryContext();
   const { values, handleChange, handleBlur, touched, errors, setFieldTouched } = props.formik;
 
-  const handleSelectCategory = (categoryID: string) => {
-    const updatedCategories = values.categories.includes(categoryID)
-      ? values.categories.filter((id) => id !== categoryID)
-      : [...values.categories, categoryID];
-
-    props.formik.setFieldValue("categories", updatedCategories);
-    setFieldTouched("categories", true);
-  };
-
   return (
     <FormControl sx={{ flex: 1 }}>
       <InputLabel id="categories" error={Boolean(touched.categories && errors.categories)}>
@@ -56,7 +47,11 @@ export default function AddCategoryDropDown(props: Props) {
               justifyContent: "space-between",
             }}
             onMouseDown={() => {
-              handleSelectCategory(category._id);
+              const updatedCategories = values.categories.includes(category._id)
+                ? values.categories.filter((id) => id !== category._id)
+                : [...values.categories, category._id];
+              props.formik.setFieldValue("categories", updatedCategories);
+              setFieldTouched("categories", true);
             }}
           >
             {category.name}
