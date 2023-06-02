@@ -9,7 +9,6 @@
   },
   "scripts": {
     "format": "prettier --check \"**/*.{js,jsx,ts,tsx,css,md,json}\"",
-    "lint": "eslint --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "test": "cd client && npm run test"
+    "lint": "eslint --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   }
 }
