@@ -4,8 +4,6 @@
 name: Build & Lint
 
 on:
-  # push:
-  #   branches: ["master"]
   pull_request:
     branches: ["master"]
 
@@ -25,7 +23,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-          dependencies-cache: "Server/package-lock.json"
+          cache-dependency-path: "Server/package-lock.json"
       - run: cd Server && npm ci
       - run: cd Server && npm run build
 
@@ -44,7 +42,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-          dependencies-cache: "Client/package-lock.json"
+          cache-dependency-path: "Client/package-lock.json"
       - run: cd Client && npm ci
       - run: cd Client && npm run build
 
@@ -58,3 +56,26 @@ jobs:
       - name: Lint
         run: npm run lint
 
+  authentication:
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:4.4
+        ports:
+          - 27017:27017
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: Server/package-lock.json
+      - run: cd Server && npm ci
+      - run: cd Server && npm test -- --run

@@ -10,10 +10,7 @@ import Toast from "./Toast";
 function ToastOutlet() {
   const { lastAddedItem, clearLastAddedItem } = useShoppingCart();
 
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
@@ -23,12 +20,14 @@ function ToastOutlet() {
   return (
     <>
       <Outlet />
-      <Toast
-        open={Boolean(lastAddedItem)}
-        onClose={handleClose}
-        lastAddedItem={lastAddedItem}
-        clearLastAddedItem={clearLastAddedItem}
-      />
+      {lastAddedItem && (
+        <Toast
+          open={Boolean(lastAddedItem)}
+          onClose={handleClose}
+          lastAddedItem={lastAddedItem}
+          clearLastAddedItem={clearLastAddedItem}
+        />
+      )}
     </>
   );
 }
