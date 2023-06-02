@@ -64,6 +64,7 @@ export default function CategoryDropDown() {
           {categories.map((category) => (
             <MenuItem
               key={category._id}
+              onClick={() => handleCategoryToggle(category._id)}
               sx={{
                 minWidth: "8.55rem",
                 display: "flex",
@@ -74,7 +75,6 @@ export default function CategoryDropDown() {
               <Typography variant="body2">{category.name}</Typography>
               <Checkbox
                 checked={selectedCategories.some((selected) => selected._id === category._id)}
-                onChange={() => handleCategoryToggle(category._id)}
                 color="secondary"
               />
             </MenuItem>
