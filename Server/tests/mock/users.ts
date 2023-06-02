@@ -16,12 +16,6 @@ export async function insertMockUser() {
   return toJSON(user) as User;
 }
 
-export async function insertMockAdmin() {
-  const user = new UserModel(getMockUser("admin", "admin@email.com", 123123, true));
-  await user.save();
-  return toJSON(user) as User;
-}
-
 export async function clearUsersCollection() {
   await UserModel.deleteMany({});
 }
