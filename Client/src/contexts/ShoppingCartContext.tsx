@@ -39,7 +39,7 @@ export const ShoppingCartProvider = ({ children }: Props) => {
             return { ...item, quantity: newQuantity };
           }
           return item;
-        })
+        }),
       );
     } else if (newQuantity === 0) {
       removeItem(id);
@@ -64,8 +64,6 @@ export const ShoppingCartProvider = ({ children }: Props) => {
       setItems([...items, itemToAdd]); // Create a new array of items that includes the existing items and the new item, and update the items in the cart with the new array
     }
     setLastAddedItem(itemToAdd);
-
-    console.log("adding product");
   };
 
   const clearLastAddedItem = () => {
@@ -94,9 +92,5 @@ export const ShoppingCartProvider = ({ children }: Props) => {
   };
 
   // Renders the child components wrapped inside the ShoppingCartContext.Provider
-  return (
-    <ShoppingCartContext.Provider value={shoppingCart}>
-      {children}
-    </ShoppingCartContext.Provider>
-  );
+  return <ShoppingCartContext.Provider value={shoppingCart}>{children}</ShoppingCartContext.Provider>;
 };

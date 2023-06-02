@@ -44,7 +44,8 @@ const router = createBrowserRouter(
       <Route path="/product/:id/" element={<ProductPage />} />
       <Route path="confirmation/:id/" element={<OrderConfirmationPage />} />
       <Route path="admin" element={<AdminPage />} />
-      <Route path="admin/product/:id/" element={<AdminProductFormPage />} />
+      <Route path="admin/product/" element={<AdminProductFormPage />} />
+      <Route path="admin/product/:id" element={<AdminProductFormPage />} />
       <Route path="admin/category/new" element={<AdminCategoryPage />} />
       <Route path="admin/orders" element={<AdminOrderPage />} />
       <Route path="*" element={<h3>404 Not Found</h3>} />

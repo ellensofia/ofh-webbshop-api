@@ -35,7 +35,7 @@ export interface CartItem extends Product {
 type ProductContextType = {
   products: Product[];
   getAllProducts: () => void;
-  getOneProduct: (_id: string) => Promise<Product | null>;
+  getOneProduct: (_id: string) => Promise<Product | undefined>;
   addProduct: (product: NewProduct) => Promise<void>;
   removeProduct: (product: Product) => void;
   editProduct: (editedProduct: Product) => void;
@@ -48,7 +48,7 @@ const AdminProductContext = createContext<ProductContextType>({
   products: [],
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   getAllProducts: () => {},
-  getOneProduct: () => Promise.resolve(null),
+  getOneProduct: () => Promise.resolve(undefined),
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   addProduct: async () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -76,7 +76,7 @@ export const ProductProvider = ({ children }: Props) => {
     }
   };
 
-  const getOneProduct = async (_id: string): Promise<Product | null> => {
+  const getOneProduct = async (_id: string): Promise<Product | undefined> => {
     try {
       const response = await fetch(`/api/products/${_id}`);
       if (!response.ok) {
@@ -86,7 +86,7 @@ export const ProductProvider = ({ children }: Props) => {
       return getProduct;
     } catch (error) {
       console.error(error);
-      return null;
+      return undefined;
     }
   };
 
@@ -149,7 +149,6 @@ export const ProductProvider = ({ children }: Props) => {
       if (!productResponse.ok) {
         throw new Error("Failed to delete product");
       }
-      console.log("Product and image deleted successfully");
     } catch (error) {
       console.error("Error deleting product:", error);
     }
