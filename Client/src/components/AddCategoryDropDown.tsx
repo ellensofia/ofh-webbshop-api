@@ -42,16 +42,10 @@ export default function AddCategoryDropDown(props: Props) {
         {categories.map((category) => (
           <MenuItem
             key={category._id}
+            value={category._id}
             sx={{
               display: "flex",
               justifyContent: "space-between",
-            }}
-            onMouseDown={() => {
-              const updatedCategories = values.categories.includes(category._id)
-                ? values.categories.filter((id) => id !== category._id)
-                : [...values.categories, category._id];
-              props.formik.setFieldValue("categories", updatedCategories);
-              setFieldTouched("categories", true);
             }}
           >
             {category.name}
