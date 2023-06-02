@@ -60,11 +60,7 @@ export default function AddCategoryDropDown(props: Props) {
             }}
           >
             {category.name}
-            <Checkbox
-              id="checkbox"
-              checked={values.categories.some((selectedId) => selectedId === category._id)}
-              color="secondary"
-            />
+            <Checkbox id="checkbox" checked={values.categories.includes(category._id)} color="secondary" />
           </MenuItem>
         ))}
       </Select>
