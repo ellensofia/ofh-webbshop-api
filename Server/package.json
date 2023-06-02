@@ -15,7 +15,6 @@
   "license": "ISC",
   "dependencies": {
     "argon2": "^0.30.3",
-    "bcrypt": "^5.1.0",
     "busboy": "^1.6.0",
     "connect-busboy": "^1.0.0",
     "cookie-session": "^2.0.0",
@@ -25,6 +24,7 @@
     "yup": "^1.1.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/busboy": "^1.5.0",
     "@types/connect-busboy": "^1.0.0",
     "@types/cookie-session": "^2.0.44",
@@ -33,6 +33,7 @@
     "@types/mongoose": "^5.11.97",
     "@types/nodemon": "^1.19.2",
     "@types/supertest": "^2.0.12",
+    "bcrypt": "^5.1.0",
     "nodemon": "^2.0.22",
     "supertest": "^6.3.3",
     "ts-node": "^10.9.1",
