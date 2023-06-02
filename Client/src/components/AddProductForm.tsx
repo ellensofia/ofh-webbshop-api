@@ -11,9 +11,9 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { CSSProperties, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { useProduct } from "../contexts/AdminProductContext";
+import { Product, useProduct } from "../contexts/AdminProductContext";
 import AddCategoryDropDown from "./AddCategoryDropDown";
 
 const ProductSchema = Yup.object({
@@ -39,19 +39,22 @@ export type NullableProductValues = Omit<ProductValues, "price"> & {
   price: ProductValues["price"] | null;
 };
 
+interface Props {
+  product: Product | undefined;
+}
+
 /**
  * Productform for adding and editing products
  */
-function AddProductForm() {
+function AddProductForm(props: Props) {
   const theme = useTheme();
   const navigate = useNavigate();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
-  const { addProduct, editProduct, products } = useProduct();
-  const { id } = useParams<{ id: string }>();
-  const product = products.find((p) => p._id === id);
+  const { addProduct, editProduct } = useProduct();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [selectedFileName, setSelectedFileName] = useState("");
   const [selectedPreviewImage, setSelectedPreviewImage] = useState("");
+  const { product } = props;
 
   const isEdit = Boolean(product);
 
@@ -140,7 +143,10 @@ function AddProductForm() {
       try {
         if (isEdit) {
           if (!product) throw new Error("No product found.");
-          editProduct({ ...product, ...newValues });
+          editProduct({
+            ...product,
+            ...newValues,
+          });
         } else {
           await addProduct(newValues);
         }
@@ -285,6 +291,7 @@ function AddProductForm() {
               flexDirection: "row",
               width: "100%",
               gap: "1rem",
+              alignItems: "flex-start",
             }}
           >
             <TextField
@@ -298,7 +305,11 @@ function AddProductForm() {
               FormHelperTextProps={{ "data-cy": "product-image-error" } as any}
               sx={{ flex: 1 }}
             />
-            <Button variant="contained" onClick={handleChooseFile} sx={{ fontSize: { xs: "0.7rem", sm: "0.85rem" } }}>
+            <Button
+              variant="contained"
+              onClick={handleChooseFile}
+              sx={{ fontSize: { xs: "0.7rem", sm: "0.85rem", height: "56px" } }}
+            >
               {isEdit ? "Change file" : "Choose file"}
             </Button>
             <input
